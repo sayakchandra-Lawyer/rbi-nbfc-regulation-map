@@ -127,7 +127,7 @@ dl.defs{margin:0;display:grid;gap:8px}
 #jfab{position:fixed;right:20px;bottom:20px;z-index:60;display:flex;align-items:center;gap:0;border:2px solid var(--accent);background:var(--surface);color:var(--ink);border-radius:999px;padding:4px;cursor:pointer;box-shadow:var(--shadow);transition:transform .15s,padding .2s}
 #jfab .jsvg{width:56px;height:56px;border-radius:50%;background:var(--accent-soft);flex:none}
 #jfab .jtag{max-width:0;overflow:hidden;white-space:nowrap;font-weight:600;font-size:13.5px;transition:max-width .25s,margin .25s}
-#jfab:hover .jtag,#jfab:focus-visible .jtag{max-width:140px;margin:0 10px 0 8px}
+#jfab:hover .jtag,#jfab:focus-visible .jtag{max-width:220px;margin:0 10px 0 8px}
 #jfab:hover{transform:translateY(-2px) rotate(-3deg)}
 #jfab:hover .jeyes{transform:translateX(.8px)}
 #jfab.open{transform:none}
@@ -1092,10 +1092,10 @@ async function askJudge(){
     const r = await fetch(S.cfg.ai_endpoint, { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ question: raw.slice(0,500), extracts: aiExtracts(L) }) });
     const j = await r.json().catch(() => ({}));
     wait.classList.remove("thinking");
-    wait.innerHTML = j.answer ? `${aiFormat(j.answer)}${(() => { const ids = [...new Set([...matchDefs(P).map(x=>x.it.id), ...docs.map(d=>d.it.id)])].slice(0,3); return ids.length ? `<p class="jsrc">Read further: ${ids.map(id=>`<button class="lnk" data-id="${esc(id)}">${esc(trunc(S.byId.get(id).label,40))}</button>`).join(" · ")}</p>` : ""; })()}` : `<p>${esc(j.error || "The Judge is not sitting right now. Please try again later, or use the search box.")}</p>`;
+    wait.innerHTML = j.answer ? `${aiFormat(j.answer)}${(() => { const ids = [...new Set([...matchDefs(P).map(x=>x.it.id), ...docs.map(d=>d.it.id)])].slice(0,3); return ids.length ? `<p class="jsrc">Read further: ${ids.map(id=>`<button class="lnk" data-id="${esc(id)}">${esc(trunc(S.byId.get(id).label,40))}</button>`).join(" · ")}</p>` : ""; })()}` : `<p>${esc(j.error || "Not So Intelligent AI is not available right now. Please try again later, or use the search box.")}</p>`;
   } catch(e) {
     wait.classList.remove("thinking");
-    wait.innerHTML = `<p>The Judge could not be reached. Please check your connection, or use the search box.</p>`;
+    wait.innerHTML = `<p>Not So Intelligent AI could not be reached. Please check your connection, or use the search box.</p>`;
   }
   btn.disabled = false; $("#jlog").scrollTop = $("#jlog").scrollHeight;
 }
@@ -1103,12 +1103,12 @@ function initJudge(){
   if (!S.cfg.ai_endpoint || $("#jfab")) return;
   const fab = document.createElement("button");
   fab.id = "jfab"; fab.type = "button"; fab.setAttribute("aria-controls","judge"); fab.setAttribute("aria-expanded","false");
-  fab.setAttribute("aria-label","Ask the Judge, the AI assistant"); fab.title = "Ask the Judge";
-  fab.innerHTML = `${JUDGE_SVG}<span class="jtag">Ask the Judge</span>`;
+  fab.setAttribute("aria-label","Ask Not So Intelligent AI, the AI assistant"); fab.title = "Ask Not So Intelligent AI";
+  fab.innerHTML = `${JUDGE_SVG}<span class="jtag">Ask Not So Intelligent AI</span>`;
   const w = document.createElement("section");
-  w.id = "judge"; w.hidden = true; w.setAttribute("role","dialog"); w.setAttribute("aria-label","Ask the Judge");
-  w.innerHTML = `<header><span class="jav">${JUDGE_SVG}</span><div><b>The Judge</b><span>AI assistant on RBI NBFC regulation</span></div><button class="iconbtn" id="jclose" aria-label="Close">✕</button></header>
-  <div id="jlog" aria-live="polite"><div class="jmsg bot"><p><b>Order, order!</b> Put your question on RBI regulation of NBFCs and I shall answer from the register, citing the Direction and paragraph.</p><p class="jtry">Try: <button class="lnk" data-try="Is the term project finance defined?">Is project finance defined?</button> · <button class="lnk" data-try="What is the LTV limit for gold loans?">LTV for gold loans</button> · <button class="lnk" data-try="Who is a wilful defaulter?">Who is a wilful defaulter?</button></p></div></div>
+  w.id = "judge"; w.hidden = true; w.setAttribute("role","dialog"); w.setAttribute("aria-label","Not So Intelligent AI");
+  w.innerHTML = `<header><span class="jav">${JUDGE_SVG}</span><div><b>Not So Intelligent AI</b><span>Answers from the whole RBI–NBFC register</span></div><button class="iconbtn" id="jclose" aria-label="Close">✕</button></header>
+  <div id="jlog" aria-live="polite"><div class="jmsg bot"><p><b>Order, order!</b> I am Not So Intelligent AI. Put your question on RBI regulation of NBFCs and I shall answer from the whole register, citing the Direction and paragraph. Check what I say.</p><p class="jtry">Try: <button class="lnk" data-try="Is the term project finance defined?">Is project finance defined?</button> · <button class="lnk" data-try="What is the LTV limit for gold loans?">LTV for gold loans</button> · <button class="lnk" data-try="Who is a wilful defaulter?">Who is a wilful defaulter?</button></p></div></div>
   <form id="jform"><label class="sr" for="jq">Your question</label><textarea id="jq" rows="2" maxlength="500" placeholder="Ask a question, e.g. When must an NBFC report fraud?"></textarea><button id="jsend" type="submit" aria-label="Ask">${GAVEL_SVG}</button></form>
   <p class="jdisc">AI-generated answers can be wrong. Not legal advice: read the Direction on rbi.org.in. Each question is answered on its own.</p>`;
   document.body.appendChild(w); document.body.appendChild(fab);
@@ -1153,7 +1153,7 @@ function initSearch(){
     if (P.question && hits.length) {
       const d = dm.length ? (hits.find(x=>x.it.id===dm[0].it.id) || hits[0]) : hits[0];
       const sn = dm.length ? { lab: "Definition", txt: `${dm[0].d.term} (${dm[0].d.para}): ${dm[0].d.def}` } : (d.hits.find(x=>x.lab!=="Name") || d.hits[0]);
-      h += `<div class="rsec">Best place to look</div><div class="rask"><p>Start with <button class="lnk" data-id="${esc(d.it.id)}">${esc(d.it.label)}</button>${d.it.title && d.it.title!==d.it.label?` (${esc(trunc(d.it.title, 90))})`:""}.</p>${sn?`<p style="color:var(--ink-2)"><b style="font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink);margin-right:6px">${esc(sn.lab)}</b>${snippet(sn.txt, P.groups)}</p>`:""}${hits[1]?`<p style="font-size:12.5px;color:var(--ink-2)">Also relevant: ${hits.slice(1,3).map(x=>`<button class="lnk" data-id="${esc(x.it.id)}">${esc(trunc(x.it.label,48))}</button>`).join(", ")}</p>`:""}<p class="disc">This helper matches your words against the register. It points you to the rule, it does not interpret it. Not legal advice: read the instrument on rbi.org.in.</p>${S.cfg.ai_endpoint?`<button class="lnk" data-judge="1" style="margin-top:6px">Want a short answer? Ask the Judge →</button>`:""}</div>`;
+      h += `<div class="rsec">Best place to look</div><div class="rask"><p>Start with <button class="lnk" data-id="${esc(d.it.id)}">${esc(d.it.label)}</button>${d.it.title && d.it.title!==d.it.label?` (${esc(trunc(d.it.title, 90))})`:""}.</p>${sn?`<p style="color:var(--ink-2)"><b style="font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink);margin-right:6px">${esc(sn.lab)}</b>${snippet(sn.txt, P.groups)}</p>`:""}${hits[1]?`<p style="font-size:12.5px;color:var(--ink-2)">Also relevant: ${hits.slice(1,3).map(x=>`<button class="lnk" data-id="${esc(x.it.id)}">${esc(trunc(x.it.label,48))}</button>`).join(", ")}</p>`:""}<p class="disc">This helper matches your words against the register. It points you to the rule, it does not interpret it. Not legal advice: read the instrument on rbi.org.in.</p>${S.cfg.ai_endpoint?`<button class="lnk" data-judge="1" style="margin-top:6px">Want a short answer? Ask Not So Intelligent AI →</button>`:""}</div>`;
     }
     if (dm.length) {
       h += `<div class="rsec">Defined in RBI Directions</div>` + dm.slice(0,3).map(x => `<button class="rdef" data-id="${esc(x.it.id)}" data-def="${glSlug(x.d.term)}"><b>${esc(x.d.term)}</b> ${esc(x.d.def)}<span class="src">${esc(x.it.label)} · ${esc(x.d.para)}${x.d.scope?` · ${esc(x.d.scope)}`:""}</span></button>`).join("");
