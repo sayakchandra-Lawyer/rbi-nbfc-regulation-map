@@ -33,7 +33,8 @@
       "updates": "maps/rbi-nbfc/updates.json",
       "glossary": "maps/rbi-nbfc/glossary.json",
       "ai_endpoint": "https://rbi-map-chat.sayakchandra.workers.dev",
-      "definitions": "maps/rbi-nbfc/definitions.json"
+      "definitions": "maps/rbi-nbfc/definitions.json",
+      "fulltext": "maps/rbi-nbfc/fulltext.json"
     }
   ]
 }

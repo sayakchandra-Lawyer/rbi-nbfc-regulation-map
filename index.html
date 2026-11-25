@@ -959,7 +959,7 @@ const SFIELDS = [
 function parseQuery(raw){
   let q = " " + raw.toLowerCase().replace(/[“”"’']/g," ").replace(/\s+/g," ") + " ";
   const groups = [], glHits = [];
-  const para = /\b(paras?|paragraph|section|s\.|rule|regulation)\s*([0-9]+[a-z]?(?:\([a-z0-9]+\))?)/g;
+  const para = /\b(paras?|paragraph|section|s\.|rule|regulation)\s*([0-9]+(?:-?[a-z]{1,4}\b)?(?:\([a-z0-9]+\))?)/g;
   let m; while ((m = para.exec(q))) groups.push({ label: m[0].trim(), alts: [m[0].trim(), (m[1].startsWith("s")?"s.":"para")+" "+m[2], "paras "+m[2]] });
   q = q.replace(para, " ");
   if (S.glBy) {   // longest glossary forms first, so "special purpose entity" wins over "entity"
@@ -1076,20 +1076,93 @@ function judgeMsg(role, html){
   el.className = "jmsg " + role; el.innerHTML = html; log.appendChild(el); log.scrollTop = log.scrollHeight; return el;
 }
 function openJudge(prefill){
-  const w = $("#judge"); if (!w) return;
+  const w = $("#judge"); if (!w) return; loadFull();
   w.hidden = false; $("#jfab").setAttribute("aria-expanded","true"); $("#jfab").classList.add("open");
   const t = $("#jq"); if (prefill) t.value = prefill; setTimeout(()=>t.focus(), 30);
 }
 function closeJudge(){ const w = $("#judge"); if (!w) return; w.hidden = true; $("#jfab").setAttribute("aria-expanded","false"); $("#jfab").classList.remove("open"); $("#jfab").focus(); }
+/* ---- full text of the instruments: loaded on first use, searched with BM25 ---- */
+const FT = { state: "idle", p: null, chunks: [], idx: null, len: [], avg: 1 };
+function ftTok(t){ return String(t).toLowerCase().match(/[a-z0-9₹]+(?:[.-][a-z0-9]+)*/g) || []; }
+function loadFull(){
+  if (FT.p) return FT.p;
+  if (!S.cfg.fulltext) { FT.state = "none"; return (FT.p = Promise.resolve(false)); }
+  FT.state = "loading";
+  FT.p = getJSON(S.cfg.fulltext).then(j => {
+    FT.chunks = j.chunks || []; FT.meta = j.meta || {};
+    const idx = new Map(); let tot = 0;
+    FT.chunks.forEach((c, i) => {
+      const toks = ftTok(c[3]); FT.len[i] = toks.length; tot += toks.length;
+      const tf = new Map(); toks.forEach(w => tf.set(w, (tf.get(w)||0) + 1));
+      tf.forEach((n, w) => { let a = idx.get(w); if (!a) idx.set(w, a = []); a.push(i, n); });
+    });
+    FT.idx = idx; FT.vocab = [...idx.keys()]; FT.avg = tot / Math.max(1, FT.chunks.length); FT.state = "ready"; return true;
+  }).catch(e => { console.warn("full text not loaded", e); FT.state = "failed"; return false; });
+  return FT.p;
+}
+function ftSearch(P, want, boostIds){
+  if (FT.state !== "ready" || !P.groups.length) return [];
+  const N = FT.chunks.length, k1 = 1.2, b = 0.75, score = new Float64Array(N), cov = new Uint8Array(N);
+  const paraNums = [];
+  P.groups.forEach((g, gi) => {
+    const words = new Set();
+    g.alts.forEach(a => ftTok(a).forEach(w => {
+      if (w.length >= 5) FT.vocab.forEach(v => { if (v.startsWith(w)) words.add(v); });
+      else { words.add(w); words.add(w + "s"); }
+    }));
+    if (/^(para|section|s\.)/i.test(g.label)) { const m = g.label.match(/([0-9]+(?:-?[a-z]{1,4})?)/i); if (m) paraNums.push(m[1].toUpperCase()); }
+    const tf = new Map();
+    words.forEach(w => { const a = FT.idx.get(w); if (a) for (let i = 0; i < a.length; i += 2) tf.set(a[i], (tf.get(a[i])||0) + a[i+1]); });
+    if (!tf.size) return;
+    const idf = Math.log(1 + (N - tf.size + 0.5) / (tf.size + 0.5));
+    tf.forEach((n, i) => { score[i] += idf * n * (k1 + 1) / (n + k1 * (1 - b + b * FT.len[i] / FT.avg)); cov[i]++; });
+  });
+  const G = P.groups.length, out = [];
+  const qw = new Set(); P.groups.forEach(g => g.alts.forEach(a => ftTok(a).forEach(w => qw.add(w))));
+  const qHas = w => qw.has(w) || [...qw].some(q => q.length >= 4 && (w.startsWith(q) || q.startsWith(w)));
+  for (let i = 0; i < N; i++) {
+    if (!score[i]) continue;
+    const c = FT.chunks[i];
+    let sc = score[i] * Math.pow(cov[i] / G, 2);
+    // a definition of the very term asked about: 'Project Finance' ... refers to / means
+    for (const m of c[3].matchAll(/[‘“"']([^’”"'\n]{3,60})[’”"']\s*(?:\([^)]{0,40}\)\s*)?(?:means|shall mean|refers to|includes|has the same meaning|shall have)/gi)) {
+      const tw = ftTok(m[1]); if (tw.length && tw.every(qHas)) { sc *= 3; break; }
+    }
+    if (boostIds && boostIds.has(c[0])) sc *= 1.25;
+    if (paraNums.length && String(c[2]).toUpperCase().replace(" (CONTD.)","").split(/[–,]\s*/).some(x => paraNums.includes(x))) sc = score[i] * 4;
+    if (c[2] === "footnotes") sc *= 0.5;
+    out.push([sc, i]);
+  }
+  out.sort((x, y) => y[0] - x[0]);
+  return out.slice(0, want).map(([sc, i]) => ({ sc, c: FT.chunks[i] }));
+}
+function ftExtracts(P, docs){
+  const boost = new Set(docs.slice(0, 5).map(d => d.it.id));
+  matchDefs(P).forEach(x => boost.add(x.it.id));
+  let budget = 60000; const out = [];
+  for (const h of ftSearch(P, 30, boost)) {
+    const [id, chap, para, txt] = h.c, lab = S.byId.has(id) ? S.byId.get(id).label : id;
+    const e = `[${id}] FULL TEXT of ${lab}${chap?`, ${chap}`:""}${para && para!=="footnotes"?`, ${/^ACT-/.test(id)?"section":"para"} ${para}`:para==="footnotes"?", footnote (may show deleted or old text)":""}:\n${txt}`;
+    if (e.length > budget) break; budget -= e.length; out.push(e);
+  }
+  return out;
+}
 async function askJudge(){
   const t = $("#jq"), raw = t.value.trim(), btn = $("#jsend");
   if (raw.length < 3 || btn.disabled) return;
   t.value = ""; judgeMsg("me", esc(raw));
   const P = parseQuery(raw), docs = rankDocs(P), L = { raw, P, docs };
-  const wait = judgeMsg("bot thinking", `<span class="dots"><i></i><i></i><i></i></span> Consulting the Directions…`);
+  const wait = judgeMsg("bot thinking", `<span class="dots"><i></i><i></i><i></i></span> ${FT.state==="ready"?"Reading the Directions…":"Opening the full text of the Directions (first question only)…"}`);
   btn.disabled = true;
   try {
-    const r = await fetch(S.cfg.ai_endpoint, { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ question: raw.slice(0,500), extracts: aiExtracts(L) }) });
+    await loadFull();
+    const ext = [...ftExtracts(P, docs), ...aiExtracts(L)];
+    const post = x => fetch(S.cfg.ai_endpoint, { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ question: raw.slice(0,500), extracts: x }) });
+    let r = await post(ext);
+    if (r.status === 413) { // an older relay accepts only a few short extracts
+      const small = []; let room = 14000; for (const x of ext) { const y = x.slice(0, 1800); if (y.length > room) break; small.push(y); room -= y.length; }
+      r = await post(small.slice(0, 8));
+    }
     const j = await r.json().catch(() => ({}));
     wait.classList.remove("thinking");
     wait.innerHTML = j.answer ? `${aiFormat(j.answer)}${(() => { const ids = [...new Set([...matchDefs(P).map(x=>x.it.id), ...docs.map(d=>d.it.id)])].slice(0,3); return ids.length ? `<p class="jsrc">Read further: ${ids.map(id=>`<button class="lnk" data-id="${esc(id)}">${esc(trunc(S.byId.get(id).label,40))}</button>`).join(" · ")}</p>` : ""; })()}` : `<p>${esc(j.error || "Not So Intelligent AI is not available right now. Please try again later, or use the search box.")}</p>`;
