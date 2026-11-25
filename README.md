@@ -17,6 +17,7 @@ maps/rbi-nbfc/rbi_nbfc_register.json   instruments: obligations, timelines, cons
 maps/rbi-nbfc/rbi_nbfc_graph.json      nodes and links between instruments and NBFC categories
 maps/rbi-nbfc/updates.json             RBI items from the last 7 days, with a general impact view
 maps/rbi-nbfc/glossary.json            plain-language definitions of key terms
+maps/rbi-nbfc/definitions.json         terms each Master Direction defines, with the paragraph
 ```
 
 The page reads `maps/manifest.json` and then the register and graph files it names. Code and data are separate:

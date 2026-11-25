@@ -114,6 +114,16 @@ mark.q{background:var(--accent-soft);color:var(--ink);border-radius:3px;padding:
 .results .rupd:hover{background:var(--surface-2)}
 .results .rupd span{display:block;font-size:11.5px;color:var(--ink-2)}
 .results .none{padding:12px;color:var(--ink-2);font-size:13.5px}
+dl.defs{margin:0;display:grid;gap:8px}
+.def{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--surface);transition:box-shadow .3s,border-color .3s}
+.def.flash{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.def dt{font-weight:600;font-size:14px;display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.def dd{margin:4px 0 0;font-size:13.5px;line-height:1.5;color:var(--ink)}
+.dscope{font-size:11px;font-weight:500;color:var(--warn);background:var(--warn-bg);border-radius:6px;padding:1px 6px}
+.results .rdef{display:block;width:100%;text-align:left;border:1px solid var(--line);background:var(--bg);padding:10px 12px;border-radius:12px;margin:0 2px 6px;color:var(--ink);cursor:pointer;font-size:13.5px;line-height:1.5}
+.results .rdef:hover{border-color:var(--accent)}
+.results .rdef b{font:600 15px var(--f-display)}
+.results .rdef .src{display:block;font-size:12px;color:var(--ink-2);margin-top:2px}
 button.gl{all:unset;cursor:help;border-bottom:1px dotted var(--accent);text-decoration:none}
 button.gl:hover{color:var(--accent)}
 button.gl:focus-visible{outline:2px solid var(--accent);outline-offset:1px;border-radius:2px}
@@ -643,6 +653,7 @@ async function boot(){
     const [reg, graph] = await Promise.all([getJSON(cfg.register), getJSON(cfg.graph)]);
     if (cfg.updates) { try { S.upd = await getJSON(cfg.updates); } catch(e){ console.warn("updates not loaded", e); } }
     if (cfg.glossary) { try { S.gl = await getJSON(cfg.glossary); } catch(e){ console.warn("glossary not loaded", e); } }
+    if (cfg.definitions) { try { S.defs = await getJSON(cfg.definitions); } catch(e){ console.warn("definitions not loaded", e); } }
     build(cfg, reg, graph);
   }catch(e){
     $("#loading").innerHTML = `<div class="err"><b>The map data did not load.</b><br>${esc(e.message)}. Reload the page; if it persists, the data files beside this page are missing or malformed.</div>`;
@@ -689,7 +700,9 @@ function build(cfg, reg, graph){
   });
   // cached search text
   S.items.forEach(it => {
-    it._hay = [it.id,it.label,it.title,it.reference_no,it.theme,it.type,...(it.key_concepts||[]),...(it.core_obligations||[]),...(it.timelines||[]),...(it.consequences_stated||[]),...(it.applies_to||[]),...(it.statutory_powers||[])].join(" • ").toLowerCase();
+    it.definitions = (S.defs && S.defs.instruments && S.defs.instruments[it.id]) || [];
+    it._defl = it.definitions.map(d => `${d.term} (${d.para}${d.scope?", "+d.scope:""}): ${d.def}`);
+    it._hay = [...it._defl, it.id,it.label,it.title,it.reference_no,it.theme,it.type,...(it.key_concepts||[]),...(it.core_obligations||[]),...(it.timelines||[]),...(it.consequences_stated||[]),...(it.applies_to||[]),...(it.statutory_powers||[])].join(" • ").toLowerCase();
   });
   injectThemeColours();
   renderHeader();
@@ -892,10 +905,11 @@ function openGlossary(slug){
 }
 
 /* ---------------- search & ask ---------------- */
-const STOP = new Set("a an the of to in on for and or is are was were be been by with as at from that this these those it its what which who whom whose when where why how do does did can could should would will shall may must i we you they he she my our your their me us them about any all there under per into than then so if not no yes also please tell explain meaning mean means define definition rbi rule rules guideline guidelines direction directions applicable apply applies regarding related relevant".split(" "));
+const STOP = new Set("a an the of to in on for and or is are was were be been by with as at from that this these those it its what which who whom whose when where why how do does did can could should would will shall may must i we you they he she my our your their me us them about any all there under per into than then so if not no yes also please tell explain meaning mean means define defined defines definition definitions term terms word phrase rbi rule rules guideline guidelines direction directions applicable apply applies regarding related relevant".split(" "));
 const QWORD = /^(what|which|who|when|where|why|how|does|do|is|are|can|should|must|will|whether|explain|tell)\b/i;
 const SFIELDS = [
   ["Name", it => [it.label, it.title, it.id, it.reference_no].filter(Boolean), 6],
+  ["Definition", it => it._defl, 5],
   ["Concept", it => it.key_concepts, 4],
   ["Obligation", it => it.core_obligations, 3],
   ["Deadline", it => it.timelines, 2.5],
@@ -963,6 +977,19 @@ function rankDocs(P){
   out.sort((a,b)=>b.score-a.score);
   return out;
 }
+function matchDefs(P){
+  if (!S.defs || !P.groups.length) return [];
+  const out = [];
+  S.items.forEach(it => (it.definitions||[]).forEach(d => {
+    const n = P.groups.filter(g => g.re.test(d.term)).length;
+    if (!n) return;
+    const full = n === P.groups.length, tl = d.term.toLowerCase();
+    const exact = P.groups.some(g => g.alts.some(a => a === tl || a + "s" === tl)) || P.groups.map(g=>g.label).join(" ") === tl;
+    out.push({ it, d, n, score: n * 10 + (full ? 20 : 0) + (exact ? 15 : 0) - d.term.length / 40 - (it.sc==="superseded" ? 8 : 0) - (/^same meaning/i.test(d.def) ? 6 : 0) });
+  }));
+  const need = Math.max(1, Math.ceil(P.groups.length * 0.6));
+  return out.filter(x => x.n >= need).sort((a,b)=>b.score-a.score).slice(0, 6);
+}
 function rankUpdates(P){
   if (!S.upd || !P.groups.length) return [];
   return (S.upd.updates||[]).map(u => {
@@ -973,6 +1000,7 @@ function rankUpdates(P){
 }
 function aiExtracts(L){
   const out = [];
+  matchDefs(L.P).forEach(x => out.push(`[${x.it.id}] DEFINITION in ${x.it.label}${x.it.sc==="superseded"?" [SUPERSEDED]":""}, ${x.d.para}${x.d.scope?` (applies: ${x.d.scope})`:""}: "${x.d.term}" — ${x.d.def}`));
   (L.P.glHits||[]).slice(0,2).forEach(t => out.push(`[GLOSSARY ${t.term}] ${t.full||""}: ${t.def}`));
   L.docs.slice(0,5).forEach(d => {
     const lines = d.hits.filter(x=>x.lab!=="Name").slice(0, L.docs.length<=2?12:6).map(x => `- ${x.lab}: ${String(x.txt).slice(0,300)}`);
@@ -1010,9 +1038,14 @@ function initSearch(){
     const top = hits[0] ? hits[0].score : 1;
     const ups = rankUpdates(P);
     let h = "";
+    const dm = matchDefs(P);
     if (P.question && hits.length) {
-      const d = hits[0], sn = d.hits.find(x=>x.lab!=="Name") || d.hits[0];
+      const d = dm.length ? (hits.find(x=>x.it.id===dm[0].it.id) || hits[0]) : hits[0];
+      const sn = dm.length ? { lab: "Definition", txt: `${dm[0].d.term} (${dm[0].d.para}): ${dm[0].d.def}` } : (d.hits.find(x=>x.lab!=="Name") || d.hits[0]);
       h += `<div class="rsec">Best place to look</div><div class="rask"><p>Start with <button class="lnk" data-id="${esc(d.it.id)}">${esc(d.it.label)}</button>${d.it.title && d.it.title!==d.it.label?` (${esc(trunc(d.it.title, 90))})`:""}.</p>${sn?`<p style="color:var(--ink-2)"><b style="font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink);margin-right:6px">${esc(sn.lab)}</b>${snippet(sn.txt, P.groups)}</p>`:""}${hits[1]?`<p style="font-size:12.5px;color:var(--ink-2)">Also relevant: ${hits.slice(1,3).map(x=>`<button class="lnk" data-id="${esc(x.it.id)}">${esc(trunc(x.it.label,48))}</button>`).join(", ")}</p>`:""}<p class="disc">This helper matches your words against the register. It points you to the rule, it does not interpret it. Not legal advice: read the instrument on rbi.org.in.</p>${S.cfg.ai_endpoint?`<button class="aibtn" data-ai="1">Ask the AI assistant for a short answer</button><div class="aiout" aria-live="polite"></div>`:""}</div>`;
+    }
+    if (dm.length) {
+      h += `<div class="rsec">Defined in RBI Directions</div>` + dm.slice(0,3).map(x => `<button class="rdef" data-id="${esc(x.it.id)}" data-def="${glSlug(x.d.term)}"><b>${esc(x.d.term)}</b> ${esc(x.d.def)}<span class="src">${esc(x.it.label)} · ${esc(x.d.para)}${x.d.scope?` · ${esc(x.d.scope)}`:""}</span></button>`).join("");
     }
     if (P.glHits.length) {
       h += `<div class="rsec">Meaning</div>` + P.glHits.slice(0,2).map(t => `<div class="rgl"><h4>${esc(t.term)}${t.full && t.full!==t.term?`<span>${esc(t.full)}</span>`:""}</h4><p>${esc(t.def)}</p><button class="lnk" data-glopen="${t.slug}">Open in glossary →</button></div>`).join("");
@@ -1040,7 +1073,7 @@ function initSearch(){
     if (e.key==="Enter"){ e.preventDefault(); res.hidden = true; goTo(hits[cur].it.id); }
   });
   res.addEventListener("click", e => {
-    const b = e.target.closest("[data-id]"); if (b){ res.hidden = true; goTo(b.dataset.id); return; }
+    const b = e.target.closest("[data-id]"); if (b){ res.hidden = true; if (b.dataset.def) { S.ptab = "defs"; S.defFocus = b.dataset.def; } goTo(b.dataset.id); return; }
     if (e.target.closest("[data-upd]")) { res.hidden = true; if (S.selected) select(null); setView("updates"); }
     const ai = e.target.closest("[data-ai]"); if (ai) askAI(ai);
   });
@@ -1391,6 +1424,7 @@ function renderPanel(id){
   const inRels = S.inn.get(id)||[], outRels = S.out.get(id)||[];
   const tabs = [
     ["overview","Overview", (it.key_concepts||[]).length, countU(it.key_concepts)],
+    ...(it.definitions.length ? [["defs","Definitions", it.definitions.length, 0]] : []),
     ["obl","Obligations", (it.core_obligations||[]).length, countU(it.core_obligations)],
     ["time","Deadlines", (it.timelines||[]).length, countU(it.timelines)],
     ["breach","Breach", (it.consequences_stated||[]).length, countU(it.consequences_stated)],
@@ -1417,7 +1451,10 @@ function renderPanel(id){
   let body = "";
   const supBox = replacedBy.length ? `<div class="box rep"><svg width="30" height="14" viewBox="0 0 30 14"><path d="M1 7h22" stroke="var(--r-rel-super)" stroke-dasharray="4 3" stroke-width="1.6"/><path d="M21 2.5 29 7l-8 4.5z" fill="var(--r-rel-super)"/></svg><div><b>Replaced by</b><div class="chips" style="display:flex;gap:5px;flex-wrap:wrap;margin-top:4px">${replacedBy.map(x=>ichip(x)).join("")}</div></div></div>` : "";
   const unvBox = it.unv ? `<div class="box warn"><b>Check before relying.</b> Items marked UNVERIFIED have not been confirmed against the primary text. Read the instrument on rbi.org.in before relying on them.</div>` : "";
-  if (S.ptab==="overview"){
+  if (S.ptab==="defs" && !it.definitions.length) S.ptab = "overview";
+  if (S.ptab==="defs"){
+    body = `<h3>Terms defined in this instrument</h3><p style="font-size:12.5px;color:var(--ink-2);margin:0 0 10px">Plain-language summaries. The paragraph cited governs; read it on rbi.org.in before relying on it.</p><dl class="defs">${it.definitions.map(d => `<div class="def" id="def-${glSlug(d.term)}"><dt>${esc(d.term)} <span class="para">${esc(d.para)}</span>${d.scope?`<span class="dscope">${esc(d.scope)}</span>`:""}</dt><dd>${glLink(esc(d.def))}</dd></div>`).join("")}</dl>`;
+  } else if (S.ptab==="overview"){
     const kc = it.key_concepts||[];
     const short = kc.filter(x=>x.length<=48 && !/UNVERIFIED/.test(x)), long = kc.filter(x=>x.length>48 || /UNVERIFIED/.test(x));
     body = `${supBox}${unvBox}
@@ -1444,6 +1481,7 @@ function renderPanel(id){
       ${(it.cross_references||[]).length?`<div class="relg"><h4><i style="background:var(--muted)"></i>Cross-references as written in the register</h4>${list(it.cross_references,"","var(--muted)")}</div>`:""}</div>`;
   }
   $("#pb").innerHTML = `<section>${body}</section>`;
+  if (S.defFocus && S.ptab==="defs") { const el = document.getElementById("def-"+S.defFocus); S.defFocus = null; if (el) { setTimeout(() => { el.scrollIntoView({block:"center", behavior: RM?"auto":"smooth"}); el.classList.add("flash"); setTimeout(()=>el.classList.remove("flash"), 1800); }, 80); return; } }
   const sc = $("#pscroll");
   if (S.keepScroll) { sc.scrollTop = Math.min(sc.scrollTop, $("#ph").offsetHeight); S.keepScroll = false; } else sc.scrollTop = 0;
 }
