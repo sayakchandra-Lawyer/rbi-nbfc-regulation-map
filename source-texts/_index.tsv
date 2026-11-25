@@ -1,0 +1,76 @@
+id	status	source_url	characters	as_updated
+MD-SBR	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12965	56283	July 01, 2026
+MD-ACQ	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12964	12378	
+MD-AMLG	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12963	5751	
+MD-BRANCH	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12962	10098	April 15, 2026
+MD-FINSVC	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12961	49470	October 05, 2026
+MD-GOV	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12960	27335	June 24, 2026
+MD-CAP	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12959	103024	July 01, 2026
+MD-DEP	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12958	59527	April 15, 2026
+MD-CREDIT	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12957	85110	July 15, 2026
+MD-CARDS	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12956	62289	
+MD-CIR	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12955	52059	July 01, 2026
+MD-CRM	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12954	40887	July 01, 2026
+MD-CONC	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12953	38468	August 25, 2026
+MD-TDCR	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12952	74015	July 01, 2026
+MD-SEC	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12951	84264	July 01, 2026
+MD-INV	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12950	19681	July 01, 2026
+MD-ALM	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12949	42812	July 01, 2026
+MD-IRACP	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12948	40452	October 01, 2026
+MD-STRESS	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12947	115464	October 1, 2026
+MD-WD	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12946	42599	July 01, 2026
+MD-FS	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12945	73124	July 01, 2026
+MD-DIV	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12944	13939	July 01, 2026
+MD-KYC	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12943	123174	December 29, 2025
+MD-RBC	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12942	60441	July 1, 2026
+MD-OUTS	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12941	75792	
+MD-CLIMATE	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12940	17317	
+MD-HFC	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12939	163005	October 01, 2026
+MD-SPD	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12938	119071	March 10, 2026
+MD-CIC	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12937	49969	March 10, 2026
+MD-AA	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12936	35153	
+MD-MGC	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12935	57348	March 10, 2026
+MD-P2P	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12934	37407	
+MD-MFI	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12933	26051	
+MD-NOFHC	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12932	29032	December 05, 2025
+MD-MISC	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12931	31287	February 26, 2026
+MD-IO	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=13274	24177	
+MD-AUDREP	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=13585	16742	
+MD-SUPMISC	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=13586	19955	
+MD-RETURNS	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=13587	20492	
+MD-SA	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=13588	27141	
+MD-IA	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=13589	18313	
+MD-FRAUD	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=13590	33711	
+MD-DPSC	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=13591	48828	
+MD-CYBER	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=13592	70374	
+MD-COMPL	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=13593	17365	
+MD-FEMA-FDI	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=11200	127688	January 16, 2025
+MD-FEMA-ECB	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=11510	60449	September 08, 2026
+MD-FEMA-ODI	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12710	56480	April 01, 2026
+MD-CPNCD	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12592	24913	
+MD-CDS	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=13552	38551	September 22, 2026
+MD-IRD	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=13214	34097	September 22, 2026
+MD-PSL	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12799	88065	June 21, 2024
+MD-PPI	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12156	83909	September 30, 2026
+MD-PA	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12896	43746	November 11, 2026
+MD-EMANDATE	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=13374	6836	
+MD-AUTH	ok	https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12898	10520	
+ACT-RBI	ok	https://indiacode.gov.in/items/3f9f5c4e-dce7-4144-b5ac-d2cc995b1761 -> A1934-2.pdf (https://indiacode.gov.in/server/api/core/bitstreams/e159cd99-2be8-4f80-b2f5-7c2fe3974829/content)	334064	
+ACT-SARFAESI	ok	https://indiacode.gov.in/items/c0e184ad-4538-4520-8981-3bd47bb7f80e -> a2002-54.pdf (https://indiacode.gov.in/server/api/core/bitstreams/c47e2816-9b79-4344-bef4-4464e6e0c54e/content)	133996	
+ACT-CICRA	ok	https://indiacode.gov.in/items/3c4f65e0-f82d-4daa-9551-52055b137d09 -> A2005-30.pdf (https://indiacode.gov.in/server/api/core/bitstreams/dd11626c-e233-4a81-b72f-f40876afa394/content)	77510	
+ACT-FEMA	ok	https://indiacode.gov.in/items/a972a617-5989-4b2c-a84f-617792137a57 -> a1999-42.pdf (https://indiacode.gov.in/server/api/core/bitstreams/8024e4a4-c5b7-4f53-9326-0f9591087b39/content)	79634	
+ACT-PSS	ok	https://indiacode.gov.in/items/0c440dd4-d439-42ba-bced-6945512eb9b0 -> A2007-51.pdf (https://indiacode.gov.in/server/api/core/bitstreams/6d220cca-0252-4de0-855a-f32ad720ab35/content)	67683	
+ACT-PMLA	ok	https://indiacode.gov.in/items/3babfe62-c9c8-49b3-8247-052834d2dfa4 -> A2003-15.pdf (https://indiacode.gov.in/server/api/core/bitstreams/e5a7b350-4e52-4a8f-bb47-fe0f186223e5/content)	162888	
+ACT-NHB	ok	https://indiacode.gov.in/items/10b83141-6321-4d22-bd81-0065bf7b174d -> A1987-53.pdf (https://indiacode.gov.in/server/api/core/bitstreams/d49bc1b0-dfbf-482b-9f9d-0906200371b3/content)	144283	
+ACT-FRA	ok	https://indiacode.gov.in/items/9332780c-2b2c-4c02-af89-f94ecfe9c860 -> A2012-12.pdf (https://indiacode.gov.in/server/api/core/bitstreams/10087d79-7416-41d2-b8ee-a61fd89c2590/content)	55184	
+ACT-IBC	ok	https://indiacode.gov.in/items/37c94edf-7892-4c4f-a284-0c24613a4bf5 -> A2016-31.pdf (https://indiacode.gov.in/server/api/core/bitstreams/bf689ae0-08e3-47e2-92f2-1711a774254e/content)	535536	
+ACT-BUDS	ok	https://indiacode.gov.in/items/10cdb6e4-fa42-428f-b256-4cff98671b38 -> A2019-21.pdf (https://indiacode.gov.in/server/api/core/bitstreams/f7f485f3-d265-470b-8166-03c8fddbd5e9/content)	73340	
+ACT-DPDP	ok	https://indiacode.gov.in/items/c058fa9f-eaf0-4ca3-98f1-3443b087bca9 -> a2023-22.pdf (https://indiacode.gov.in/server/api/core/bitstreams/52f9ecbb-b927-4ba6-ae6f-ca2fac50d4df/content)	74023	
+ACT-COS	ok	https://indiacode.gov.in/items/d4bd5677-4fad-4795-8197-fd05bf0a00f8 -> the_companies_act,_2013_no._18_of_2013_date_29.08.2013.pdf (https://indiacode.gov.in/server/api/core/bitstreams/579357a9-5272-415e-aa81-805ba32219a0/content)	1078196	
+ACT-AADHAAR	ok	https://indiacode.gov.in/items/fcd3b406-8eae-4130-950f-b94cfb11d2d0 -> A2016-18.pdf (https://indiacode.gov.in/server/api/core/bitstreams/afb4d7e0-3925-4b37-b1d0-e1398b13e939/content)	89638	
+ACT-IT	ok	https://indiacode.gov.in/items/53c0d803-3384-4afc-b4ce-5e54ee8504bf -> itact2000.pdf (https://indiacode.gov.in/server/api/core/bitstreams/4e76d538-7921-468e-b0fb-0c91b8d6dc2f/content)	116897	
+REG-FACTORS	ok	https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=12222&Mode=0	4822	
+REG-ASSIGN	ok	https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=12223&Mode=0	3201	
+REG-FEMA-BL	ok	https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=13306&Mode=0	30403	
+NOT-CONSOL	ok	https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=61705	3999	
+SCH-RBIOS	failed	https://rbidocs.rbi.org.in/rdocs/content/pdfs/SCHEME16012026_A.pdf	0	
