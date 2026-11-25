@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "default": "rbi-nbfc",
+  "maps": [
+    {
+      "id": "rbi-nbfc",
+      "title": "RBI–NBFC Regulation Map",
+      "hubLabel": "NBFC",
+      "hubSub": "RBI regulation",
+      "register": "maps/rbi-nbfc/rbi_nbfc_register.json",
+      "graph": "maps/rbi-nbfc/rbi_nbfc_graph.json",
+      "categoryGroup": "NBFC category / layer",
+      "layers": [
+        "CAT-BL",
+        "CAT-ML",
+        "CAT-UL",
+        "CAT-TL"
+      ],
+      "historyTheme": "Superseded (history)",
+      "categoryCaveat": "Layer and category tags were checked on 24-11-2026 against each instrument's applicability paragraph, which the tag's tooltip cites. Only the lowest layer an instrument reaches is tagged: under Scale Based Regulation the layers are cumulative, so choosing a layer also shows instruments tagged to the layers below it. Some instruments apply within a layer only above a size test (for example ₹5,000 crore of assets); the tooltip says so. Check the clause before relying on a tag.",
+      "milestones": [
+        {
+          "date": "2025-11-28",
+          "label": "Consolidation: 244 Master Directions issued, 9,445 circulars withdrawn"
+        },
+        {
+          "date": "2026-07-01",
+          "label": "RB-IOS 2026 takes effect"
+        }
+      ],
+      "cumulativeLayers": true,
+      "caveatShort": "Tags checked against each applicability paragraph (24-11-2026); layers include lower layers. See the clause.",
+      "updates": "maps/rbi-nbfc/updates.json",
+      "glossary": "maps/rbi-nbfc/glossary.json",
+      "ai_endpoint": "https://rbi-map-chat.sayakchandra.workers.dev"
+    }
+  ]
+}

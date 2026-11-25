@@ -1,0 +1,1650 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Interactive map of RBI Acts, Master Directions, schemes and notifications that apply to NBFCs: obligations, timelines and consequences of breach.">
+<style>:root{box-sizing:border-box}body{margin:0;padding:0}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<title>RBI–NBFC Regulation Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap">
+<style>
+/* Layout: one-screen app. Sticky header + filter rail, then a full-bleed view (radial mind map / timeline / applicability grid) with a slide-in instrument dossier on the right. */
+:root{
+  --bg:#FAF9F5; --surface:#FFFFFF; --surface-2:#F0EEE6; --ink:#141413; --ink-2:#5E5D59; --muted:#87867F; --line:#E8E6DC;
+  --accent:#C15F3C; --accent-ink:#FFFFFF; --accent-soft:#F5E4DB;
+  --warn:#9A5E0A; --warn-bg:#FBF0DA; --warn-line:#E6C27A;
+  --danger:#B0392B; --danger-bg:#FAE6E1;
+  --st-inforce:#5E7D3A; --st-amended:#3F6FA8; --st-superseded:#A07868;
+  --p1:#4D7EA8; --p2:#6F8A4E; --p3:#8565B0; --p4:#B9577A; --p5:#C8693F; --p6:#A2852F; --p7:#5C6FAE; --p8:#8B8A84;
+  --r-rel-issued:#5E5D59; --r-rel-xref:#3F7F94; --r-rel-super:#B0392B; --r-rel-mig:#B07A1E; --r-rel-frame:#B5B2A6; --r-rel-other:#8565B0;
+  --shadow:0 12px 32px -14px rgba(20,20,19,.22);
+  --f-display:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --f-body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --hdr-h:auto;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1F1E1D; --surface:#262624; --surface-2:#30302E; --ink:#FAF9F5; --ink-2:#C2C0B6; --muted:#8C8A82; --line:#3B3A37;
+  --accent:#D97757; --accent-ink:#1F1E1D; --accent-soft:#41291F;
+  --warn:#E5B25C; --warn-bg:#3A2D16; --warn-line:#6E5424;
+  --danger:#F0907F; --danger-bg:#3E211C;
+  --st-inforce:#A6C27F; --st-amended:#8FB4E3; --st-superseded:#C9A598;
+  --p1:#8FB4E3; --p2:#A6C27F; --p3:#B9A0E3; --p4:#E596B3; --p5:#E89A78; --p6:#D6BE6E; --p7:#A3B0E6; --p8:#A3A199;
+  --r-rel-issued:#C2C0B6; --r-rel-xref:#7EC1D3; --r-rel-super:#F0907F; --r-rel-mig:#E5B25C; --r-rel-frame:#5E5C57; --r-rel-other:#B9A0E3;
+  --shadow:0 14px 34px -12px rgba(0,0,0,.6);
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1F1E1D; --surface:#262624; --surface-2:#30302E; --ink:#FAF9F5; --ink-2:#C2C0B6; --muted:#8C8A82; --line:#3B3A37;
+  --accent:#D97757; --accent-ink:#1F1E1D; --accent-soft:#41291F;
+  --warn:#E5B25C; --warn-bg:#3A2D16; --warn-line:#6E5424;
+  --danger:#F0907F; --danger-bg:#3E211C;
+  --st-inforce:#A6C27F; --st-amended:#8FB4E3; --st-superseded:#C9A598;
+  --p1:#8FB4E3; --p2:#A6C27F; --p3:#B9A0E3; --p4:#E596B3; --p5:#E89A78; --p6:#D6BE6E; --p7:#A3B0E6; --p8:#A3A199;
+  --r-rel-issued:#C2C0B6; --r-rel-xref:#7EC1D3; --r-rel-super:#F0907F; --r-rel-mig:#E5B25C; --r-rel-frame:#5E5C57; --r-rel-other:#B9A0E3;
+  --shadow:0 14px 34px -12px rgba(0,0,0,.6);
+  color-scheme:dark}
+
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.5;overflow:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:40;background:var(--surface)}
+#app{display:flex;flex-direction:column;height:100%}
+button,select,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* ---------- header ---------- */
+header.top{position:relative;z-index:30;background:var(--surface);border-bottom:1px solid var(--line);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px 0}
+.hrow{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;min-width:0;flex:1 1 300px}
+.seal{flex:none;width:34px;height:34px}
+.brand h1{font-family:var(--f-display);font-weight:500;font-size:22px;letter-spacing:-.005em;margin:0;line-height:1.1;text-wrap:balance}
+.brand .sub{font-size:12px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.brand .sub b{font-weight:600;color:var(--ink)}
+#mapSwitch{display:none;border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:3px 6px}
+.stats{display:flex;gap:6px;flex-wrap:wrap}
+.stat{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:3px 10px 3px 8px;font-size:12px;font-variant-numeric:tabular-nums;color:var(--ink-2);transition:background .2s,border-color .2s}
+.stat b{color:var(--ink);font-weight:600}
+.stat:hover{border-color:var(--ink-2)}
+.stat[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--ink)}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none}
+.tri{width:13px;height:13px;border-radius:50%;background:var(--warn);display:inline-grid;place-items:center;flex:none;vertical-align:-2px}
+.tri::after{content:"!";font:700 9.5px/1 var(--f-body);color:var(--surface)}
+.bigsearch{padding:12px 0 4px}
+.search{position:relative;width:100%;max-width:980px;margin:0 auto}
+.search input{width:100%;box-sizing:border-box;height:54px;border:2px solid var(--line);background:var(--surface);color:var(--ink);border-radius:14px;padding:0 48px 0 48px;font-size:17px;font-family:var(--f-body);box-shadow:0 1px 0 rgba(0,0,0,.02);transition:border-color .15s,box-shadow .15s}
+.search input::placeholder{color:var(--muted)}
+.search input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.search>svg{position:absolute;left:16px;top:27px;transform:translateY(-50%);color:var(--accent);pointer-events:none}
+.search .qk{position:absolute;right:14px;top:27px;transform:translateY(-50%);font:12px var(--f-mono);color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:1px 7px;background:var(--bg)}
+.search input:focus~.qk{display:none}
+.results{position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:60;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);max-height:min(72vh,760px);overflow:auto;padding:10px;overscroll-behavior:contain}
+.results .rsec{font:600 11px var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:10px 6px 6px}
+.results .rsec:first-child{margin-top:2px}
+.results .rdoc{display:block;width:100%;text-align:left;border:0;background:none;padding:10px 10px;border-radius:10px;color:var(--ink);cursor:pointer}
+.results .rdoc:hover,.results .rdoc.on{background:var(--surface-2)}
+.results .rt{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14.5px}
+.results .rt .lbl2{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.results .rsub{display:block;font-size:12px;color:var(--ink-2);margin:2px 0 0 16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.results .rmeta{display:flex;align-items:center;gap:10px;margin:6px 0 0 16px;font-size:11.5px;color:var(--ink-2)}
+.results .rel{display:inline-block;width:90px;height:6px;border-radius:4px;background:var(--surface-2);overflow:hidden;flex:none}
+.results .rdoc:hover .rel,.results .rdoc.on .rel{background:var(--bg)}
+.results .rel i{display:block;height:100%;background:var(--accent);border-radius:4px}
+.results .snips{display:block;margin:6px 0 0 16px}
+.results .snip{display:block;font-size:12.5px;line-height:1.45;color:var(--ink-2);margin-top:3px}
+.results .snip b{font-weight:600;color:var(--ink);font-size:11px;text-transform:uppercase;letter-spacing:.04em;margin-right:6px}
+mark.q{background:var(--accent-soft);color:var(--ink);border-radius:3px;padding:0 1px}
+.results .rgl,.results .rask{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:0 2px 6px;background:var(--bg)}
+.results .rgl h4{margin:0;font:600 16px var(--f-display)}
+.results .rgl h4 span{font:400 13px var(--f-body);color:var(--ink-2);margin-left:6px}
+.results .rgl p{margin:6px 0 8px;font-size:13.5px;line-height:1.5}
+.results .rask p{margin:0 0 6px;font-size:13.5px;line-height:1.5}
+.results .rask .disc{font-size:11.5px;color:var(--muted);margin:6px 0 0}
+.results .aibtn{margin-top:8px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);border-radius:999px;padding:6px 14px;font-weight:600;font-size:13px;cursor:pointer}
+.results .aibtn:disabled{opacity:.6;cursor:wait}
+.results .aians{margin-top:10px;padding:10px 12px;border-left:3px solid var(--accent);background:var(--surface);border-radius:8px}
+.results .aians p{margin:0 0 6px;font-size:13.5px;line-height:1.55}
+.results .lnk{border:0;background:none;color:var(--accent);font-weight:600;font-size:12.5px;padding:0;cursor:pointer}
+.results .lnk:hover{text-decoration:underline}
+.results .rupd{display:block;width:100%;text-align:left;border:0;background:none;padding:8px 10px;border-radius:10px;font-size:13px;color:var(--ink);cursor:pointer}
+.results .rupd:hover{background:var(--surface-2)}
+.results .rupd span{display:block;font-size:11.5px;color:var(--ink-2)}
+.results .none{padding:12px;color:var(--ink-2);font-size:13.5px}
+button.gl{all:unset;cursor:help;border-bottom:1px dotted var(--accent);text-decoration:none}
+button.gl:hover{color:var(--accent)}
+button.gl:focus-visible{outline:2px solid var(--accent);outline-offset:1px;border-radius:2px}
+#glpop{position:fixed;z-index:90;width:min(360px,calc(100vw - 24px));background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:14px 16px}
+#glpop h4{margin:0 22px 0 0;font:600 17px var(--f-display)}
+#glpop .full{font-size:12.5px;color:var(--ink-2);margin-top:2px}
+#glpop p{font-size:13.5px;line-height:1.5;margin:8px 0}
+#glpop .chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 8px}
+#glpop .x{position:absolute;top:8px;right:8px;border:0;background:none;color:var(--muted);font-size:18px;line-height:1;cursor:pointer;padding:4px}
+#glpop .more{border:0;background:none;color:var(--accent);font-weight:600;font-size:12.5px;padding:0;cursor:pointer}
+.glwrap{max-width:920px;margin:0 auto}
+.glwrap .ghead h2{font:600 26px var(--f-display);margin:0 0 6px}
+.glwrap .ghead p{color:var(--ink-2);margin:0 0 12px;font-size:14px;line-height:1.5}
+.glwrap .gfind{width:100%;box-sizing:border-box;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:10px 12px;font-size:15px;margin-bottom:10px}
+.glwrap .az{display:flex;flex-wrap:wrap;gap:4px;margin:0 0 14px}
+.glwrap .az a{font:600 12px var(--f-mono);color:var(--accent);text-decoration:none;padding:3px 7px;border-radius:6px;background:var(--surface)}
+.glwrap .az a:hover{background:var(--accent-soft)}
+.glwrap .gl-l{font:600 20px var(--f-display);color:var(--accent);margin:18px 0 6px;scroll-margin-top:12px}
+.glent{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:0 0 8px;scroll-margin-top:12px;transition:box-shadow .3s,border-color .3s}
+.glent.flash{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.glent h3{margin:0;font:600 17px var(--f-display)}
+.glent h3 span{font:400 13.5px var(--f-body);color:var(--ink-2);margin-left:8px}
+.glent p{margin:6px 0;font-size:14px;line-height:1.55}
+.glent .aka{font-size:12px;color:var(--muted)}
+.glent .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+body[data-view="glossary"] .rail{display:none}
+.tabs{display:flex;gap:2px;margin-top:8px}
+.tab{border:0;background:none;padding:8px 12px 9px;font-family:var(--f-body);font-weight:500;font-size:14px;color:var(--ink-2);border-bottom:2.5px solid transparent;display:flex;align-items:center;gap:7px}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tab svg{opacity:.8}
+.sm-only{display:none}
+
+/* ---------- filter rail ---------- */
+.rail{background:var(--bg);border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:thin}
+.rail-in{display:flex;align-items:center;gap:10px;padding-block:8px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));width:max-content;min-width:100%;box-sizing:border-box}
+.lbl{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+.seg button{border:0;background:none;padding:4px 10px;font-size:12.5px;color:var(--ink-2);border-right:1px solid var(--line);white-space:nowrap}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.rail select{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:4px 6px;font-size:12.5px;max-width:190px}
+.chipbtn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:4px 10px;font-size:12.5px;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.chipbtn[aria-pressed="true"]{background:var(--warn-bg);border-color:var(--warn);color:var(--ink)}
+.chipbtn.plain[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent)}
+.vsep{width:1px;height:22px;background:var(--line);flex:none}
+.caveat{font-size:11.5px;color:var(--warn);display:none;white-space:nowrap}
+.caveat.on{display:inline}
+.maponly{display:contents}
+body:not([data-view="map"]) .maponly{display:none}
+
+/* ---------- main ---------- */
+main{position:relative;flex:1;min-height:0;overflow:hidden}
+.view{position:absolute;inset:0;overflow:auto;transition:right .38s cubic-bezier(.2,.8,.2,1)}
+/* reading views make room for the open dossier instead of sitting under it */
+@media (min-width:900px){main.pan-open:not(.pan-wide) .view:not(#v-map){right:min(480px,100%)}}
+.view[hidden]{display:none!important}
+#v-map{overflow:hidden;cursor:grab}
+#v-map:active{cursor:grabbing}
+#mapSvg{width:100%;height:100%;display:block;touch-action:none}
+.loading{position:absolute;inset:0;display:grid;place-items:center;color:var(--ink-2);font-family:var(--f-display);font-size:16px}
+.err{max-width:520px;margin:60px auto;padding:20px;border:1px solid var(--danger);background:var(--danger-bg);border-radius:10px}
+
+/* map svg */
+.branch{fill:none;stroke-linecap:round;transition:opacity .3s}
+.web{fill:none;stroke-width:.8;opacity:.32;transition:opacity .3s}
+.slink{fill:none;stroke-width:2;stroke-linecap:round}
+.slink.draw{animation:draw .9s ease-out both}
+@keyframes draw{from{stroke-dashoffset:var(--len)}to{stroke-dashoffset:0}}
+.sup{fill:none;stroke:var(--r-rel-super);stroke-width:1.3;stroke-dasharray:4 3;opacity:.75}
+.node{cursor:pointer;transition:opacity .3s;outline:none}
+.node:focus-visible .sym,.node:focus-visible .tc{stroke:var(--accent);stroke-width:3}
+.node .sym{stroke:var(--surface);stroke-width:1.5;transition:transform .2s}
+.node:hover .sym{transform:scale(1.45)}
+.node.sup-st .sym{fill:var(--surface)!important;stroke:var(--st-superseded);stroke-dasharray:2 1.6;stroke-width:1.6}
+.node .ring{fill:none;stroke:var(--st-amended);stroke-width:1.3;opacity:.95}
+.node .unv{fill:var(--warn);stroke:var(--surface);stroke-width:1}
+.node text.unvt{font:700 7px var(--f-body);fill:var(--surface);stroke:none}
+.node text{font-family:var(--f-body);font-size:11px;fill:var(--ink);paint-order:stroke;stroke:var(--bg);stroke-width:3px;stroke-linejoin:round}
+.node.sup-st text{fill:var(--ink-2);font-style:italic}
+.dimmed .node,.dimmed .branch{opacity:.16}
+.dimmed .node.nb,.dimmed .node.sel,.dimmed .node.theme.nb{opacity:1}
+.dimmed .branch.nb{opacity:.85}
+.node.off{opacity:.13}
+.branch.off{opacity:.12}
+.node.nb text{font-weight:600}
+.node.sel text{font-weight:700;font-size:13px}
+.pulse{fill:none;stroke:var(--accent);stroke-width:2;animation:pulse 1.8s ease-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes pulse{0%{transform:scale(.6);opacity:.9}100%{transform:scale(2.6);opacity:0}}
+.theme .tc{stroke:var(--surface);stroke-width:2.5;transition:r .3s}
+.theme .tring{fill:none;stroke-width:1.5;stroke-dasharray:3 2.5}
+.theme text.tl{font-family:var(--f-display);font-size:14px;font-weight:600;letter-spacing:.01em;stroke:var(--bg);stroke-width:4px}
+.theme text.tn{font-family:var(--f-mono);font-size:10px;font-weight:500;fill:var(--surface);stroke:none;text-anchor:middle;dominant-baseline:central}
+.hub circle{fill:var(--ink)}
+.hub text{fill:var(--surface);font-family:var(--f-display);text-anchor:middle;stroke:none}
+
+.mapctl{position:absolute;right:calc(14px + env(safe-area-inset-right,0px));top:12px;display:flex;flex-direction:column;gap:6px;z-index:5}
+.mapctl button{width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;box-shadow:0 2px 6px -3px rgba(0,0,0,.2)}
+.mapctl button:hover{border-color:var(--ink-2)}
+.legend{position:absolute;left:max(14px,env(safe-area-inset-left,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:5;background:color-mix(in srgb,var(--surface) 94%,transparent);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);font-size:12px;max-width:min(320px,calc(100% - 32px));backdrop-filter:blur(6px)}
+.legend summary{list-style:none;cursor:pointer;padding:8px 12px;font-family:var(--f-display);font-weight:600;display:flex;align-items:center;gap:8px}
+.legend summary::-webkit-details-marker{display:none}
+.legend summary::after{content:"";margin-left:auto;width:7px;height:7px;border-right:1.5px solid var(--ink-2);border-bottom:1.5px solid var(--ink-2);transform:rotate(-135deg) translateY(-2px);transition:transform .2s}
+.legend[open] summary::after{transform:rotate(45deg)}
+.legend .lg{padding:0 12px 12px;display:grid;gap:10px;max-height:44vh;overflow:auto}
+.lg h4{margin:0 0 4px;font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.lg ul{list-style:none;margin:0;padding:0;display:grid;gap:3px 12px}
+.lg ul.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.lg li.wide{grid-column:1/-1}
+.lg li{display:flex;align-items:center;gap:8px;color:var(--ink-2)}
+.lg svg{flex:none;overflow:visible}
+.tip{position:absolute;z-index:20;pointer-events:none;background:var(--ink);color:var(--surface);border-radius:8px;padding:7px 10px;font-size:12px;max-width:280px;box-shadow:var(--shadow);opacity:0;transition:opacity .12s}
+.tip.on{opacity:1}
+.tip b{font-family:var(--f-display);font-size:13px;display:block;line-height:1.25}
+.tip span{opacity:.75}
+.hint{position:absolute;right:calc(60px + env(safe-area-inset-right,0px));top:12px;z-index:6;width:min(300px,calc(100% - 96px));background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:12px 14px;font-size:12.5px;color:var(--ink-2)}
+.hint h3{margin:0 0 6px;font-family:var(--f-display);font-size:15px;color:var(--ink)}
+.hint ol{margin:0;padding-left:18px;display:grid;gap:3px}
+.hint button{margin-top:8px;border:0;background:var(--accent);color:var(--accent-ink);border-radius:7px;padding:5px 12px;font-weight:600}
+
+/* ---------- dossier panel ---------- */
+.panel{position:absolute;top:0;right:0;bottom:0;width:min(480px,100%);z-index:25;background:var(--surface);border-left:1px solid var(--line);box-shadow:var(--shadow);transform:translateX(104%);transition:transform .38s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column}
+.panel.open{transform:none}
+.panel{transition:transform .38s cubic-bezier(.2,.8,.2,1),width .3s ease}
+.panel.wide{width:min(1120px,calc(100% - 24px))}
+.panel.wide .ph,.panel.wide .pt,.panel.wide .pb{padding-left:max(32px,calc((100% - 900px)/2));padding-right:max(32px,calc((100% - 900px)/2))}
+.panel.wide .ph h2{font-size:30px}
+.panel.wide .items li{font-size:15px;line-height:1.6}
+.panel.wide .box,.panel.wide .kv{font-size:14.5px}
+.pshade{position:absolute;inset:0;z-index:24;background:rgba(20,20,19,.28);opacity:0;pointer-events:none;transition:opacity .3s}
+.pshade.on{opacity:1;pointer-events:auto}
+.pscroll{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain}
+.pt{position:sticky;top:0;z-index:3;background:var(--surface);border-bottom:1px solid var(--line);padding:0 18px;padding-right:max(18px,env(safe-area-inset-right,0px))}
+.pbtns{margin-left:auto;display:flex;gap:6px}
+.pbtns .pclose{margin-left:0}
+.plink{border:0;background:none;padding:0;font:inherit;color:var(--accent);font-weight:600;text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+.plink:hover{text-decoration-thickness:2px}
+.pill.st{white-space:normal}
+.iconbtn{width:34px;height:34px;flex:none;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);display:grid;place-items:center}
+.iconbtn:hover{border-color:var(--ink-2)}
+.ph{padding:14px 18px 4px;padding-right:max(18px,env(safe-area-inset-right,0px))}
+.crumb{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--ink-2);flex-wrap:wrap}
+.pclose{margin-left:auto;border:1px solid var(--line);background:var(--surface);border-radius:8px;width:30px;height:30px;display:grid;place-items:center;flex:none}
+.ph h2{font-family:var(--f-display);font-weight:500;font-size:23px;line-height:1.15;margin:8px 0 4px;text-wrap:balance}
+.ph .full{font-size:12.5px;color:var(--ink-2);margin:0 0 8px}
+.pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:500;padding:2px 9px;border-radius:999px;border:1px solid var(--line);background:var(--bg);white-space:nowrap}
+.pill.unv{background:var(--warn-bg);border-color:var(--warn-line);color:var(--ink)}
+.dates{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin:4px 0 10px}
+.dates div{background:var(--surface);padding:6px 9px}
+.dates small{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.dates span{font-family:var(--f-mono);font-size:12.5px;font-variant-numeric:tabular-nums}
+.srcs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.srcs a{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-size:12.5px;font-weight:600;padding:6px 12px;border-radius:999px;background:var(--accent);color:var(--accent-ink)}
+.srcs a.sec{background:var(--surface-2);color:var(--ink)}
+.ptabs{display:flex;gap:0;overflow-x:auto;scrollbar-width:none;margin:0 -4px}
+.ptab{border:0;background:none;padding:8px 9px 9px;font-size:12.5px;font-weight:600;color:var(--ink-2);border-bottom:2px solid transparent;white-space:nowrap;display:inline-flex;gap:5px;align-items:center}
+.ptab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.ptab .ct{font-family:var(--f-mono);font-size:10.5px;background:var(--surface-2);border-radius:5px;padding:0 5px;color:var(--ink-2)}
+.ptab .wd{width:6px;height:6px;border-radius:50%;background:var(--warn)}
+.pb{padding:14px 18px calc(24px + env(safe-area-inset-bottom,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+.pb section{animation:fadeup .35s ease both}
+@keyframes fadeup{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.pb h3{font-family:var(--f-body);font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin:14px 0 6px}
+.pb h3:first-child{margin-top:0}
+.items{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.items li{position:relative;padding:8px 10px 8px 30px;background:var(--bg);border-radius:9px;line-height:1.45;font-size:13.5px}
+.items li::before{content:"";position:absolute;left:11px;top:14px;width:8px;height:8px;border-radius:2px;background:var(--ic,var(--accent));transform:rotate(45deg)}
+.items.obl li::before{border-radius:50%;transform:none}
+.items.tl li::before{background:none;border:2px solid var(--ic);border-radius:50%;width:6px;height:6px;top:13px}
+.items.cq{--ic:var(--danger)}
+.items li.u{background:var(--warn-bg);box-shadow:inset 0 0 0 1px var(--warn-line)}
+.para{font-family:var(--f-mono);font-size:11.5px;background:var(--surface);border:1px solid var(--line);border-radius:5px;padding:0 5px;margin-right:5px;white-space:nowrap}
+.ub{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--warn);border:1px solid var(--warn);border-radius:4px;padding:0 4px;margin-right:5px;vertical-align:1px}
+mark.uw{background:none;color:var(--warn);font-weight:600}
+.date-hl{font-family:var(--f-mono);font-size:12.5px;background:var(--accent-soft);border-radius:4px;padding:0 3px}
+.concepts{display:flex;flex-wrap:wrap;gap:6px}
+.concepts span{background:var(--accent-soft);color:var(--ink);border-radius:7px;padding:3px 9px;font-size:12.5px}
+.concepts span.u{background:var(--warn-bg);box-shadow:inset 0 0 0 1px var(--warn-line)}
+.box{border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--ink-2);background:var(--surface)}
+.box.law{border-color:var(--danger);background:var(--danger-bg);color:var(--ink)}
+.box.warn{border-color:var(--warn-line);background:var(--warn-bg);color:var(--ink)}
+.box.rep{display:flex;gap:10px;align-items:center;border-color:var(--st-superseded)}
+.kv{display:grid;grid-template-columns:110px minmax(0,1fr);gap:4px 10px;font-size:13px}
+.kv dt{color:var(--muted);font-size:12px}
+.kv dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.rels{display:grid;gap:10px}
+.relg h4{margin:0 0 5px;font-size:12px;color:var(--ink-2);display:flex;align-items:center;gap:7px;font-weight:600}
+.relg h4 i{width:16px;height:3px;border-radius:2px;display:inline-block}
+.relg .chips{display:flex;flex-wrap:wrap;gap:5px}
+.ichip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:4px 9px;font-size:12.5px;text-align:left;max-width:100%}
+.ichip:hover{border-color:var(--ink-2);background:var(--bg)}
+.ichip .dot{width:8px;height:8px}
+.ichip.sup{border-style:dashed}
+.empty{color:var(--muted);font-style:italic;font-size:13px}
+
+/* ---------- timeline ---------- */
+.vpad{padding-block:18px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));max-width:1400px;margin:0 auto;box-sizing:border-box}
+.vhead{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:12px}
+.vhead h2{font-family:var(--f-display);font-size:22px;margin:0;line-height:1.1}
+.vhead p{margin:2px 0 0;color:var(--ink-2);font-size:13px;max-width:70ch}
+.scrollx{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+#tlSvg{display:block}
+#tlSvg .lane-bg{fill:var(--bg)}
+#tlSvg .lane-t{font-family:var(--f-display);font-size:12px;font-weight:600;fill:var(--ink)}
+#tlSvg .axis text{font-family:var(--f-mono);font-size:10.5px;fill:var(--ink-2)}
+#tlSvg .axis line,#tlSvg .axis path{stroke:var(--line)}
+#tlSvg .grid line{stroke:var(--line);stroke-dasharray:2 3}
+#tlSvg .today line{stroke:var(--accent);stroke-width:2}
+#tlSvg .today text{fill:var(--accent);font-family:var(--f-display);font-weight:700;font-size:11px}
+#tlSvg .mile line{stroke:var(--ink-2);stroke-dasharray:4 3}
+#tlSvg .mile text{fill:var(--ink-2);font-family:var(--f-display);font-size:11px}
+#tlSvg .ev{cursor:pointer;transition:opacity .25s}
+#tlSvg .ev:hover{opacity:.7}
+#tlSvg .ev.off{opacity:.1}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin:12px 0 26px}
+.dl{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:12px;display:grid;gap:6px;text-align:left;align-content:start}
+.dl:hover{border-color:var(--ink-2)}
+.dl .cd{display:flex;align-items:baseline;gap:8px}
+.dl .cd b{font-family:var(--f-display);font-size:26px;line-height:1;font-variant-numeric:tabular-nums;color:var(--danger)}
+.dl .cd span{font-size:12px;color:var(--ink-2)}
+.dl.past .cd b{color:var(--muted)}
+.dl .who{font-family:var(--f-display);font-weight:600;font-size:13.5px}
+.dl .what{font-size:12.5px;color:var(--ink-2)}
+.board{display:grid;grid-template-columns:repeat(6,minmax(200px,1fr));gap:10px;min-width:1240px}
+.col{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.col h3{margin:0 0 4px;font-family:var(--f-display);font-size:14px;display:flex;align-items:center;gap:8px}
+.col h3 .n{margin-left:auto;font-family:var(--f-mono);font-size:11px;color:var(--ink-2);font-weight:400}
+.col h3 svg{flex:none}
+.cc{border:0;text-align:left;background:var(--bg);border-radius:8px;padding:7px 9px;font-size:12px;line-height:1.35;color:var(--ink-2)}
+.cc:hover{background:var(--surface-2)}
+.cc b{display:flex;align-items:center;gap:6px;font-family:var(--f-display);color:var(--ink);font-size:12.5px;margin-bottom:2px}
+.cc.u{box-shadow:inset 0 0 0 1px var(--warn-line);background:var(--warn-bg)}
+.cc.off{opacity:.2}
+.boardwrap{overflow-x:auto;padding-bottom:6px}
+
+/* ---------- applicability grid ---------- */
+.mx{border-collapse:separate;border-spacing:0;font-size:12.5px}
+.mx th,.mx td{border-bottom:1px solid var(--line)}
+.mx thead th{position:sticky;top:0;background:var(--surface);z-index:2;vertical-align:bottom;padding:8px 2px;border-bottom:1.5px solid var(--ink-2)}
+.mx thead th.rowh{left:0;z-index:3;text-align:left;padding-left:12px;font-family:var(--f-display);font-size:13px}
+.mx .ch{writing-mode:vertical-rl;transform:rotate(180deg);font-family:var(--f-display);font-weight:600;font-size:12px;white-space:nowrap;border:0;background:none;padding:4px 0;color:var(--ink-2);cursor:pointer}
+.mx .ch:hover{color:var(--ink)}
+.mx th.layer .ch{color:var(--ink)}
+.mx th.act{background:var(--accent-soft)}
+.mx td.c{width:30px;min-width:30px;text-align:center;padding:0}
+.mx td.c.act{background:color-mix(in srgb,var(--accent-soft) 60%,transparent)}
+.mx td.c i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:middle;box-sizing:border-box}
+.mx td.c i.inh{border:2px solid;background:none}
+.mxkey{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--ink-2);margin:0 0 10px}
+.mxkey i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-right:5px;box-sizing:border-box}
+.mx tbody th{position:sticky;left:0;background:var(--surface);z-index:1;text-align:left;font-weight:400;padding:5px 10px 5px 12px;white-space:nowrap;max-width:340px;overflow:hidden;text-overflow:ellipsis}
+.mx tbody th button{border:0;background:none;padding:0;text-align:left;display:inline-flex;align-items:center;gap:7px;max-width:320px;overflow:hidden;text-overflow:ellipsis}
+.mx tbody tr:hover td,.mx tbody tr:hover th{background:var(--surface-2)}
+.mx tbody tr.off{opacity:.18}
+.mx tr.grp th{background:var(--bg);font-family:var(--f-display);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2);padding-top:12px}
+.mx tr.grp td{background:var(--bg)}
+.mx tfoot td{font-family:var(--f-mono);font-size:10.5px;text-align:center;color:var(--ink-2);padding:6px 0}
+.mx tfoot th{position:sticky;left:0;background:var(--surface);text-align:left;padding-left:12px;font-weight:500;font-size:11.5px;color:var(--ink-2)}
+.mxwrap{max-height:calc(100% - 0px)}
+
+
+/* ---------- last 7 days ---------- */
+.ucount{font-family:var(--f-mono);font-size:10.5px;background:var(--accent);color:var(--accent-ink);border-radius:999px;padding:0 6px;line-height:16px}
+.ucount:empty{display:none}
+.tab[hidden]{display:none}
+body[data-view="updates"] .rail{display:none}
+.uwrap{max-width:1080px;margin:0 auto}
+.uhead h2{font-family:var(--f-display);font-weight:500;font-size:30px;margin:0;line-height:1.15}
+.uhead p{color:var(--ink-2);font-size:13.5px;max-width:78ch;margin:6px 0 0}
+.ents{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;margin:16px 0 6px}
+.ent{border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:12px 14px;font-size:13px;color:var(--ink-2)}
+.ent b{display:block;font-family:var(--f-display);font-weight:500;font-size:17px;color:var(--ink);margin-bottom:2px}
+.efilter{display:flex;gap:8px;align-items:center;margin:14px 0 4px;flex-wrap:wrap}
+.ucard{border:1px solid var(--line);background:var(--surface);border-radius:16px;padding:18px 20px;margin:14px 0;box-shadow:0 1px 0 rgba(0,0,0,.02)}
+.umeta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--ink-2)}
+.umeta .d{font-family:var(--f-mono);font-size:12px;color:var(--ink)}
+.ukind{border:1px solid var(--line);border-radius:999px;padding:1px 9px;background:var(--bg)}
+.ucard h3{font-family:var(--f-display);font-weight:500;font-size:21px;line-height:1.25;margin:8px 0 4px}
+.ucard h3 a{color:inherit;text-decoration:none}
+.ucard h3 a:hover{text-decoration:underline;text-underline-offset:3px}
+.uref{font-family:var(--f-mono);font-size:11.5px;color:var(--ink-2);overflow-wrap:anywhere}
+.ugrid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:18px;margin-top:12px}
+@media (max-width:820px){.ugrid{grid-template-columns:1fr}}
+.ucard h4{margin:12px 0 6px;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
+.ucard h4:first-child{margin-top:0}
+.ucard ul{margin:0;padding-left:18px;display:grid;gap:5px;font-size:13.5px;line-height:1.5}
+.uapp{font-size:13px;color:var(--ink-2);margin:0}
+.imp{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--bg);margin-bottom:8px;font-size:13.5px;line-height:1.5}
+.imp .who{display:flex;align-items:center;gap:8px;font-weight:600;margin-bottom:3px}
+.lvl{font-size:11px;font-weight:600;border-radius:10px;padding:1px 8px;line-height:1.4}
+.imp .who{flex-wrap:wrap}
+.lvl.h{background:var(--danger-bg);color:var(--danger)}
+.lvl.m{background:var(--warn-bg);color:var(--warn)}
+.lvl.l{background:var(--surface-2);color:var(--ink-2)}
+.ufoot{font-size:12px;color:var(--muted);margin-top:10px}
+.usrc{margin:14px 0 4px;border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:10px 14px;font-size:13px}
+.usrc summary{cursor:pointer;font-weight:600;color:var(--ink)}
+.usrc ol{margin:8px 0 2px;padding-left:22px;display:grid;gap:4px}
+.usrc a{color:var(--accent);text-decoration:none;overflow-wrap:anywhere}
+.usrc a:hover{text-decoration:underline}
+@media (max-width:700px){
+  .brand h1{font-size:17px}
+  .stats{order:3;width:100%}
+  .bigsearch{padding:8px 0 2px}
+  .search input{height:48px;font-size:16px;border-radius:12px;padding:0 14px 0 42px}
+  .search>svg{left:14px;top:24px}
+  .search .qk{display:none}
+  .tabs{overflow-x:auto;scrollbar-width:none;flex-wrap:nowrap}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{flex:none}
+  .results{max-height:70vh;padding:6px}
+  .results .rsub,.results .rmeta,.results .snips{margin-left:0}
+  .tab{padding:7px 9px 8px;font-size:13px}
+  .stats{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+  .stat{flex:none}
+  .tab .lg-only{display:none}
+  .tab .sm-only{display:inline}
+  .hint{right:auto;left:max(14px,env(safe-area-inset-left,0px));width:calc(100% - 100px)}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}
+}
+</style>
+
+<style>
+.legal-note{display:block;background:var(--warn-bg);border-bottom:1px solid var(--warn-line);color:var(--ink);font-size:12px;line-height:1.4;padding:5px max(16px,env(safe-area-inset-right,0px)) 5px max(16px,env(safe-area-inset-left,0px))}
+.legal-note b{font-weight:600}
+.legal-note a{color:inherit;text-underline-offset:2px}
+.legal-note .short{display:none}
+@media (max-width:700px){.legal-note .long{display:none}.legal-note .short{display:inline}}
+</style>
+</head>
+<body>
+<div id="app">
+  <header class="top">
+    <div class="hrow">
+      <div class="brand">
+        <svg class="seal" viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="15.5" fill="none" stroke="var(--accent)" stroke-width="1.5"/><circle cx="17" cy="17" r="4.2" fill="var(--ink)"/><g stroke="var(--accent)" stroke-width="1.4" stroke-linecap="round"><path d="M17 12.8V5.5M21.2 17h7.3M17 21.2v7.3M12.8 17H5.5M20 14l5-5M20 20l5 5M14 20l-5 5M14 14 9 9"/></g><g fill="var(--accent)"><circle cx="17" cy="5.5" r="1.8"/><circle cx="28.5" cy="17" r="1.8"/><circle cx="17" cy="28.5" r="1.8"/><circle cx="5.5" cy="17" r="1.8"/></g></svg>
+        <div style="min-width:0">
+          <h1 id="mapTitle">RBI–NBFC Regulation Map</h1>
+          <div class="sub" id="mapSub">Loading register…</div>
+        </div>
+        <select id="mapSwitch" aria-label="Choose map"></select>
+      </div>
+      <div class="stats" id="stats"></div>
+      <button class="iconbtn" id="themeBtn" aria-label="Switch colour theme"></button>
+    </div>
+    <div class="bigsearch">
+      <div class="search" role="search">
+        <svg width="20" height="20" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="m11 11 3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <label class="sr" for="q">Search the rules or ask a question</label>
+        <input id="q" type="search" placeholder="Search or ask a question, e.g. What is an SPE?  ·  LTV for gold loans  ·  para 38A" autocomplete="off" aria-controls="results">
+        <kbd class="qk" aria-hidden="true">/</kbd>
+        <div class="results" id="results" hidden></div>
+      </div>
+    </div>
+    <nav class="tabs" role="tablist" aria-label="Views">
+      <button class="tab" role="tab" id="t-map" data-view="map"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="2.2" fill="currentColor"/><g stroke="currentColor" stroke-width="1.3" fill="none"><path d="M8 5.8V2M10.2 8H14M8 10.2V14M5.8 8H2"/></g><g fill="currentColor"><circle cx="8" cy="2" r="1.3"/><circle cx="14" cy="8" r="1.3"/><circle cx="8" cy="14" r="1.3"/><circle cx="2" cy="8" r="1.3"/></g></svg>Mind map</button>
+      <button class="tab" role="tab" id="t-timeline" data-view="timeline"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.5 8h13" stroke="currentColor" stroke-width="1.3"/><g fill="currentColor"><circle cx="4" cy="8" r="1.8"/><circle cx="9" cy="8" r="1.8"/><path d="M12.5 3.5v9" stroke="currentColor" stroke-width="1.4"/><path d="M12.5 3.5h3l-1 1.4 1 1.4h-3z"/></g></svg><span class="lg-only">Timeline &amp; deadlines</span><span class="sm-only">Timeline</span></button>
+      <button class="tab" role="tab" id="t-layers" data-view="layers"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><g fill="currentColor"><rect x="1.5" y="1.5" width="3.5" height="3.5" rx=".8"/><rect x="6.3" y="1.5" width="3.5" height="3.5" rx=".8" opacity=".35"/><rect x="11" y="1.5" width="3.5" height="3.5" rx=".8"/><rect x="1.5" y="6.3" width="3.5" height="3.5" rx=".8" opacity=".35"/><rect x="6.3" y="6.3" width="3.5" height="3.5" rx=".8"/><rect x="11" y="6.3" width="3.5" height="3.5" rx=".8" opacity=".35"/><rect x="1.5" y="11" width="3.5" height="3.5" rx=".8"/><rect x="6.3" y="11" width="3.5" height="3.5" rx=".8"/><rect x="11" y="11" width="3.5" height="3.5" rx=".8"/></g></svg><span class="lg-only">Who it applies to</span><span class="sm-only">Applies to</span></button>
+      <button class="tab" role="tab" id="t-updates" data-view="updates" hidden><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M8 2.2a4.3 4.3 0 0 0-4.3 4.3v2.6L2.5 11.2h11l-1.2-2.1V6.5A4.3 4.3 0 0 0 8 2.2zM6.4 13.2a1.7 1.7 0 0 0 3.2 0"/></svg><span class="lg-only">Last 7 days</span><span class="sm-only">Updates</span><span class="ucount" id="ucount"></span></button>
+      <button class="tab" role="tab" id="t-glossary" data-view="glossary" hidden><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M2.5 3.2c1.9-.8 3.8-.8 5.5.4v9.6c-1.7-1.2-3.6-1.2-5.5-.4zM13.5 3.2c-1.9-.8-3.8-.8-5.5.4v9.6c1.7-1.2 3.6-1.2 5.5-.4z"/></svg>Glossary</button>
+    </nav>
+  </header>
+
+  <div class="legal-note" role="note"><b>Not legal advice.</b> <span class="long">An independent, unofficial summary prepared for general information. It may be incomplete or out of date and is not endorsed by the Reserve Bank of India. Verify</span><span class="short">Unofficial summary; verify</span> every point against the official text on <a href="https://www.rbi.org.in" target="_blank" rel="noopener">rbi.org.in</a> and the Gazette before relying on it.</div>
+  <div class="rail" role="toolbar" aria-label="Filters">
+    <div class="rail-in">
+      <span class="lbl">Layer</span>
+      <div class="seg" id="layerSeg"></div>
+      <label class="sr" for="catSel">NBFC category</label>
+      <select id="catSel"><option value="">Any category</option></select>
+      <span class="caveat" id="caveat">Tags are machine-mapped; layers include lower layers. Check the clause.</span>
+      <span class="vsep"></span>
+      <label class="sr" for="typeSel">Instrument type</label>
+      <select id="typeSel"><option value="">All types</option></select>
+      <label class="sr" for="statusSel">Status</label>
+      <select id="statusSel"><option value="">Any status</option><option value="inforce">In force</option><option value="amended">In force, amended since issue</option><option value="superseded">Superseded / repealed</option></select>
+      <button class="chipbtn" id="unvBtn" aria-pressed="false"><span class="tri"></span>Unverified only</button>
+      <button class="chipbtn plain" id="resetBtn" aria-pressed="false">Reset</button>
+      <div class="maponly">
+        <span class="vsep"></span>
+        <span class="lbl">Colour by</span>
+        <div class="seg" id="colorSeg"><button data-c="theme" aria-pressed="true">Subject</button><button data-c="type" aria-pressed="false">Type</button><button data-c="status" aria-pressed="false">Status</button></div>
+        <button class="chipbtn plain" id="webBtn" aria-pressed="false">Show all connections</button>
+        <button class="chipbtn plain" id="expBtn">Expand all</button>
+        <button class="chipbtn plain" id="colBtn">Collapse all</button>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <section class="view" id="v-map" role="tabpanel" aria-labelledby="t-map">
+      <div class="loading" id="loading">Drawing the map…</div>
+      <svg id="mapSvg" aria-label="Radial mind map of RBI instruments that apply to NBFCs"></svg>
+      <div class="mapctl">
+        <button id="zin" aria-label="Zoom in"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+        <button id="zout" aria-label="Zoom out"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 7h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+        <button id="zfit" aria-label="Fit map to screen"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1.5 5V1.5H5M9 1.5h3.5V5M12.5 9v3.5H9M5 12.5H1.5V9"/></svg></button>
+      </div>
+      <details class="legend" id="legend" open><summary>How to read the map</summary><div class="lg" id="legendBody"></div></details>
+      <div class="tip" id="tip"></div>
+      <div class="hint" id="hint" hidden>
+        <h3>Start here</h3>
+        <ol>
+          <li>Each coloured spoke is a subject area. Click a subject to unfold its instruments, or use Expand all.</li>
+          <li>Click any instrument to open its dossier: concepts, obligations, deadlines, breach and links.</li>
+          <li>When one is selected, its connections light up across the map.</li>
+          <li>An amber <span class="tri"></span> marks entries with unverified items.</li>
+        </ol>
+        <button id="hintOk">Got it</button>
+      </div>
+    </section>
+    <section class="view" id="v-timeline" role="tabpanel" aria-labelledby="t-timeline" hidden></section>
+    <section class="view" id="v-layers" role="tabpanel" aria-labelledby="t-layers" hidden></section>
+    <section class="view" id="v-updates" role="tabpanel" aria-labelledby="t-updates" hidden></section>
+    <section class="view" id="v-glossary" role="tabpanel" aria-labelledby="t-glossary" hidden></section>
+
+    <div class="pshade" id="pshade"></div>
+    <aside class="panel" id="panel" aria-label="Instrument dossier" aria-hidden="true">
+      <div class="pscroll" id="pscroll">
+        <div class="ph" id="ph"></div>
+        <div class="pt" id="pt"></div>
+        <div class="pb" id="pb"></div>
+      </div>
+    </aside>
+  </main>
+<div id="glpop" role="dialog" aria-label="Term definition" hidden></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script>
+(() => {
+"use strict";
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const TAU = Math.PI * 2;
+const RM = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const DUR = RM ? 0 : 750;
+const setHash = h => { try { history.replaceState(null, "", "#"+h); } catch(e){} };
+const store = {
+  get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } },
+  set(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+};
+/* light / dark switch: follows the system until the viewer picks one */
+const SUN = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="3"/><path d="M8 1v1.6M8 13.4V15M1 8h1.6M13.4 8H15M3 3l1.1 1.1M11.9 11.9 13 13M3 13l1.1-1.1M11.9 4.1 13 3"/></svg>';
+const MOON = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M13.5 9.6A5.8 5.8 0 0 1 6.4 2.5a5.8 5.8 0 1 0 7.1 7.1z"/></svg>';
+const sysDark = () => window.matchMedia("(prefers-color-scheme: dark)").matches;
+function curTheme(){ return document.documentElement.dataset.theme || (sysDark() ? "dark" : "light"); }
+function paintThemeBtn(){ const b = document.getElementById("themeBtn"); if (!b) return; const d = curTheme()==="dark"; b.innerHTML = d ? SUN : MOON; b.setAttribute("aria-label", d ? "Switch to light mode" : "Switch to dark mode"); b.title = d ? "Light mode" : "Dark mode"; }
+{ const t = store.get("rmap.theme"); if (t==="light"||t==="dark") document.documentElement.dataset.theme = t; }
+paintThemeBtn();
+document.getElementById("themeBtn").onclick = () => { const t = curTheme()==="dark" ? "light" : "dark"; document.documentElement.dataset.theme = t; store.set("rmap.theme", t); paintThemeBtn(); };
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", paintThemeBtn);
+
+/* ---------------- state ---------------- */
+const S = {
+  cfg:null, meta:null, items:[], byId:new Map(), themes:[], cats:[], catById:new Map(),
+  links:[], applies:new Map(), out:new Map(), inn:new Map(),
+  view:"map", selected:null, collapsed:new Set(), colorBy:"theme", showWeb:false,
+  f:{layer:"", cat:"", type:"", status:"", unv:false, q:""},
+  pos:new Map(), R1:150, R2:260, ptab:"overview", wide:false, keepScroll:false
+};
+S.wide = store.get("rmap.wide")==="1";
+
+/* relation vocabulary: [label when this instrument is the source, label when it is the target, colour var] */
+const REL = {
+  issued_under:["Issued under","Instruments issued under it","--r-rel-issued"],
+  cross_references:["Refers to","Referred to by","--r-rel-xref"],
+  supersedes:["Replaces","Replaced by","--r-rel-super"],
+  migrated_from:["Took provisions from","Provisions moved to","--r-rel-mig"],
+  framework:["Operates within","Framework for","--r-rel-frame"],
+  related:["Related","Related","--r-rel-other"],
+  escalation_from:["Escalation from","Escalates to","--r-rel-other"],
+  introduced:["Introduced","Introduced by","--r-rel-other"],
+  implemented_by:["Implemented through","Implements","--r-rel-other"]
+};
+const relInfo = r => REL[r] || [r.replace(/_/g," "), r.replace(/_/g," ")+" (from)", "--r-rel-other"];
+
+/* ---------------- classification helpers ---------------- */
+function statusClass(r){
+  const s = (r.status||"").toLowerCase();
+  if (/\b(superseded|repealed|withdrawn|rescinded)\b/.test(s) || /superseded/i.test(r.type||"")) return "superseded";
+  if (/updated|amended;|as updated|\(20\d\d-/.test(s) || (/^\d{4}-\d{2}-\d{2}/.test(r.updated_as_on||"") && /^\d{4}-\d{2}-\d{2}/.test(r.issue_date||"") && r.updated_as_on.slice(0,10) > r.issue_date.slice(0,10))) return "amended";
+  return "inforce";
+}
+const STATUS_LABEL = {inforce:"In force", amended:"In force, amended since issue", superseded:"Superseded / repealed"};
+const STATUS_VAR = {inforce:"--st-inforce", amended:"--st-amended", superseded:"--st-superseded"};
+function symFor(type){
+  const t = (type||"").toLowerCase();
+  if (/supersed/.test(t)) return d3.symbolCircle;
+  if (/\bact\b|code|statute/.test(t)) return d3.symbolSquare;
+  if (/regulation|rule/.test(t)) return d3.symbolDiamond;
+  if (/scheme/.test(t)) return d3.symbolTriangle;
+  if (/notif|press|circular/.test(t)) return d3.symbolStar;
+  if (/direction/.test(t)) return d3.symbolCircle;
+  return d3.symbolWye;
+}
+function shortLabel(r, gLabel){
+  let s = r.short_name || gLabel || r.title || r.id;
+  if (s.length < 8 && r.title) s = r.title;
+  s = s.replace(/^Master Directions?\s*(–|-|on)\s*/i, "").replace(/^Reserve Bank of India\s*/i,"RBI ");
+  return s;
+}
+const trunc = (s,n) => s.length > n ? s.slice(0,n-1).trimEnd()+"…" : s;
+function themeShort(t){ return t.replace(/\s*\(.*\)\s*$/,""); }
+
+/* ---------------- data load ---------------- */
+async function getJSON(u){
+  const r = await fetch(u, {cache:"no-cache"});
+  if (!r.ok) throw new Error(u+" returned "+r.status);
+  return r.json();
+}
+async function boot(){
+  try{
+    const man = await getJSON("maps/manifest.json");
+    const sw = $("#mapSwitch");
+    if (man.maps.length > 1){
+      sw.style.display = "inline-block";
+      sw.innerHTML = man.maps.map(m=>`<option value="${esc(m.id)}">${esc(m.title)}</option>`).join("");
+      sw.onchange = () => { store.set("rmap.map", sw.value); location.reload(); };
+    }
+    const want = store.get("rmap.map");
+    const cfg = man.maps.find(m=>m.id===want) || man.maps.find(m=>m.id===man.default) || man.maps[0];
+    sw.value = cfg.id;
+    const [reg, graph] = await Promise.all([getJSON(cfg.register), getJSON(cfg.graph)]);
+    if (cfg.updates) { try { S.upd = await getJSON(cfg.updates); } catch(e){ console.warn("updates not loaded", e); } }
+    if (cfg.glossary) { try { S.gl = await getJSON(cfg.glossary); } catch(e){ console.warn("glossary not loaded", e); } }
+    build(cfg, reg, graph);
+  }catch(e){
+    $("#loading").innerHTML = `<div class="err"><b>The map data did not load.</b><br>${esc(e.message)}. Reload the page; if it persists, the data files beside this page are missing or malformed.</div>`;
+    console.error(e);
+  }
+}
+
+function build(cfg, reg, graph){
+  S.cfg = cfg; S.meta = reg.meta || graph.meta || {};
+  S.mismatch = !!(reg.meta && graph.meta && reg.meta.as_of && graph.meta.as_of && reg.meta.as_of !== graph.meta.as_of);
+  const gN = new Map(graph.nodes.map(n=>[n.id,n]));
+  S.items = reg.instruments.map(r => {
+    const g = gN.get(r.id) || {};
+    return Object.assign({}, r, {
+      label: shortLabel(r, g.label), theme: r.theme || g.group || "Other",
+      sc: statusClass(r), unv: !!r.has_unverified_items, url: r.official_url || g.url || ""
+    });
+  });
+  S.items.forEach(it => S.byId.set(it.id, it));
+  // categories: graph nodes that are not instruments
+  S.cats = graph.nodes.filter(n => !S.byId.has(n.id)).map(n => ({id:n.id, label:n.label, group:n.group}));
+  S.cats.forEach(c => S.catById.set(c.id, c));
+  // themes in order of first appearance; history theme last
+  const order = [];
+  S.items.forEach(it => { if (!order.includes(it.theme)) order.push(it.theme); });
+  if (cfg.historyTheme && order.includes(cfg.historyTheme)) { order.splice(order.indexOf(cfg.historyTheme),1); order.push(cfg.historyTheme); }
+  const typeRank = t => /act|code/i.test(t)?0:/direction/i.test(t)?1:/regulation/i.test(t)?2:3;
+  S.themes = order.map((t,i) => {
+    const items = S.items.filter(it => it.theme===t).sort((a,b)=> (a.sc==="superseded")-(b.sc==="superseded") || typeRank(a.type)-typeRank(b.type) || a.label.localeCompare(b.label));
+    return {id:"TH:"+i, name:t, short:themeShort(t), idx:i, items, history: t===cfg.historyTheme};
+  });
+  S.themeOf = new Map(); S.themes.forEach(t => t.items.forEach(it => S.themeOf.set(it.id, t)));
+  // edges
+  graph.edges.forEach(e => {
+    if (e.relation === "applies_to" && S.byId.has(e.source) && S.catById.has(e.target)) {
+      if (!S.applies.has(e.source)) S.applies.set(e.source, new Map());
+      S.applies.get(e.source).set(e.target, e.basis||"");
+      return;
+    }
+    if (!S.byId.has(e.source) || !S.byId.has(e.target) || e.source===e.target) return;
+    S.links.push(e);
+    (S.out.get(e.source) || S.out.set(e.source, []).get(e.source)).push(e);
+    (S.inn.get(e.target) || S.inn.set(e.target, []).get(e.target)).push(e);
+  });
+  // cached search text
+  S.items.forEach(it => {
+    it._hay = [it.id,it.label,it.title,it.reference_no,it.theme,it.type,...(it.key_concepts||[]),...(it.core_obligations||[]),...(it.timelines||[]),...(it.consequences_stated||[]),...(it.applies_to||[]),...(it.statutory_powers||[])].join(" • ").toLowerCase();
+  });
+  injectThemeColours();
+  renderHeader();
+  if (S.upd) { $("#t-updates").hidden = false; $("#ucount").textContent = (S.upd.updates||[]).length || ""; }
+  initGlossary();
+  buildFilters();
+  buildLegend();
+  initMap();
+  initRouting();
+  $("#loading").remove();
+}
+
+/* theme colours: generated per map so any number of subjects works in both themes */
+function injectThemeColours(){
+  const hues = [200,28,152,268,345,92,222,44,178,312,120,8,248,62,190,290];
+  const L = [], D = [];
+  S.themes.forEach((t,i) => {
+    if (t.history){ L.push(`--th${i}:hsl(30 6% 55%)`); D.push(`--th${i}:hsl(40 6% 62%)`); return; }
+    const h = hues[i % hues.length];
+    L.push(`--th${i}:hsl(${h} 42% 40%)`); D.push(`--th${i}:hsl(${h} 48% 70%)`);
+  });
+  const css = `:root{${L.join(";")}}@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){${D.join(";")}}}:root[data-theme="dark"]{${D.join(";")}}`;
+  const st = document.createElement("style"); st.textContent = css; document.head.appendChild(st);
+  // type colours
+  const types = [...new Set(S.items.map(i=>i.type))].sort((a,b)=> S.items.filter(i=>i.type===b).length - S.items.filter(i=>i.type===a).length);
+  const pal = ["--p1","--p7","--p2","--p3","--p5","--p4","--p6"];
+  S.typeVar = new Map(); let k = 0;
+  types.forEach(t => S.typeVar.set(t, /supersed/i.test(t) ? "--p8" : pal[(k++) % pal.length]));
+}
+const themeVar = it => `var(--th${S.themeOf.get(it.id).idx})`;
+function fillFor(it){
+  if (S.colorBy==="type") return `var(${S.typeVar.get(it.type)})`;
+  if (S.colorBy==="status") return `var(${STATUS_VAR[it.sc]})`;
+  return themeVar(it);
+}
+
+/* ---------------- header & filters ---------------- */
+function fmtDate(s){
+  if (!s) return "—";
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(s); if (!m) return s;
+  return `${m[3]}-${m[2]}-${m[1]}`;
+}
+function renderHeader(){
+  $("#mapTitle").textContent = S.cfg.title;
+  document.title = S.cfg.title;
+  const asof = S.meta.as_of ? fmtDate(S.meta.as_of) : "";
+  $("#mapSub").innerHTML = (S.mismatch ? `<span style="color:var(--danger);font-weight:600">Data files are from different refreshes (register ${esc(S.meta.as_of)}). Reload shortly. · </span>` : "") + `Register as of <b>${esc(asof)}</b> · ${S.items.length} instruments relevant to NBFCs · ${S.links.length + [...S.applies.values()].reduce((a,m)=>a+m.size,0)} links`;
+  const n = k => S.items.filter(i=>i.sc===k).length;
+  const u = S.items.filter(i=>i.unv).length;
+  $("#stats").innerHTML =
+    `<button class="stat" data-s="inforce" aria-pressed="false"><span class="dot" style="background:var(--st-inforce)"></span><b>${n("inforce")}</b> in force</button>`+
+    `<button class="stat" data-s="amended" aria-pressed="false"><span class="dot" style="background:var(--st-amended)"></span><b>${n("amended")}</b> in force, amended</button>`+
+    `<button class="stat" data-s="superseded" aria-pressed="false"><span class="dot" style="background:none;border:1.5px dashed var(--st-superseded);box-sizing:border-box"></span><b>${n("superseded")}</b> superseded</button>`+
+    `<button class="stat" data-s="unv" aria-pressed="false"><span class="tri"></span><b>${u}</b> with unverified items</button>`;
+  $("#stats").onclick = e => {
+    const b = e.target.closest(".stat"); if (!b) return;
+    const s = b.dataset.s;
+    if (s==="unv") S.f.unv = !S.f.unv; else S.f.status = S.f.status===s ? "" : s;
+    syncFilterUI(); applyFilters();
+  };
+}
+function buildFilters(){
+  const layers = (S.cfg.layers||[]).filter(id => S.catById.has(id));
+  $("#layerSeg").innerHTML = `<button data-l="" aria-pressed="true">All</button>` + layers.map(id => `<button data-l="${esc(id)}" aria-pressed="false">${esc(S.catById.get(id).label.replace(/\s*Layer$/i,""))}</button>`).join("");
+  $("#layerSeg").onclick = e => { const b = e.target.closest("button"); if (!b) return; S.f.layer = b.dataset.l; syncFilterUI(); applyFilters(); };
+  if (!layers.length) { $("#layerSeg").hidden = true; $("#layerSeg").previousElementSibling.hidden = true; }
+  const others = S.cats.filter(c => !layers.includes(c.id));
+  $("#catSel").innerHTML = `<option value="">Any category</option>` + others.map(c=>`<option value="${esc(c.id)}">${esc(c.label)}</option>`).join("");
+  $("#catSel").onchange = e => { S.f.cat = e.target.value; syncFilterUI(); applyFilters(); };
+  const types = [...S.typeVar.keys()];
+  $("#typeSel").innerHTML = `<option value="">All types</option>` + types.map(t=>`<option value="${esc(t)}">${esc(t)}</option>`).join("");
+  $("#typeSel").onchange = e => { S.f.type = e.target.value; applyFilters(); };
+  $("#statusSel").onchange = e => { S.f.status = e.target.value; syncFilterUI(); applyFilters(); };
+  $("#unvBtn").onclick = () => { S.f.unv = !S.f.unv; syncFilterUI(); applyFilters(); };
+  $("#resetBtn").onclick = () => { S.f = {layer:"",cat:"",type:"",status:"",unv:false,q:""}; $("#q").value=""; syncFilterUI(); applyFilters(); };
+  $("#colorSeg").onclick = e => { const b = e.target.closest("button"); if (!b) return; S.colorBy = b.dataset.c; [...$("#colorSeg").children].forEach(x=>x.setAttribute("aria-pressed", x===b)); paintColours(); buildLegend(); };
+  $("#webBtn").onclick = () => { S.showWeb = !S.showWeb; $("#webBtn").setAttribute("aria-pressed", S.showWeb); joinMap(); paint(); };
+  $("#expBtn").onclick = () => { S.collapsed.clear(); relayout(true); };
+  $("#colBtn").onclick = () => { S.themes.forEach(t=>S.collapsed.add(t.id)); relayout(true); };
+  $("#caveat").title = S.cfg.categoryCaveat || "";
+  if (S.cfg.caveatShort) $("#caveat").textContent = S.cfg.caveatShort;
+  initSearch();
+}
+function syncFilterUI(){
+  [...$("#layerSeg").children].forEach(b => b.setAttribute("aria-pressed", b.dataset.l===S.f.layer));
+  $("#catSel").value = S.f.cat; $("#typeSel").value = S.f.type; $("#statusSel").value = S.f.status;
+  $("#unvBtn").setAttribute("aria-pressed", S.f.unv);
+  [...$("#stats").children].forEach(b => b.setAttribute("aria-pressed", b.dataset.s==="unv" ? S.f.unv : b.dataset.s===S.f.status));
+  $("#caveat").classList.toggle("on", !!(S.f.layer||S.f.cat));
+  const any = S.f.layer||S.f.cat||S.f.type||S.f.status||S.f.unv||S.f.q;
+  $("#resetBtn").setAttribute("aria-pressed", !!any);
+}
+function matches(it){
+  const f = S.f;
+  if (f.layer && !layerHit(it.id, f.layer)) return false;
+  if (f.cat && !(S.applies.get(it.id)?.has(f.cat))) return false;
+  if (f.type && it.type !== f.type) return false;
+  if (f.status && it.sc !== f.status) return false;
+  if (f.unv && !it.unv) return false;
+  if (f.q && f.q.length > 1 && !(S.qIds ? S.qIds.has(it.id) : it._hay.includes(f.q))) return false;
+  return true;
+}
+/* layers are cumulative where the manifest says so (SBR: a Middle Layer NBFC also follows Base Layer rules) */
+function layerHit(id, layer){
+  const ap = S.applies.get(id); if (!ap) return false;
+  if (ap.has(layer)) return true;
+  if (!S.cfg.cumulativeLayers) return false;
+  const L = S.cfg.layers || [], i = L.indexOf(layer);
+  return L.slice(0, i).some(l => ap.has(l));
+}
+const filtering = () => !!(S.f.layer||S.f.cat||S.f.type||S.f.status||S.f.unv||(S.f.q&&S.f.q.length>1));
+function applyFilters(){
+  syncFilterUI();
+  paintFilter();
+  if (S.view==="timeline") renderTimeline();
+  if (S.view==="layers") renderMatrix();
+}
+
+/* ---------------- glossary ---------------- */
+const glSlug = t => String(t).toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+const reEsc = x => x.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+const GL_NOLINK = new Set(["nbfc","nbfi"]);   // too common to underline everywhere
+function initGlossary(){
+  if (!S.gl || !(S.gl.terms||[]).length) return;
+  S.glBy = new Map(); const cs = new Map(), ci = new Map();
+  S.gl.terms.forEach(t => {
+    t.slug = glSlug(t.term); S.glBy.set(t.slug, t);
+    t.forms = [...new Set([t.term, t.full, ...(t.aka||[])].filter(Boolean).map(x=>x.toLowerCase()))];
+    if (GL_NOLINK.has(t.slug)) return;
+    [t.term, ...(t.aka||[])].forEach(f => {
+      if (!f || f.length < 2) return;
+      if (!/[a-z]/.test(f)) { if (!cs.has(f)) cs.set(f, t.slug); }      // abbreviation: exact case
+      else if (!ci.has(f.toLowerCase())) ci.set(f.toLowerCase(), t.slug); // phrase: any case
+    });
+  });
+  const alt = m => [...m.keys()].sort((a,b)=>b.length-a.length).map(reEsc).join("|");
+  S.glCS = cs.size ? { re: new RegExp(`(?<![\\w-])(${alt(cs)})(s?)(?![\\w-])`, "g"), map: cs, ci:false } : null;
+  S.glCI = ci.size ? { re: new RegExp(`(?<![\\w-])(${alt(ci)})(?![\\w-])`, "gi"), map: ci, ci:true } : null;
+  $("#t-glossary").hidden = false;
+  document.addEventListener("keydown", e => { if (e.key==="Escape") hideGlPop(); });
+  window.addEventListener("resize", hideGlPop);
+  $("#pscroll")?.addEventListener("scroll", () => { if (Date.now() - (S.glAt||0) > 600) hideGlPop(); }, {passive:true});
+}
+/* wraps glossary terms in already-escaped HTML; skips tags and text inside buttons/links; each term once per call */
+function glLink(html){
+  if (!S.glBy) return html;
+  const used = new Set();
+  for (const L of [S.glCI, S.glCS]) {
+    if (!L) continue;
+    let depth = 0;
+    html = html.split(/(<[^>]+>)/).map(seg => {
+      if (seg.startsWith("<")) { if (/^<(button|a)\b/i.test(seg)) depth++; else if (/^<\/(button|a)>/i.test(seg)) depth = Math.max(0, depth-1); return seg; }
+      if (depth || !seg) return seg;
+      return seg.replace(L.re, (m, w, pl) => {
+        const slug = L.map.get(L.ci ? w.toLowerCase() : w);
+        if (!slug || used.has(slug)) return m;
+        used.add(slug); const t = S.glBy.get(slug);
+        return `<button type="button" class="gl" data-gl="${slug}" title="${esc(t.full||t.term)}: tap for a plain-language explanation">${m}</button>`;
+      });
+    }).join("");
+  }
+  return html;
+}
+function seeChips(t){ return (t.see||[]).filter(id=>S.byId.has(id)).map(id=>ichip(id)).join(""); }
+function showGlPop(slug, anchor){
+  const t = S.glBy && S.glBy.get(slug); if (!t) return;
+  const pop = $("#glpop"), chips = seeChips(t);
+  pop.innerHTML = `<button class="x" aria-label="Close">×</button><h4>${esc(t.term)}</h4>${t.full && t.full!==t.term?`<div class="full">${esc(t.full)}</div>`:""}<p>${esc(t.def)}</p>${chips?`<div style="font-size:11.5px;color:var(--muted)">Where it is defined or used</div><div class="chips">${chips}</div>`:""}<button class="more" data-glopen="${slug}">Open the full glossary →</button>`;
+  pop.hidden = false; S.glAt = Date.now();
+  pop.querySelector(".x").onclick = hideGlPop;
+  const r = anchor.getBoundingClientRect(), W = innerWidth, H = innerHeight, pw = pop.offsetWidth, ph = pop.offsetHeight;
+  let x = Math.min(Math.max(12, r.left), W - pw - 12), y = r.bottom + 8;
+  if (y + ph > H - 12) y = Math.max(12, r.top - ph - 8);
+  pop.style.left = x + "px"; pop.style.top = y + "px";
+}
+function hideGlPop(){ const p = document.getElementById("glpop"); if (p && !p.hidden) p.hidden = true; }
+function renderGlossary(filter){
+  const host = $("#v-glossary"); if (!S.glBy) { host.innerHTML = `<div class="vpad"><p class="empty">No glossary for this map.</p></div>`; return; }
+  const f = (filter||"").trim().toLowerCase();
+  const terms = S.gl.terms.slice().sort((a,b)=>a.term.localeCompare(b.term, "en", {sensitivity:"base"}))
+    .filter(t => !f || t.forms.some(x=>x.includes(f)) || t.def.toLowerCase().includes(f));
+  const groups = d3.groups(terms, t => /[a-z]/i.test(t.term[0]) ? t.term[0].toUpperCase() : "#");
+  const body = groups.map(([L, ts]) => `<div class="gl-l" id="gll-${L}">${L}</div>` + ts.map(t => `<article class="glent" id="gl-${t.slug}"><h3>${esc(t.term)}${t.full && t.full!==t.term?`<span>${esc(t.full)}</span>`:""}</h3><p>${esc(t.def)}</p>${(t.aka||[]).length?`<div class="aka">Also written as: ${t.aka.map(esc).join(", ")}</div>`:""}${seeChips(t)?`<div class="chips">${seeChips(t)}</div>`:""}</article>`).join("")).join("");
+  const keep = document.activeElement && document.activeElement.classList.contains("gfind");
+  host.innerHTML = `<div class="vpad"><div class="glwrap"><div class="ghead"><h2>Glossary</h2><p>${terms.length} of ${S.gl.terms.length} terms in plain language. ${esc(S.gl.meta?.note||"")} Underlined terms anywhere on the page open these explanations.</p></div>
+    <input class="gfind" type="search" placeholder="Filter terms, e.g. SPE or ombudsman" value="${esc(filter||"")}" aria-label="Filter glossary terms">
+    <nav class="az" aria-label="Jump to letter">${groups.map(([L])=>`<a href="#gll-${L}" data-az="${L}">${L}</a>`).join("")}</nav>${body || `<p class="empty">No term matches “${esc(filter)}”.</p>`}</div></div>`;
+  const inp = host.querySelector(".gfind");
+  inp.oninput = () => { const y = inp.selectionStart; renderGlossary(inp.value); const n = $("#v-glossary .gfind"); n.focus(); n.setSelectionRange(y,y); };
+  if (keep && !filter) inp.focus();
+  host.querySelector(".az").onclick = e => { const a = e.target.closest("[data-az]"); if (!a) return; e.preventDefault(); document.getElementById("gll-"+a.dataset.az)?.scrollIntoView({behavior: RM?"auto":"smooth", block:"start"}); };
+}
+function openGlossary(slug){
+  hideGlPop();
+  if (S.selected) select(null);
+  if (S.view!=="glossary") setView("glossary"); else renderGlossary();
+  if (!slug) return;
+  setHash("gl-"+slug);
+  requestAnimationFrame(() => { const el = document.getElementById("gl-"+slug); if (!el) return; el.scrollIntoView({behavior: RM?"auto":"smooth", block:"center"}); el.classList.add("flash"); setTimeout(()=>el.classList.remove("flash"), 1800); });
+}
+
+/* ---------------- search & ask ---------------- */
+const STOP = new Set("a an the of to in on for and or is are was were be been by with as at from that this these those it its what which who whom whose when where why how do does did can could should would will shall may must i we you they he she my our your their me us them about any all there under per into than then so if not no yes also please tell explain meaning mean means define definition rbi rule rules guideline guidelines direction directions applicable apply applies regarding related relevant".split(" "));
+const QWORD = /^(what|which|who|when|where|why|how|does|do|is|are|can|should|must|will|whether|explain|tell)\b/i;
+const SFIELDS = [
+  ["Name", it => [it.label, it.title, it.id, it.reference_no].filter(Boolean), 6],
+  ["Concept", it => it.key_concepts, 4],
+  ["Obligation", it => it.core_obligations, 3],
+  ["Deadline", it => it.timelines, 2.5],
+  ["Breach", it => it.consequences_stated, 2.5],
+  ["Applies to", it => it.applies_to, 2],
+  ["Excluded", it => it.excluded, 1.5],
+  ["Powers", it => it.statutory_powers, 2],
+  ["Cross-reference", it => it.cross_references, 1],
+  ["Theme", it => [it.theme], 1]
+];
+function parseQuery(raw){
+  let q = " " + raw.toLowerCase().replace(/[“”"’']/g," ").replace(/\s+/g," ") + " ";
+  const groups = [], glHits = [];
+  const para = /\b(paras?|paragraph|section|s\.|rule|regulation)\s*([0-9]+[a-z]?(?:\([a-z0-9]+\))?)/g;
+  let m; while ((m = para.exec(q))) groups.push({ label: m[0].trim(), alts: [m[0].trim(), (m[1].startsWith("s")?"s.":"para")+" "+m[2], "paras "+m[2]] });
+  q = q.replace(para, " ");
+  if (S.glBy) {   // longest glossary forms first, so "special purpose entity" wins over "entity"
+    const forms = []; S.gl.terms.forEach(t => t.forms.forEach(f => forms.push([f, t])));
+    forms.sort((a,b)=>b[0].length-a[0].length);
+    for (const [f, t] of forms) {
+      if (f.length < 2) continue;
+      const re = new RegExp(`(?<![a-z0-9-])${reEsc(f)}s?(?![a-z0-9-])`);
+      if (re.test(q) && !glHits.includes(t)) { glHits.push(t); groups.push({ label: t.term, alts: t.forms.filter(x=>x.length>1), gl: t }); q = q.replace(re, " "); }
+    }
+  }
+  q.split(/[^a-z0-9₹.-]+/).map(w=>w.replace(/^[.-]+|[.-]+$/g,"")).filter(w => w.length>1 && !STOP.has(w)).forEach(w => {
+    const alts = [w]; if (w.length>4 && w.endsWith("s")) alts.push(w.slice(0,-1)); if (w.length>6 && /(ing|ion|ed)$/.test(w)) alts.push(w.replace(/(ing|ion|ed)$/,""));
+    if (!groups.some(g=>g.alts.includes(w))) groups.push({ label: w, alts });
+  });
+  const altRe = g => g.alts.map(a => reEsc(a) + (a.length >= 5 ? "[a-z]*" : "s?(?![a-z0-9])")).join("|");
+  groups.forEach(g => { g.src = altRe(g); g.re = new RegExp(`(?<![a-z0-9])(?:${g.src})`, "i"); g.reG = new RegExp(`(?<![a-z0-9])(?:${g.src})`, "gi"); });
+  return { groups, glHits, question: /\?\s*$/.test(raw) || QWORD.test(raw.trim()) || raw.trim().split(/\s+/).length >= 5 };
+}
+function snippet(text, groups){
+  const t = String(text).replace(/^UNVERIFIED\s*(\([^)]*\))?\s*:\s*/,"");
+  let first = t.length; groups.forEach(g => { const m = g.re.exec(t); if (m && m.index < first) first = m.index; });
+  let a = Math.max(0, first - 70), b = Math.min(t.length, a + 230);
+  if (a>0) { const sp = t.indexOf(" ", a); if (sp>0 && sp<first) a = sp+1; }
+  let out = esc((a>0?"…":"") + t.slice(a, b) + (b<t.length?"…":""));
+  groups.forEach(g => { out = out.replace(new RegExp(`(?<![a-z0-9>])(${g.alts.map(a => reEsc(esc(a)) + (a.length >= 5 ? "[a-z]*" : "s?(?![a-z0-9])")).join("|")})`, "gi"), `<mark class="q">$1</mark>`); });
+  return out;
+}
+function rankDocs(P){
+  const N = S.items.length, G = P.groups;
+  if (!G.length) return [];
+  const df = G.map(g => S.items.filter(it => g.re.test(it._hay)).length);
+  const idf = df.map(d => Math.log(1 + N / Math.max(1, d)));
+  const out = [];
+  S.items.forEach(it => {
+    let score = 0, count = 0; const covered = new Set(), hits = [];
+    SFIELDS.forEach(([lab, get, w]) => {
+      (get(it)||[]).forEach(txt => {
+        if (!txt) return; let local = 0; const gs = [];
+        G.forEach((g, gi) => { if (g.re.test(txt)) { const n = Math.min(3, (String(txt).match(g.reG)||[]).length); local += w * n * idf[gi]; gs.push(gi); covered.add(gi); } });
+        if (gs.length) { score += local; count += 1; hits.push({ lab, txt, w: local * gs.length }); }
+      });
+    });
+    if (!score) return;
+    const cov = covered.size / G.length;
+    score *= Math.pow(cov, 1.5);
+    if (it.sc === "superseded") score *= 0.6;
+    hits.sort((a,b)=>b.w-a.w);
+    out.push({ it, score, count, cov, hits });
+  });
+  out.sort((a,b)=>b.score-a.score);
+  return out;
+}
+function rankUpdates(P){
+  if (!S.upd || !P.groups.length) return [];
+  return (S.upd.updates||[]).map(u => {
+    const hay = [u.title, u.applies, ...(u.changes||[]), ...(u.actions||[]), ...Object.values(u.impact||{}).map(x=>x.text)].join(" • ");
+    const n = P.groups.filter(g => g.re.test(hay)).length;
+    return { u, n, hay };
+  }).filter(x => x.n && x.n >= Math.ceil(P.groups.length/2)).sort((a,b)=>b.n-a.n).slice(0,3);
+}
+function aiExtracts(L){
+  const out = [];
+  (L.P.glHits||[]).slice(0,2).forEach(t => out.push(`[GLOSSARY ${t.term}] ${t.full||""}: ${t.def}`));
+  L.docs.slice(0,5).forEach(d => {
+    const lines = d.hits.filter(x=>x.lab!=="Name").slice(0, L.docs.length<=2?12:6).map(x => `- ${x.lab}: ${String(x.txt).slice(0,300)}`);
+    out.push(`[${d.it.id}] ${d.it.label}${d.it.title&&d.it.title!==d.it.label?` (${d.it.title})`:""}${d.it.sc==="superseded"?" [SUPERSEDED]":""}\n${lines.join("\n")}`);
+  });
+  return out;
+}
+function aiFormat(t){
+  return esc(t).split(/\n{2,}/).map(par => `<p>${par.replace(/\n/g,"<br>").replace(/\[([A-Z][A-Z0-9]*(?:-[A-Z0-9]+)+)\]/g, (m,id) => S.byId.has(id) ? `<button class="lnk" data-id="${id}">${id}</button>` : m)}</p>`).join("");
+}
+async function askAI(btn){
+  const L = S.lastQ, out = btn.nextElementSibling; if (!L || !out) return;
+  btn.disabled = true; btn.textContent = "Thinking…"; out.innerHTML = "";
+  try {
+    const r = await fetch(S.cfg.ai_endpoint, { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ question: L.raw.slice(0,500), extracts: aiExtracts(L) }) });
+    const j = await r.json().catch(() => ({}));
+    out.innerHTML = j.answer ? `<div class="aians">${aiFormat(j.answer)}</div><p class="disc">AI-generated answer. It can be wrong. Not legal advice.</p>` : `<p class="disc">${esc(j.error || "The assistant is not available right now.")}</p>`;
+    btn.remove();
+  } catch(e) {
+    out.innerHTML = `<p class="disc">The assistant could not be reached. The search results above still apply.</p>`;
+    btn.disabled = false; btn.textContent = "Try the AI assistant again";
+  }
+}
+function initSearch(){
+  const q = $("#q"), res = $("#results");
+  let hits = [], cur = 0, timer = 0;
+  const show = () => {
+    const raw = q.value.trim(), v = raw.toLowerCase();
+    if (v.length < 2){ S.qIds = null; S.f.q = ""; applyFilters(); res.hidden = true; return; }
+    const P = parseQuery(raw);
+    const docs = rankDocs(P);
+    S.lastQ = { raw, P, docs };
+    S.qIds = new Set(docs.map(d=>d.it.id)); S.f.q = v; applyFilters();
+    hits = docs.slice(0, 15);
+    const top = hits[0] ? hits[0].score : 1;
+    const ups = rankUpdates(P);
+    let h = "";
+    if (P.question && hits.length) {
+      const d = hits[0], sn = d.hits.find(x=>x.lab!=="Name") || d.hits[0];
+      h += `<div class="rsec">Best place to look</div><div class="rask"><p>Start with <button class="lnk" data-id="${esc(d.it.id)}">${esc(d.it.label)}</button>${d.it.title && d.it.title!==d.it.label?` (${esc(trunc(d.it.title, 90))})`:""}.</p>${sn?`<p style="color:var(--ink-2)"><b style="font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink);margin-right:6px">${esc(sn.lab)}</b>${snippet(sn.txt, P.groups)}</p>`:""}${hits[1]?`<p style="font-size:12.5px;color:var(--ink-2)">Also relevant: ${hits.slice(1,3).map(x=>`<button class="lnk" data-id="${esc(x.it.id)}">${esc(trunc(x.it.label,48))}</button>`).join(", ")}</p>`:""}<p class="disc">This helper matches your words against the register. It points you to the rule, it does not interpret it. Not legal advice: read the instrument on rbi.org.in.</p>${S.cfg.ai_endpoint?`<button class="aibtn" data-ai="1">Ask the AI assistant for a short answer</button><div class="aiout" aria-live="polite"></div>`:""}</div>`;
+    }
+    if (P.glHits.length) {
+      h += `<div class="rsec">Meaning</div>` + P.glHits.slice(0,2).map(t => `<div class="rgl"><h4>${esc(t.term)}${t.full && t.full!==t.term?`<span>${esc(t.full)}</span>`:""}</h4><p>${esc(t.def)}</p><button class="lnk" data-glopen="${t.slug}">Open in glossary →</button></div>`).join("");
+    }
+    if (ups.length) {
+      h += `<div class="rsec">In the last 7 days</div>` + ups.map(x => `<button class="rupd" data-upd="1">${esc(x.u.title)}<span>${esc(fmtDate(x.u.date))} · ${esc(x.u.kind||"")}</span></button>`).join("");
+    }
+    if (hits.length) {
+      h += `<div class="rsec">${docs.length} document${docs.length===1?" mentions":"s mention"} this, most relevant first</div>` + hits.map((d,i) => {
+        const sn = d.hits.filter(x=>x.lab!=="Name").slice(0,2); if (!sn.length) sn.push(d.hits[0]);
+        const pct = Math.max(6, Math.round(100 * d.score / top));
+        return `<button class="rdoc ${i===0?"on":""}" data-id="${esc(d.it.id)}"><span class="rt"><span class="dot" style="background:${themeVar(d.it)};flex:none"></span><span class="lbl2">${esc(d.it.label)}</span>${d.it.sc==="superseded"?`<span class="ukind" style="flex:none">superseded</span>`:""}</span>${d.it.title && d.it.title!==d.it.label?`<span class="rsub">${esc(d.it.title)}</span>`:""}<span class="rmeta"><span class="rel" title="Relevance ${pct}%"><i style="width:${pct}%"></i></span><span>${d.count} matching line${d.count===1?"":"s"}</span>${d.cov<1?`<span>matches ${Math.round(d.cov*P.groups.length)} of ${P.groups.length} search words</span>`:""}</span><span class="snips">${sn.map(x=>`<span class="snip"><b>${esc(x.lab)}</b>${snippet(x.txt, P.groups)}</span>`).join("")}</span></button>`;
+      }).join("") + (docs.length > hits.length ? `<div class="none" style="padding:8px 10px">${docs.length - hits.length} more match. The mind map now shows only the matching documents.</div>` : "");
+    }
+    if (!h) h = `<div class="none">Nothing in the register mentions “${esc(raw)}”. Try a shorter word or an abbreviation (for example KYC, LTV, SPE), or open the <button class="lnk" data-glopen="">glossary</button>.</div>`;
+    cur = 0; res.innerHTML = h; res.hidden = false; res.scrollTop = 0;
+  };
+  q.addEventListener("input", () => { clearTimeout(timer); timer = setTimeout(show, 110); });
+  q.addEventListener("focus", () => { if (q.value.trim().length>1) show(); });
+  q.addEventListener("keydown", e => {
+    if (e.key==="Escape"){ res.hidden = true; return; }
+    if (res.hidden || !hits.length) return;
+    const docsEl = [...res.querySelectorAll(".rdoc")];
+    if (e.key==="ArrowDown"||e.key==="ArrowUp"){ e.preventDefault(); cur = (cur + (e.key==="ArrowDown"?1:-1) + docsEl.length) % docsEl.length; docsEl.forEach((b,i)=>b.classList.toggle("on",i===cur)); docsEl[cur].scrollIntoView({block:"nearest"}); }
+    if (e.key==="Enter"){ e.preventDefault(); res.hidden = true; goTo(hits[cur].it.id); }
+  });
+  res.addEventListener("click", e => {
+    const b = e.target.closest("[data-id]"); if (b){ res.hidden = true; goTo(b.dataset.id); return; }
+    if (e.target.closest("[data-upd]")) { res.hidden = true; if (S.selected) select(null); setView("updates"); }
+    const ai = e.target.closest("[data-ai]"); if (ai) askAI(ai);
+  });
+  document.addEventListener("click", e => { if (!e.target.closest(".search")) res.hidden = true; });
+  document.addEventListener("keydown", e => { if (e.key==="/" && !/input|textarea|select/i.test(document.activeElement?.tagName||"")) { e.preventDefault(); q.focus(); q.select(); } });
+}
+
+/* ---------------- mind map ---------------- */
+let svg, gRoot, gBr, gWeb, gSup, gSel, gNodes, zoom;
+const P = (a,r) => [r*Math.sin(a), -r*Math.cos(a)];
+function initMap(){
+  svg = d3.select("#mapSvg");
+  gRoot = svg.append("g");
+  gBr = gRoot.append("g"); gWeb = gRoot.append("g"); gSup = gRoot.append("g"); gSel = gRoot.append("g"); gNodes = gRoot.append("g");
+  svg.append("defs").html(`<marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 9 5 0 9z" fill="var(--r-rel-super)"/></marker>`);
+  zoom = d3.zoom().scaleExtent([0.2, 6]).on("zoom", e => gRoot.attr("transform", e.transform));
+  svg.call(zoom).on("dblclick.zoom", null);
+  svg.on("click", e => { if (e.target === svg.node()) select(null); });
+  $("#zin").onclick = () => svg.transition().duration(300).call(zoom.scaleBy, 1.35);
+  $("#zout").onclick = () => svg.transition().duration(300).call(zoom.scaleBy, 1/1.35);
+  $("#zfit").onclick = () => fit(true);
+  S.themes.forEach(t => S.collapsed.add(t.id));
+  const tgt = computeLayout();
+  // opening animation: everything grows out of the hub
+  tgt.forEach((p,id) => S.pos.set(id, {a:p.a, r:0}));
+  S.target = tgt;
+  joinMap();
+  fit(false);
+  tween(tgt, null, RM ? 0 : 1100, () => refit(0));
+  if (window.ResizeObserver) new ResizeObserver(() => refit(120)).observe($("#v-map")); else window.addEventListener("resize", () => refit(120));
+  if (!store.get("rmap.hint")) { $("#hint").hidden = false; }
+  $("#hintOk").onclick = () => { $("#hint").hidden = true; store.set("rmap.hint","1"); };
+  if (window.innerWidth < 1200 || window.innerHeight < 760) $("#legend").open = false;
+}
+function computeLayout(){
+  const GAP = 1.4, out = new Map();
+  let u = 0; const slots = [];
+  S.themes.forEach(t => {
+    const start = u;
+    if (S.collapsed.has(t.id) || !t.items.length) { u += 1.6; slots.push([t, start, u, []]); }
+    else { const ks = t.items.map(it => { const s = u + .5; u += 1; return [it.id, s]; }); slots.push([t, start, u, ks]); }
+    u += GAP;
+  });
+  const total = u;
+  const allCollapsed = S.themes.every(t => S.collapsed.has(t.id));
+  S.R2 = Math.max(280, total * 15.5 / TAU);
+  S.R1 = allCollapsed ? 150 : Math.max(92, S.R2 * .34);
+  out.set("HUB", {a:0, r:0});
+  slots.forEach(([t, s, e, ks]) => {
+    const a = TAU * ((s+e)/2) / total;
+    out.set(t.id, {a, r:S.R1});
+    ks.forEach(([id, uu]) => out.set(id, {a: TAU*uu/total, r:S.R2}));
+  });
+  return out;
+}
+function visibleId(id){
+  const t = S.themeOf.get(id);
+  return S.collapsed.has(t.id) ? t.id : id;
+}
+function relayout(){
+  const tgt = computeLayout();
+  const prev = S.target;
+  // new nodes start from their theme's current position
+  tgt.forEach((p,id) => {
+    if (!S.pos.has(id)) { const t = S.themeOf.get(id); const tp = t && S.pos.get(t.id); S.pos.set(id, tp ? {...tp} : {...p}); }
+  });
+  // leaving nodes travel into their theme
+  const leaving = new Map();
+  S.pos.forEach((p,id) => { if (!tgt.has(id)) { const t = S.themeOf.get(id); leaving.set(id, tgt.get(t.id)); } });
+  S.target = tgt;
+  joinMap(leaving);
+  tween(tgt, leaving, DUR, () => { leaving.forEach((_,id)=>S.pos.delete(id)); joinMap(); paint(); refit(0); });
+  if (S.view==="map") $("#expBtn").blur();
+}
+let timer = null;
+function tween(tgt, leaving, dur, done){
+  if (timer) timer.stop();
+  const from = new Map(); S.pos.forEach((p,id)=>from.set(id,{...p}));
+  const ease = d3.easeCubicInOut;
+  const step = k => {
+    const e = ease(k);
+    const upd = (id, to) => { const f = from.get(id) || to; S.pos.set(id, {a: f.a + (to.a - f.a)*e, r: f.r + (to.r - f.r)*e}); };
+    tgt.forEach((to,id) => upd(id,to));
+    if (leaving) leaving.forEach((to,id) => upd(id,to));
+    paint();
+  };
+  if (!dur) { step(1); done && done(); return; }
+  timer = d3.timer(el => { const k = Math.min(1, el/dur); step(k); if (k>=1){ timer.stop(); timer=null; done && done(); } });
+}
+/* how much of the map area the dossier covers; the map is fitted into what is left on the left */
+function panelCover(w){
+  if (!$("#panel").classList.contains("open")) return 0;
+  const pw = S.wide ? Math.min(1120, w - 24) : Math.min(480, w);
+  return (w - pw) >= 320 ? pw : 0;   // too little room left: fit behind the panel instead
+}
+function fit(anim){
+  const el = $("#v-map"); const w = el.clientWidth, h = el.clientHeight;
+  if (!w || !h || !svg) return;
+  const pw = panelCover(w), aw = w - pw;
+  let cx = 0, cy = 0, bw, bh;
+  const b = (!timer && gRoot.node().getBBox) ? gRoot.node().getBBox() : null;
+  if (b && b.width > 40) { bw = b.width + 28; bh = b.height + 28; cx = b.x + b.width/2; cy = b.y + b.height/2; }
+  else { const ext = (S.collapsed.size===S.themes.length ? S.R1 + 175 : S.R2 + 215); bw = bh = 2*ext; }
+  const k = Math.min(1.6, Math.min(aw / bw, h / bh));
+  const t = d3.zoomIdentity.translate(aw/2 - cx*k, h/2 - cy*k).scale(k);
+  (anim ? svg.transition().duration(DUR) : svg).call(zoom.transform, t);
+}
+let fitT = null;
+const refit = (delay=0) => { clearTimeout(fitT); fitT = setTimeout(() => { if (S.view==="map") fit(true); }, delay); };
+function zoomTo(id){ refit(0); }
+
+/* data joins (create/remove elements); paint() sets geometry each frame */
+function joinMap(leaving){
+  const visItems = S.items.filter(it => S.target.has(it.id) || (leaving && leaving.has(it.id)));
+  const themes = S.themes;
+  // branches: hub->theme, theme->leaf
+  const br = [...themes.map(t=>({id:"b:"+t.id, from:"HUB", to:t.id, t, lvl:1})), ...visItems.map(it=>({id:"b:"+it.id, from:S.themeOf.get(it.id).id, to:it.id, t:S.themeOf.get(it.id), lvl:2, it}))];
+  gBr.selectAll("path.branch").data(br, d=>d.id).join(
+    en => en.append("path").attr("class","branch").attr("stroke", d=>`var(--th${d.t.idx})`).attr("stroke-width", d=>d.lvl===1?4.5:1.5).attr("opacity", d=>d.lvl===1?.85:.55),
+    up => up, ex => ex.remove());
+  // web of all connections (bundled)
+  const webData = S.showWeb ? S.links.filter(e => e.relation!=="framework" && e.relation!=="supersedes") : [];
+  gWeb.selectAll("path.web").data(webData, (d,i)=>d.source+">"+d.target+">"+d.relation+i).join(
+    en => en.append("path").attr("class","web").attr("stroke", d=>`var(${relInfo(d.relation)[2]})`), up=>up, ex=>ex.remove());
+  // supersession arrows always shown (old -> replacement)
+  const sup = S.links.filter(e => e.relation==="supersedes");
+  gSup.selectAll("path.sup").data(sup, d=>d.source+">"+d.target).join(en => en.append("path").attr("class","sup").attr("marker-end","url(#arr)"), up=>up, ex=>ex.remove());
+  // nodes
+  const nodes = [{id:"HUB", kind:"hub"}, ...themes.map(t=>({id:t.id, kind:"theme", t})), ...visItems.map(it=>({id:it.id, kind:"leaf", it}))];
+  gNodes.selectAll("g.node").data(nodes, d=>d.id).join(
+    en => {
+      const g = en.append("g").attr("class", d => "node " + d.kind + (d.it && d.it.sc==="superseded" ? " sup-st":"")).attr("tabindex", d=>d.kind==="hub"?null:0)
+        .attr("role","button").attr("aria-label", d => d.kind==="leaf" ? d.it.label : d.kind==="theme" ? d.t.name : "Expand or collapse all");
+      g.each(function(d){
+        const s = d3.select(this);
+        if (d.kind==="hub"){
+          s.classed("hub", true);
+          s.append("circle").attr("r", 40);
+          s.append("text").attr("y", -2).attr("font-size", 17).attr("font-weight", 700).text(S.cfg.hubLabel || "Hub");
+          s.append("text").attr("y", 13).attr("font-size", 9.5).attr("opacity", .8).text(S.cfg.hubSub || "");
+        } else if (d.kind==="theme"){
+          s.append("circle").attr("class","tring").attr("r", 17).attr("stroke", `var(--th${d.t.idx})`);
+          s.append("circle").attr("class","tc").attr("r", 12).attr("fill", `var(--th${d.t.idx})`);
+          s.append("text").attr("class","tn");
+          const words = d.t.short.split(/\s+/); const lines = []; let line = "";
+          words.forEach(w => { if ((line+" "+w).trim().length > 21 && line) { lines.push(line); line = w; } else line = (line+" "+w).trim(); });
+          if (line) lines.push(line);
+          if (lines.length > 2) lines.splice(1, lines.length, trunc(lines.slice(1).join(" "), 21));
+          const lab = s.append("g").attr("class","tlab");
+          lines.forEach((ln,i) => lab.append("text").attr("class","tl").attr("fill", `var(--th${d.t.idx})`).attr("y", lines.length===1 ? 4.5 : (i===0 ? -2.5 : 12)).text(ln));
+          s.append("title").text(d.t.name + " — click to fold or unfold");
+        } else {
+          const it = d.it;
+          s.append("path").attr("class","sym").attr("d", d3.symbol(symFor(it.type), it.type==="Act"?78:it.sc==="superseded"?64:86)());
+          if (it.sc==="amended") s.append("circle").attr("class","ring").attr("r", 8.6);
+          if (it.unv) { const u = s.append("g").attr("class","unvg").attr("transform","translate(6,-6)"); u.append("circle").attr("class","unv").attr("r",4.3); u.append("text").attr("class","unvt").attr("text-anchor","middle").attr("y",3).text("!"); }
+          s.append("text").attr("class","lab").text(trunc(it.label, 36));
+        }
+      });
+      g.on("click", (e,d) => { e.stopPropagation(); onNodeClick(d); })
+       .on("keydown", (e,d) => { if (e.key==="Enter"||e.key===" ") { e.preventDefault(); onNodeClick(d); } })
+       .on("pointerenter", (e,d) => showTip(e,d)).on("pointermove", (e,d)=>moveTip(e)).on("pointerleave", hideTip);
+      return g;
+    },
+    up => up, ex => ex.remove());
+  paintColours(); paintFilter(); paintSelection();
+}
+function onNodeClick(d){
+  if (d.kind==="hub"){ if (S.collapsed.size) S.collapsed.clear(); else S.themes.forEach(t=>S.collapsed.add(t.id)); relayout(true); return; }
+  if (d.kind==="theme"){ S.collapsed.has(d.t.id) ? S.collapsed.delete(d.t.id) : S.collapsed.add(d.t.id); relayout(false); return; }
+  select(d.it.id);
+}
+function branchPath(a0,r0,a1,r1){
+  const m = (r0+r1)/2;
+  const [x0,y0]=P(a0,r0),[x1,y1]=P(a0,m),[x2,y2]=P(a1,m),[x3,y3]=P(a1,r1);
+  return `M${x0},${y0}C${x1},${y1} ${x2},${y2} ${x3},${y3}`;
+}
+const bundle = d3.line().curve(d3.curveBundle.beta(.82));
+function linkPts(src, tgt){
+  const a = visibleId(src), b = visibleId(tgt);
+  if (a===b) return null;
+  const ta = S.themeOf.get(src), tb = S.themeOf.get(tgt);
+  const pa = S.pos.get(a), pb = S.pos.get(b); if (!pa || !pb) return null;
+  const pts = [];
+  const leafA = a!==ta.id, leafB = b!==tb.id;
+  pts.push(P(pa.a, pa.r - (leafA?7:10)));
+  if (leafA) { const t = S.pos.get(ta.id); pts.push(P(t.a, t.r)); }
+  if (ta!==tb) pts.push([0,0]);
+  if (leafB) { const t = S.pos.get(tb.id); pts.push(P(t.a, t.r)); }
+  pts.push(P(pb.a, pb.r - (leafB?9:12)));
+  if (ta===tb && pts.length===2) { pts.splice(1,0,[0,0]); }
+  return pts;
+}
+function paint(){
+  const pos = S.pos;
+  gBr.selectAll("path.branch").attr("d", d => { const f = pos.get(d.from), t = pos.get(d.to); return f&&t ? branchPath(f.a, d.lvl===1?0:f.r+9, t.a, t.r) : null; });
+  gWeb.selectAll("path.web").attr("d", d => { const p = linkPts(d.source,d.target); return p ? bundle(p) : null; });
+  gSup.selectAll("path.sup").attr("d", d => { const p = linkPts(d.target, d.source); return p ? bundle(p) : null; });
+  gSel.selectAll("path.slink").attr("d", d => { const p = linkPts(d.source,d.target); return p ? bundle(p) : null; });
+  gNodes.selectAll("g.node").attr("transform", d => { const p = pos.get(d.id); if (!p) return null; const [x,y] = P(p.a,p.r); return `translate(${x},${y})`; })
+    .each(function(d){
+      if (d.kind==="leaf"){
+        const p = pos.get(d.id); if (!p) return;
+        const deg = p.a*180/Math.PI - 90, flip = p.a > Math.PI;
+        d3.select(this).select("text.lab").attr("transform", `rotate(${deg})${flip?" rotate(180)":""}`).attr("x", flip?-11:11).attr("text-anchor", flip?"end":"start").attr("dy","0.34em");
+      } else if (d.kind==="theme"){
+        const p = pos.get(d.id); if (!p) return;
+        const s = d3.select(this), col = S.collapsed.has(d.t.id);
+        // subject name runs along its spoke, outward from the subject node, like the branch of a mind map
+        const deg = p.a*180/Math.PI - 90, flip = p.a > Math.PI;
+        s.select("g.tlab").attr("transform", `rotate(${deg})${flip?" rotate(180)":""}`).selectAll("text").attr("x", flip?-20:20).attr("text-anchor", flip?"end":"start");
+        s.select("circle.tring").attr("opacity", col ? 1 : 0);
+      }
+    });
+}
+function paintColours(){
+  gNodes.selectAll("g.leaf path.sym").attr("fill", d => fillFor(d.it));
+}
+function paintFilter(){
+  if (!gNodes) return;
+  const on = filtering();
+  gNodes.selectAll("g.leaf").classed("off", d => on && !matches(d.it));
+  gBr.selectAll("path.branch").classed("off", d => on && (d.lvl===2 ? !matches(d.it) : !d.t.items.some(matches)));
+  gNodes.selectAll("g.theme").each(function(d){
+    const n = d.t.items.filter(matches).length;
+    d3.select(this).classed("off", on && !n).select("text.tn").text(on ? n : d.t.items.length);
+  });
+  paint();
+}
+function neighbours(id){
+  const s = new Set();
+  (S.out.get(id)||[]).forEach(e=>s.add(e.target));
+  (S.inn.get(id)||[]).forEach(e=>s.add(e.source));
+  return s;
+}
+function paintSelection(){
+  if (!gNodes) return;
+  const id = S.selected;
+  gRoot.classed("dimmed", !!id);
+  const nb = id ? neighbours(id) : new Set();
+  const nbVis = new Set([...nb].map(visibleId));
+  gNodes.selectAll("g.node").classed("sel", d => d.id===id).classed("nb", d => nbVis.has(d.id) || (id && d.kind==="theme" && d.t===S.themeOf.get(id)));
+  gBr.selectAll("path.branch").classed("nb", d => id && ((d.lvl===2 && (d.it.id===id || nbVis.has(d.it.id))) || (d.lvl===1 && (d.t===S.themeOf.get(id) || [...nb].some(n=>S.themeOf.get(n)===d.t)))));
+  gNodes.selectAll("circle.pulse").remove();
+  if (id) {
+    const g = gNodes.selectAll("g.node").filter(d=>d.id===visibleId(id));
+    g.insert("circle", ":first-child").attr("class","pulse").attr("r", 7);
+  }
+  const data = id ? [...(S.out.get(id)||[]), ...(S.inn.get(id)||[])] : [];
+  const sel = gSel.selectAll("path.slink").data(data, d=>d.source+">"+d.target+">"+d.relation).join(
+    en => en.append("path").attr("class","slink").attr("stroke", d=>`var(${relInfo(d.relation)[2]})`).attr("stroke-dasharray", d => d.relation==="migrated_from"?"5 4":null),
+    up => up, ex => ex.remove());
+  paint();
+  if (!RM) sel.each(function(d){ if (d.relation==="migrated_from") return; const L = this.getTotalLength ? this.getTotalLength() : 0; if (!L) return; this.style.setProperty("--len", L); this.style.strokeDasharray = L; this.classList.remove("draw"); void this.getBBox(); this.classList.add("draw"); setTimeout(()=>{ this.style.strokeDasharray = ""; this.classList.remove("draw"); }, 950); });
+}
+
+/* tooltip */
+function showTip(e,d){
+  if (e.pointerType==="touch") return;
+  const tip = $("#tip");
+  if (d.kind==="leaf"){ const it = d.it; tip.innerHTML = `<b>${esc(it.label)}</b><span>${esc(it.type)} · ${esc(STATUS_LABEL[it.sc])}${it.unv?" · has unverified items":""}</span>`; }
+  else if (d.kind==="theme"){ tip.innerHTML = `<b>${esc(d.t.name)}</b><span>${d.t.items.length} instruments · click to ${S.collapsed.has(d.t.id)?"unfold":"fold"}</span>`; }
+  else { tip.innerHTML = `<b>${esc(S.cfg.title)}</b><span>Click to fold or unfold every branch</span>`; }
+  tip.classList.add("on"); moveTip(e);
+}
+function moveTip(e){ const tip = $("#tip"), r = $("#v-map").getBoundingClientRect(); let x = e.clientX - r.left + 14, y = e.clientY - r.top + 14; if (x + 290 > r.width) x -= 300; tip.style.left = x+"px"; tip.style.top = y+"px"; }
+function hideTip(){ $("#tip").classList.remove("on"); }
+
+/* legend */
+function sym(type, fill, extra=""){ return `<svg width="16" height="16" viewBox="-8 -8 16 16"><path d="${d3.symbol(symFor(type), 70)()}" fill="${fill}" ${extra}/></svg>`; }
+function buildLegend(){
+  const types = [...S.typeVar.keys()];
+  const shapeRows = types.map(t => `<li>${sym(t, S.colorBy==="type" ? `var(${S.typeVar.get(t)})` : "var(--ink-2)", /supersed/i.test(t) ? 'fill-opacity="0" stroke="var(--st-superseded)" stroke-dasharray="2 1.6" stroke-width="1.4"' : "")}${esc(t)}</li>`).join("");
+  let colour = "";
+  if (S.colorBy==="theme") colour = `<div><h4>Colour = subject area</h4><ul><li>Each branch and its instruments share the subject's colour. The number in a subject node counts its instruments.</li><li><svg width="16" height="16" viewBox="-8 -8 16 16"><circle r="5" fill="var(--ink-2)"/><circle r="7.5" fill="none" stroke="var(--ink-2)" stroke-dasharray="3 2.5"/></svg>Dashed ring: branch folded</li></ul></div>`;
+  if (S.colorBy==="status") colour = `<div><h4>Colour = status</h4><ul>${Object.keys(STATUS_LABEL).map(k=>`<li><span class="dot" style="background:var(${STATUS_VAR[k]})"></span>${STATUS_LABEL[k]}</li>`).join("")}</ul></div>`;
+  $("#legendBody").innerHTML = `
+    <div><h4>Shape = instrument type</h4><ul class="two">${shapeRows}</ul></div>
+    ${colour}
+    <div><h4>Status marks</h4><ul>
+      <li><svg width="16" height="16" viewBox="-8 -8 16 16"><circle r="4.5" fill="var(--ink-2)"/><circle r="7" fill="none" stroke="var(--st-amended)" stroke-width="1.3"/></svg>Outer ring: amended since issue</li>
+      <li><svg width="16" height="16" viewBox="-8 -8 16 16"><circle r="5" fill="none" stroke="var(--st-superseded)" stroke-dasharray="2 1.6" stroke-width="1.5"/></svg>Hollow, dashed: superseded</li>
+      <li><svg width="28" height="10" viewBox="0 0 28 10"><path d="M1 5h22" stroke="var(--r-rel-super)" stroke-dasharray="4 3" stroke-width="1.3"/><path d="M20 1.5 27 5l-7 3.5z" fill="var(--r-rel-super)"/></svg>Arrow: old instrument → its replacement</li>
+      <li><span class="tri" style="margin:0 1.5px"></span>Has items marked UNVERIFIED</li>
+    </ul></div>
+    <div><h4>Connections (on selection)</h4><ul class="two">${["issued_under","cross_references","supersedes","migrated_from","framework","related"].map(r=>`<li><svg width="28" height="10"><path d="M1 5h26" stroke="var(${REL[r][2]})" stroke-width="2.2" ${r==="migrated_from"?'stroke-dasharray="5 4"':""}/></svg>${REL[r][0]}</li>`).join("")}</ul></div>`;
+}
+
+/* ---------------- selection & dossier ---------------- */
+function select(id, opts={}){
+  S.selected = id;
+  if (id){
+    const t = S.themeOf.get(id);
+    if (S.view==="map" && S.collapsed.has(t.id) && !opts.keepFold){ S.collapsed.delete(t.id); relayout(false); }
+    renderPanel(id);
+    $("#panel").classList.add("open"); $("#panel").setAttribute("aria-hidden","false"); document.querySelector("main").classList.add("pan-open");
+    $("#panel").classList.toggle("wide", !!S.wide); $("#pshade").classList.toggle("on", !!S.wide); document.querySelector("main").classList.toggle("pan-wide", !!S.wide);
+    refit(420);
+    if (location.hash.slice(1)!==id) setHash(id);
+  } else {
+    $("#panel").classList.remove("open"); $("#panel").setAttribute("aria-hidden","true"); $("#pshade").classList.remove("on"); document.querySelector("main").classList.remove("pan-open");
+    refit(60);
+    if (location.hash && S.byId.has(location.hash.slice(1))) setHash(S.view);
+  }
+  paintSelection();
+}
+function goTo(id){
+  hideGlPop();
+  if (S.view!=="map" && S.view!=="timeline" && S.view!=="layers") setView("map");
+  if (S.view==="updates") setView("map");
+  select(id);
+}
+
+function fmtItem(raw, cls){
+  let s = String(raw); let u = /UNVERIFIED/.test(s); let note = "";
+  const m = /^UNVERIFIED\s*(\(([^)]*)\))?\s*:\s*/.exec(s);
+  if (m){ note = m[2] || ""; s = s.slice(m[0].length); }
+  let para = "";
+  const pm = /^((?:paras?|ss?\.|sections?|rules?|regulations?|chapter|clauses?|annex(?:ure)?)\s*[0-9A-Za-z().,\-–\/ ]{0,24}?)\s*:\s+/i.exec(s);
+  if (pm){ para = pm[1]; s = s.slice(pm[0].length); }
+  let h = esc(s).replace(/\(?UNVERIFIED[^)]*\)?/g, x => `<mark class="uw">${x}</mark>`).replace(/\b(\d{2}-\d{2}-\d{4})\b/g, '<span class="date-hl">$1</span>');
+  h = glLink(h);
+  return `<li class="${u?"u":""}">${u?`<span class="ub" title="${esc(note||"Marked unverified in the register")}">UNVERIFIED${note?" · "+esc(note):""}</span>`:""}${para?`<span class="para">${esc(para)}</span>`:""}${h}</li>`;
+}
+function list(arr, cls, ic){ return arr && arr.length ? `<ul class="items ${cls}" style="--ic:${ic}">${arr.map(x=>fmtItem(x)).join("")}</ul>` : `<p class="empty">Nothing recorded in the register for this instrument.</p>`; }
+const countU = arr => (arr||[]).filter(x=>/UNVERIFIED/.test(x)).length;
+function ichip(id, sup){
+  const it = S.byId.get(id); if (!it) return "";
+  return `<button class="ichip ${it.sc==="superseded"?"sup":""}" data-go="${esc(id)}"><span class="dot" style="background:${themeVar(it)}"></span>${esc(trunc(it.label,52))}</button>`;
+}
+function statusHTML(it, replacedBy){
+  const raw = it.status || STATUS_LABEL[it.sc];
+  let hit = false;
+  const h = esc(raw).replace(/\b[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)+\b/g, m => { if (!S.byId.has(m) || m===it.id) return m; hit = true; return `<button class="plink" data-go="${esc(m)}" title="Open ${esc(S.byId.get(m).label)}">${esc(m)}</button>`; });
+  if (hit || !replacedBy.length) return h;
+  return h + ` · <button class="plink" data-go="${esc(replacedBy[0])}">open ${esc(trunc(S.byId.get(replacedBy[0]).label, 40))}</button>`;
+}
+function setWide(on){
+  S.wide = on; store.set("rmap.wide", on ? "1" : "");
+  $("#panel").classList.toggle("wide", on); document.querySelector("main").classList.toggle("pan-wide", on);
+  $("#pshade").classList.toggle("on", on && $("#panel").classList.contains("open"));
+  if (S.selected) { S.keepScroll = true; renderPanel(S.selected); }
+  refit(360);
+}
+function renderPanel(id){
+  const it = S.byId.get(id), t = S.themeOf.get(id);
+  const ap = S.applies.get(id);
+  const inRels = S.inn.get(id)||[], outRels = S.out.get(id)||[];
+  const tabs = [
+    ["overview","Overview", (it.key_concepts||[]).length, countU(it.key_concepts)],
+    ["obl","Obligations", (it.core_obligations||[]).length, countU(it.core_obligations)],
+    ["time","Deadlines", (it.timelines||[]).length, countU(it.timelines)],
+    ["breach","Breach", (it.consequences_stated||[]).length, countU(it.consequences_stated)],
+    ["links","Links", inRels.length + outRels.length + (ap?ap.size:0), 0]
+  ];
+  const replacedBy = inRels.filter(e=>e.relation==="supersedes").map(e=>e.source);
+  const replaces = outRels.filter(e=>e.relation==="supersedes").map(e=>e.target);
+  $("#ph").innerHTML = `
+    <div class="crumb"><span class="dot" style="background:${themeVar(it)}"></span>${esc(t.name)}<span>›</span>${esc(it.type)}<span style="font-family:var(--f-mono)">· ${esc(it.id)}</span>
+      <span class="pbtns"><button class="pclose" id="pexp" aria-label="${S.wide?"Shrink dossier":"Open dossier in a larger window"}" title="${S.wide?"Shrink":"Expand to a larger window"}">${S.wide?'<svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M5.5 1.5v4h-4M8.5 12.5v-4h4M5.5 5.5 1 1M8.5 8.5 13 13"/></svg>':'<svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M8.5 1.5h4v4M5.5 12.5h-4v-4M12.5 1.5 8 6M1.5 12.5 6 8"/></svg>'}</button><button class="pclose" id="pclose" aria-label="Close dossier"><svg width="12" height="12" viewBox="0 0 12 12"><path d="m2 2 8 8M10 2 2 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button></span></div>
+    <h2>${esc(it.label)}</h2>
+    ${it.title && it.title!==it.label ? `<p class="full">${esc(it.title)}</p>`:""}
+    <div class="pills">
+      <span class="pill st"><span class="dot" style="${it.sc==="superseded"?"border:1.5px dashed var(--st-superseded);box-sizing:border-box":"background:var("+STATUS_VAR[it.sc]+")"}"></span>${statusHTML(it, replacedBy)}</span>
+      ${it.unv?`<span class="pill unv"><span class="tri"></span>Contains unverified items</span>`:""}
+      ${it.issuing_department?`<span class="pill">${esc(it.issuing_department)}</span>`:""}
+    </div>
+    <div class="dates"><div><small>Issued</small><span>${fmtDate(it.issue_date)}</span></div><div><small>Updated as on</small><span>${fmtDate(it.updated_as_on)}</span></div><div><small>Effective</small><span>${fmtDate(it.effective_date)}</span></div></div>
+    <div class="srcs">${it.url?`<a href="${esc(it.url)}" target="_blank" rel="noopener">Official source <svg width="11" height="11" viewBox="0 0 12 12"><path d="M4 2h6v6M10 2 3 9" stroke="currentColor" stroke-width="1.6" fill="none"/></svg></a>`:""}${it.official_pdf?`<a class="sec" href="${esc(it.official_pdf)}" target="_blank" rel="noopener">PDF</a>`:""}${it.reference_no?`<span class="pill" style="font-family:var(--f-mono);font-size:11px;white-space:normal">${esc(it.reference_no)}</span>`:""}</div>`;
+  $("#pt").innerHTML = `<div class="ptabs" role="tablist">${tabs.map(([k,l,c,u])=>`<button class="ptab" role="tab" data-k="${k}" aria-selected="${S.ptab===k}">${l}<span class="ct">${c}</span>${u?`<span class="wd" title="${u} unverified"></span>`:""}</button>`).join("")}</div>`;
+  $("#pclose").onclick = () => select(null);
+  $("#pexp").onclick = () => setWide(!S.wide);
+  $("#pt").querySelector(".ptabs").onclick = e => { const b = e.target.closest(".ptab"); if (!b) return; S.ptab = b.dataset.k; S.keepScroll = true; renderPanel(id); };
+  let body = "";
+  const supBox = replacedBy.length ? `<div class="box rep"><svg width="30" height="14" viewBox="0 0 30 14"><path d="M1 7h22" stroke="var(--r-rel-super)" stroke-dasharray="4 3" stroke-width="1.6"/><path d="M21 2.5 29 7l-8 4.5z" fill="var(--r-rel-super)"/></svg><div><b>Replaced by</b><div class="chips" style="display:flex;gap:5px;flex-wrap:wrap;margin-top:4px">${replacedBy.map(x=>ichip(x)).join("")}</div></div></div>` : "";
+  const unvBox = it.unv ? `<div class="box warn"><b>Check before relying.</b> Items marked UNVERIFIED have not been confirmed against the primary text. Read the instrument on rbi.org.in before relying on them.</div>` : "";
+  if (S.ptab==="overview"){
+    const kc = it.key_concepts||[];
+    const short = kc.filter(x=>x.length<=48 && !/UNVERIFIED/.test(x)), long = kc.filter(x=>x.length>48 || /UNVERIFIED/.test(x));
+    body = `${supBox}${unvBox}
+      <h3>Key concepts</h3>${kc.length?`<div class="concepts">${short.map(x=>`<span>${glLink(esc(x))}</span>`).join("")}</div>${long.length?list(long,"","var(--accent)"):""}`:`<p class="empty">No concepts recorded.</p>`}
+      <h3>Applies to</h3>${list(it.applies_to,"","var(--st-inforce)")}
+      ${(it.excluded||[]).length?`<h3>Excluded</h3>${list(it.excluded,"","var(--muted)")}`:""}
+      <h3>Legal basis</h3>${(it.statutory_powers||[]).length?list(it.statutory_powers,"","var(--r-rel-issued)"):`<p class="empty">Not recorded.</p>`}
+      ${it.repeals?`<h3>Repeals</h3><div class="box">${esc(it.repeals)}</div>`:""}`;
+  } else if (S.ptab==="obl"){
+    body = `<h3>What the NBFC must do</h3>${list(it.core_obligations,"obl","var(--accent)")}`;
+  } else if (S.ptab==="time"){
+    body = `<h3>Timelines and compliance deadlines</h3>${list(it.timelines,"tl","var(--st-amended)")}`;
+  } else if (S.ptab==="breach"){
+    body = `<h3>Consequences stated in the instrument</h3>${list(it.consequences_stated,"cq","var(--danger)")}
+      ${it.consequences_general?`<h3>General statutory consequences</h3><div class="box law">${esc(it.consequences_general)}</div>`:""}`;
+  } else {
+    const groups = new Map();
+    outRels.forEach(e => { const k = relInfo(e.relation)[0]; (groups.get(k)||groups.set(k,{v:relInfo(e.relation)[2],ids:[]}).get(k)).ids.push(e.target); });
+    inRels.forEach(e => { const k = relInfo(e.relation)[1]; (groups.get(k)||groups.set(k,{v:relInfo(e.relation)[2],ids:[]}).get(k)).ids.push(e.source); });
+    const order = ["Replaced by","Replaces","Issued under","Operates within","Refers to","Referred to by","Took provisions from","Provisions moved to","Related","Escalation from","Escalates to","Implemented through","Implements","Introduced","Introduced by","Instruments issued under it","Framework for"];
+    const keys = [...groups.keys()].sort((a,b)=>(order.indexOf(a)+99)%999-(order.indexOf(b)+99)%999);
+    body = `${supBox}<div class="rels">${keys.map(k=>{ const g = groups.get(k); const ids=[...new Set(g.ids)]; return `<div class="relg"><h4><i style="background:var(${g.v})"></i>${esc(k)} <span style="color:var(--muted);font-weight:400">${ids.length}</span></h4><div class="chips">${ids.map(x=>ichip(x)).join("")}</div></div>`; }).join("") || `<p class="empty">No links recorded.</p>`}
+      ${ap&&ap.size?`<div class="relg"><h4><i style="background:var(--st-inforce)"></i>Applies to these NBFC layers and categories</h4><div class="chips">${[...ap.keys()].map(c=>`<button class="ichip" data-cat="${esc(c)}">${esc(S.catById.get(c).label)}</button>`).join("")}</div><p style="font-size:11.5px;color:var(--ink-2);margin:6px 0 0">${esc(S.cfg.categoryCaveat||"")}</p></div>`:""}
+      ${(it.cross_references||[]).length?`<div class="relg"><h4><i style="background:var(--muted)"></i>Cross-references as written in the register</h4>${list(it.cross_references,"","var(--muted)")}</div>`:""}</div>`;
+  }
+  $("#pb").innerHTML = `<section>${body}</section>`;
+  const sc = $("#pscroll");
+  if (S.keepScroll) { sc.scrollTop = Math.min(sc.scrollTop, $("#ph").offsetHeight); S.keepScroll = false; } else sc.scrollTop = 0;
+}
+document.addEventListener("click", e => {
+  const gt = e.target.closest("button.gl[data-gl]"); if (gt){ e.preventDefault(); e.stopPropagation(); showGlPop(gt.dataset.gl, gt); return; }
+  const gm = e.target.closest("[data-glopen]"); if (gm){ e.preventDefault(); $("#results").hidden = true; openGlossary(gm.dataset.glopen); return; }
+  if (!e.target.closest("#glpop")) hideGlPop();
+  const g = e.target.closest("[data-go]"); if (g){ goTo(g.dataset.go); return; }
+  const c = e.target.closest("[data-cat]");
+  if (c){ const id = c.dataset.cat; if ((S.cfg.layers||[]).includes(id)) S.f.layer = S.f.layer===id ? "" : id; else S.f.cat = S.f.cat===id ? "" : id; applyFilters(); }
+});
+document.addEventListener("keydown", e => { if (e.key==="Escape" && S.selected && !e.target.closest(".search")) { if (S.wide) setWide(false); else select(null); } });
+document.getElementById("pshade").addEventListener("click", () => setWide(false));
+
+/* ---------------- views & routing ---------------- */
+function setView(v){
+  S.view = v; document.body.dataset.view = v;
+  ["map","timeline","layers","updates","glossary"].forEach(k => { $("#v-"+k).hidden = k!==v; $("#t-"+k).setAttribute("aria-selected", k===v); });
+  hideGlPop();
+  if (v==="updates") renderUpdates();
+  if (v==="glossary") renderGlossary();
+  if (v==="timeline") renderTimeline();
+  if (v==="layers") renderMatrix();
+  if (v==="map") { fit(false); paint(); }
+  if (!S.selected && location.hash.slice(1)!==v) setHash(v);
+}
+function initRouting(){
+  document.querySelector(".tabs").onclick = e => { const b = e.target.closest(".tab"); if (b) setView(b.dataset.view); };
+  const route = () => {
+    const h = decodeURIComponent(location.hash.slice(1));
+    if (["map","timeline","layers","updates","glossary"].includes(h)) { if (S.view!==h) setView(h); }
+    else if (h.startsWith("gl-") && S.glBy && S.glBy.has(h.slice(3))) openGlossary(h.slice(3));
+    else if (S.byId.has(h)) { if (S.selected!==h) { if (S.view==="map") goTo(h); else select(h); } }
+  };
+  window.addEventListener("hashchange", route);
+  const h = decodeURIComponent(location.hash.slice(1));
+  setView(["timeline","layers","updates"].includes(h) && (h!=="updates" || S.upd) ? h : (h==="glossary" && S.gl) ? "glossary" : "map");
+  if (h.startsWith("gl-") && S.glBy && S.glBy.has(h.slice(3))) openGlossary(h.slice(3));
+  if (S.byId.has(h)) setTimeout(()=>goTo(h), RM?0:1150);
+}
+
+/* ---------------- timeline view ---------------- */
+const parseISO = s => { const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(s||""); return m ? new Date(+m[1], +m[2]-1, +m[3]) : null; };
+const parseDMY = s => { const m = /^(\d{2})-(\d{2})-(\d{4})$/.exec(s); return m ? new Date(+m[3], +m[2]-1, +m[1]) : null; };
+const fmtD = d3.timeFormat("%d %b %Y");
+function timelineEvents(){
+  const ev = [];
+  S.items.forEach(it => {
+    const iss = parseISO(it.issue_date), upd = parseISO(it.updated_as_on);
+    if (iss) ev.push({it, d:iss, k:"issued", text:"Issued"});
+    const eff = parseISO(it.effective_date);
+    if (eff && (!iss || +eff !== +iss)) ev.push({it, d:eff, k:"effective", text:"Takes effect"});
+    if (upd && (!iss || +upd !== +iss)) ev.push({it, d:upd, k:"amended", text:"Text updated as on this date"});
+    (it.timelines||[]).forEach(t => { (t.match(/\b\d{2}-\d{2}-\d{4}\b/g)||[]).forEach(ds => { const d = parseDMY(ds); if (d) ev.push({it, d, k:"deadline", text:t}); }); });
+  });
+  return ev;
+}
+const CAD = [
+  ["event","Triggered by an event","The clock starts when something happens", /\bwithin\s+(\d+|one|two|three|a|thirty|seven|fifteen)\s*(hours?|days?|calendar days|working days|weeks?|months?)\b|\bimmediately\b|\d+\s*hours\b|\b\d+\s+(calendar |working )?days\b|\bnot later than\b/i],
+  ["monthly","Weekly to monthly","", /\b(weekly|fortnightly|monthly|every (week|fortnight|month)|each month)\b/i],
+  ["quarterly","Quarterly","", /\b(quarterly|every quarter|each quarter|quarter[- ]end|end of (the|each) quarter)\b/i],
+  ["half","Half-yearly","", /\b(half[- ]yearly|half[- ]year|six[- ]monthly|semi[- ]annual(ly)?|bi[- ]annual(ly)?)\b/i],
+  ["annual","Annual","", /(?<!half[- ]|semi[- ]|bi[- ])\b(annual(ly)?|yearly|every year|each year|as on 31 march|as at 31 march)\b/i],
+  ["multi","Multi-year periods","", /\bevery\s+\d+\s+years\b|\b\d+\s+(consecutive\s+)?years\b|\b\d+-year\b/i]
+];
+let tlRange = "recent";
+function renderTimeline(){
+  const host = $("#v-timeline");
+  const ev = timelineEvents();
+  const today = new Date(); today.setHours(0,0,0,0);
+  const dl = ev.filter(e=>e.k==="deadline").sort((a,b)=>a.d-b.d);
+  const upcoming = dl.filter(e=>e.d>=today && matches(e.it)), past = dl.filter(e=>e.d<today && matches(e.it));
+  const dlCard = e => { const days = Math.round((e.d - today)/864e5); const pastD = days<0;
+    return `<button class="dl ${pastD?"past":""}" data-go="${esc(e.it.id)}"><div class="cd"><b>${pastD?Math.abs(days):days}</b><span>${pastD?"days ago":"days to go"} · ${fmtD(e.d)}</span></div><div class="who"><span class="dot" style="background:${themeVar(e.it)};margin-right:6px"></span>${esc(e.it.label)}</div><div class="what">${esc(e.text.replace(/^UNVERIFIED[^:]*:\s*/,""))}${/UNVERIFIED/.test(e.text)?' <span class="ub">UNVERIFIED</span>':""}</div></button>`; };
+  // cadence board
+  const cols = CAD.map(c => ({c, rows:[]}));
+  S.items.forEach(it => (matches(it) ? (it.timelines||[]) : []).forEach(t => { cols.forEach(col => { if (col.c[3].test(t)) col.rows.push({it, t}); }); }));
+  const cadIcon = k => ({event:'<svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="9" r="5.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 9V6M6.5 1.8h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>'})[k] || `<svg width="16" height="16" viewBox="0 0 16 16"><rect x="2" y="3" width="12" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M2 6.5h12" stroke="currentColor" stroke-width="1.4"/><text x="8" y="12.5" font-size="5.5" text-anchor="middle" fill="currentColor" font-family="IBM Plex Mono">${{monthly:"1M",quarterly:"3M",half:"6M",annual:"1Y",multi:"nY"}[k]}</text></svg>`;
+  host.innerHTML = `<div class="vpad">
+    <div class="vhead"><div><h2>When things happen</h2><p>Issue, effective and "updated as on" dates, every calendar date named in an instrument's timeline entries, and the recurring cadence of obligations. Click any mark or card to open the instrument.</p></div>
+      <div class="seg" id="tlRange" style="margin-left:auto"><button data-r="recent" aria-pressed="${tlRange==="recent"}">Since consolidation</button><button data-r="all" aria-pressed="${tlRange==="all"}">Full history</button></div></div>
+    <div class="scrollx"><svg id="tlSvg"></svg></div>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--ink-2);margin:8px 2px 0">
+      <span><svg width="12" height="12" viewBox="-6 -6 12 12"><circle r="4.5" fill="var(--ink-2)"/></svg> Issued</span>
+      <span><svg width="12" height="12" viewBox="-6 -6 12 12"><rect x="-3.6" y="-3.6" width="7.2" height="7.2" transform="rotate(45)" fill="var(--ink-2)"/></svg> Takes effect (if different from issue)</span>
+      <span><svg width="12" height="12" viewBox="-6 -6 12 12"><circle r="4" fill="var(--surface)" stroke="var(--ink-2)" stroke-width="1.8"/></svg> Text "updated as on"</span>
+      <span><svg width="12" height="14" viewBox="-6 -8 12 14"><path d="M-1 6V-6M-1 -6h6l-1.6 2.5L5 -1h-6" fill="var(--danger)" stroke="var(--danger)" stroke-width="1.3"/></svg> Date named in a timeline entry</span>
+      <span><svg width="14" height="12"><path d="M7 0v12" stroke="var(--accent)" stroke-width="2"/></svg> Today</span>
+    </div>
+    <h2 style="font-family:var(--f-display);font-size:18px;margin:26px 0 0">Coming up: dates named in the Directions</h2>
+    <p style="margin:2px 0 0;color:var(--ink-2);font-size:13px">Pulled automatically from the text of each timeline entry. Most are compliance deadlines; some mark when a rule starts or stops. Read the entry before diarising it.</p>
+    <div class="cards">${upcoming.map(dlCard).join("") || `<p class="empty">No dates ahead${filtering()?" for the current filters":""}.</p>`}</div>
+    ${past.length?`<details><summary style="cursor:pointer;font-family:var(--f-display);font-weight:600;color:var(--ink-2)">Dates already passed (${past.length})</summary><div class="cards">${past.reverse().map(dlCard).join("")}</div></details>`:""}
+    <h2 style="font-family:var(--f-display);font-size:18px;margin:26px 0 4px">Compliance rhythm</h2>
+    <p style="margin:0 0 10px;color:var(--ink-2);font-size:13px">Timeline entries sorted automatically by how often or how fast they bite, based on the words used. An entry that names more than one cadence appears in each column. Entries with no cadence word are not shown here; they remain in each instrument's Deadlines tab.</p>
+    <div class="boardwrap"><div class="board">${cols.map(col=>`<div class="col"><h3>${cadIcon(col.c[0])}${col.c[1]}<span class="n">${col.rows.length}</span></h3>${col.rows.map(r=>` <button class="cc ${/UNVERIFIED/.test(r.t)?"u":""}" data-go="${esc(r.it.id)}"><b><span class="dot" style="background:${themeVar(r.it)}"></span>${esc(trunc(r.it.label,36))}</b>${esc(trunc(r.t.replace(/^UNVERIFIED[^:]*:\s*/,""),150))}</button>`).join("")}</div>`).join("")}</div></div>
+  </div>`;
+  $("#tlRange").onclick = e => { const b = e.target.closest("button"); if (!b) return; tlRange = b.dataset.r; renderTimeline(); };
+  drawTimeline(ev, today);
+}
+function drawTimeline(ev, today){
+  const svgT = d3.select("#tlSvg");
+  const host = $("#v-timeline .scrollx");
+  const W = Math.max(860, host.clientWidth - 2);
+  const LW = 230;
+  let x0 = tlRange==="recent" ? new Date(2025,9,1) : d3.min(ev, e=>e.d);
+  const x1 = d3.max([...ev.map(e=>e.d), new Date(today.getFullYear()+1, today.getMonth(), 1)]);
+  x0 = d3.timeMonth.offset(d3.timeMonth.floor(x0), -1);
+  const x = d3.scaleTime().domain([x0, d3.timeMonth.offset(x1,2)]).range([LW+10, W-24]);
+  const vis = ev.filter(e => e.d >= x0);
+  // lanes with vertical stacking for same day
+  const lanes = S.themes.map(t => {
+    const evs = vis.filter(e=>S.themeOf.get(e.it.id)===t).sort((a,b)=>a.d-b.d || a.k.localeCompare(b.k));
+    const slots = []; // pixel-based stacking
+    evs.forEach(e => { const px = x(e.d); let lvl = 0; while (slots[lvl] !== undefined && px - slots[lvl] < 9) lvl++; slots[lvl] = px; e.lvl = lvl; });
+    return {t, evs, h: Math.max(38, (slots.length)*9 + 22)};
+  });
+  let y = 34; lanes.forEach(l => { l.y = y; y += l.h; });
+  const H = y + 14;
+  svgT.attr("width", W).attr("height", H).attr("viewBox", `0 0 ${W} ${H}`).html("");
+  const g = svgT.append("g");
+  lanes.forEach((l,i) => {
+    if (i%2===0) g.append("rect").attr("class","lane-bg").attr("x",0).attr("y",l.y).attr("width",W).attr("height",l.h);
+    g.append("rect").attr("x",10).attr("y",l.y + l.h/2 - 5).attr("width",10).attr("height",10).attr("rx",3).attr("fill",`var(--th${l.t.idx})`);
+    g.append("text").attr("class","lane-t").attr("x",26).attr("y",l.y + l.h/2 + 4).text(trunc(l.t.short, 30)).append("title").text(l.t.name);
+  });
+  const ax = g.append("g").attr("class","axis").attr("transform",`translate(0,${26})`).call(d3.axisTop(x).ticks(Math.max(4, Math.floor((W-LW)/90))).tickSizeOuter(0));
+  ax.select(".domain").remove();
+  g.append("g").attr("class","grid").selectAll("line").data(x.ticks(Math.max(4, Math.floor((W-LW)/90)))).join("line").attr("x1",d=>x(d)).attr("x2",d=>x(d)).attr("y1",30).attr("y2",H-8);
+  (S.cfg.milestones||[]).forEach(m => { const d = parseISO(m.date); if (!d || d < x0) return; const mg = g.append("g").attr("class","mile"); mg.append("line").attr("x1",x(d)).attr("x2",x(d)).attr("y1",30).attr("y2",H-8); mg.append("title").text(fmtD(d)+": "+m.label); mg.append("text").attr("x",x(d)+4).attr("y",H-12).text(trunc(m.label, 46)); });
+  const tg = g.append("g").attr("class","today"); tg.append("line").attr("x1",x(today)).attr("x2",x(today)).attr("y1",22).attr("y2",H-8); tg.append("text").attr("x",x(today)+4).attr("y",40).text("Today");
+  const fy = 30;
+  lanes.forEach(l => {
+    const sel = g.append("g").selectAll("g.ev").data(l.evs).join("g").attr("class", e => "ev" + (matches(e.it)?"":" off")).attr("data-go", e=>e.it.id)
+      .attr("transform", e => `translate(${x(e.d)},${l.y + 14 + e.lvl*9})`);
+    sel.each(function(e){
+      const s = d3.select(this), col = `var(--th${l.t.idx})`;
+      if (e.k==="issued") s.append("circle").attr("r",4.2).attr("fill",col);
+      else if (e.k==="effective") s.append("rect").attr("x",-3.6).attr("y",-3.6).attr("width",7.2).attr("height",7.2).attr("transform","rotate(45)").attr("fill",col);
+      else if (e.k==="amended") s.append("circle").attr("r",3.6).attr("fill","var(--surface)").attr("stroke",col).attr("stroke-width",1.8);
+      else s.append("path").attr("d","M-1 4V-7M-1 -7h6l-1.6 2.5L5 -2h-6").attr("fill", e.d<today?"var(--muted)":"var(--danger)").attr("stroke", e.d<today?"var(--muted)":"var(--danger)").attr("stroke-width",1.3);
+      s.append("title").text(`${e.it.label}\n${fmtD(e.d)} · ${e.k==="deadline"?e.text:e.text}`);
+    });
+    if (!RM) sel.attr("opacity",0).transition().delay((e,i)=>i*8).duration(400).attr("opacity",null);
+  });
+}
+
+/* ---------------- applicability grid ---------------- */
+function renderMatrix(){
+  const host = $("#v-layers");
+  const layers = (S.cfg.layers||[]).filter(id=>S.catById.has(id));
+  const cols = [...layers, ...S.cats.map(c=>c.id).filter(id=>!layers.includes(id))];
+  const active = S.f.layer || S.f.cat;
+  const rowsByTheme = S.themes.map(t => ({t, rows: t.items.filter(it => S.applies.has(it.id) && matches(it))})).filter(g=>g.rows.length);
+  const unmapped = S.items.filter(it => !S.applies.has(it.id) && it.sc!=="superseded");
+  const colCount = id => S.items.filter(it => S.applies.get(it.id)?.has(id)).length;
+  host.innerHTML = `<div class="vpad">
+    <div class="vhead"><div><h2>Who each instrument applies to</h2><p>Rows are instruments, columns are NBFC layers and categories. Click a column to filter every view to that layer or category; click a row to open the instrument.</p></div></div>
+    <div class="box warn" style="margin-bottom:10px">${esc(S.cfg.categoryCaveat||"")} A blank cell means no tag was found for that column, not that the instrument does not apply.</div>
+    <div class="mxkey"><span><i style="background:var(--ink-2)"></i>Tagged in the applicability clause</span>${S.cfg.cumulativeLayers?`<span><i style="border:2px solid var(--ink-2)"></i>Inherited from a lower layer (layers are cumulative)</span>`:""}${filtering()?`<span>Showing ${rowsByTheme.reduce((a,g)=>a+g.rows.length,0)} instruments that match the filters</span>`:""}</div>
+    <div class="scrollx" style="max-height:calc(100vh - 260px);overflow:auto">
+    <table class="mx"><thead><tr><th class="rowh">Instrument</th>${cols.map(id=>`<th class="${layers.includes(id)?"layer":""} ${active===id?"act":""}"><button class="ch" data-cat="${esc(id)}" title="Filter to ${esc(S.catById.get(id).label)}">${esc(S.catById.get(id).label)}</button></th>`).join("")}</tr></thead>
+    <tbody>${rowsByTheme.map(g => `<tr class="grp"><th><span class="dot" style="background:var(--th${g.t.idx});margin-right:7px"></span>${esc(g.t.short)}</th>${cols.map(()=>"<td></td>").join("")}</tr>` + g.rows.map(it => `<tr class="${matches(it)?"":"off"}"><th><button data-go="${esc(it.id)}" title="${esc(it.title)}">${it.unv?'<span class="tri" title="Has unverified items"></span>':""}${esc(trunc(it.label,44))}</button></th>${cols.map(id => { const b = S.applies.get(it.id).get(id); const inh = b===undefined && layers.includes(id) && S.cfg.cumulativeLayers && layerHit(it.id, id); return `<td class="c ${active===id?"act":""}">${b!==undefined?`<i style="background:var(--th${g.t.idx})" title="${esc(S.catById.get(id).label)}: ${esc(b)}"></i>`:inh?`<i class="inh" style="border-color:var(--th${g.t.idx})" title="${esc(S.catById.get(id).label)}: inherited from a lower layer (SBR is cumulative)"></i>`:""}</td>`; }).join("")}</tr>`).join("")).join("")}</tbody>
+    <tfoot><tr><th>Instruments per column</th>${cols.map(id=>`<td>${colCount(id)}</td>`).join("")}</tr></tfoot></table></div>
+    ${unmapped.length?`<h2 style="font-family:var(--f-display);font-size:17px;margin:22px 0 6px">Not tagged to a layer (${unmapped.length})</h2><p style="margin:0 0 8px;color:var(--ink-2);font-size:13px">Statutes and allied instruments that apply by their own terms rather than by NBFC layer.</p><div style="display:flex;flex-wrap:wrap;gap:6px">${unmapped.map(it=>ichip(it.id)).join("")}</div>`:""}
+  </div>`;
+}
+
+/* ---------------- last 7 days ---------------- */
+let updEnt = "";
+function lvlClass(s){ s = (s||"").toLowerCase(); return /^high/.test(s) ? "h" : /^medium/.test(s) ? "m" : "l"; }
+function renderUpdates(){
+  const host = $("#v-updates"), U = S.upd;
+  if (!U) { host.innerHTML = `<div class="vpad"><p class="empty">No updates file for this map.</p></div>`; return; }
+  const M = U.meta || {}, ents = M.entities || [];
+  const shown = ents.filter(e => !updEnt || e.key===updEnt);
+  const items = (U.updates||[]).slice().sort((a,b)=> (b.date||"").localeCompare(a.date||""));
+  host.innerHTML = `<div class="vpad"><div class="uwrap">
+    <div class="uhead"><h2>RBI updates in the last 7 days</h2>
+      <p>${esc(fmtDate(M.window_from))} to ${esc(fmtDate(M.window_to))}. ${items.length} item${items.length===1?"":"s"} relevant to NBFCs and HFCs, with a first view of the impact on ${ents.map(e=>esc(e.key)).join(" and ")}. The impact is a general view by type of entity, not advice for any particular company.</p></div>
+    ${(U.updates||[]).filter(x=>x.url).length?`<details class="usrc" open><summary>Official sources (${(U.updates||[]).filter(x=>x.url).length})</summary><ol>${(U.updates||[]).filter(x=>x.url).map(x=>`<li><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.title)}${x.ref?` (${esc(x.ref)})`:""}, ${esc((x.date||"").split("-").reverse().join("-"))} ↗</a></li>`).join("")}</ol></details>`:""}
+    <div class="ents">${ents.map(e=>`<div class="ent"><b>${esc(e.name)} (${esc(e.key)})</b>${esc(e.profile)}</div>`).join("")}</div>
+    <div class="efilter"><span class="lbl">Show impact for</span><div class="seg" id="entSeg"><button data-e="" aria-pressed="${!updEnt}">Both</button>${ents.map(e=>`<button data-e="${esc(e.key)}" aria-pressed="${updEnt===e.key}">${esc(e.key)}</button>`).join("")}</div></div>
+    ${items.map(u => `<article class="ucard">
+      <div class="umeta"><span class="d">${esc(fmtDate(u.date))}</span><span class="ukind">${esc(u.kind)}</span>${u.effective?`<span>Effective <span class="d">${esc(fmtDate(u.effective))}</span></span>`:""}${u.instrument && S.byId.has(u.instrument)?`<button class="plink" data-go="${esc(u.instrument)}">Open ${esc(S.byId.get(u.instrument).label)} in the map</button>`:""}</div>
+      <h3><a href="${esc(u.url)}" target="_blank" rel="noopener">${esc(u.title)} ↗</a></h3>
+      <div class="uref">${esc(u.ref)}</div>
+      <div class="ugrid">
+        <div><h4>Applies to</h4><p class="uapp">${glLink(esc(u.applies))}</p>
+          <h4>What changed</h4><ul>${(u.changes||[]).map(c=>`<li>${glLink(esc(c))}</li>`).join("")}</ul></div>
+        <div><h4>Impact</h4>${shown.map(e => { const im = (u.impact||{})[e.key]; return im ? `<div class="imp"><div class="who">${esc(e.key)} <span class="lvl ${lvlClass(im.level)}">${esc(im.level)}</span></div>${glLink(esc(im.text))}</div>` : ""; }).join("")}
+          ${(u.actions||[]).length?`<h4>Suggested actions</h4><ul>${u.actions.map(a=>`<li>${glLink(esc(a))}</li>`).join("")}</ul>`:""}</div>
+      </div>
+    </article>`).join("")}
+  </div></div>`;
+  $("#entSeg").onclick = e => { const b = e.target.closest("button"); if (!b) return; updEnt = b.dataset.e; const y = host.scrollTop; renderUpdates(); host.scrollTop = y; };
+}
+
+boot();
+})();
+</script>
+
+</body>
+</html>

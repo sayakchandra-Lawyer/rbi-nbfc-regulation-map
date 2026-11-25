@@ -1,0 +1,893 @@
+{
+  "meta": {
+    "as_of": "2026-11-25",
+    "note": "Plain-language explanations for readers who are new to the terms. They are summaries, not the legal definitions: the defining paragraph in the instrument named under 'See' governs."
+  },
+  "terms": [
+    {
+      "term": "NBFC",
+      "full": "Non-Banking Financial Company",
+      "def": "A company registered with RBI under Chapter IIIB of the RBI Act whose main business is lending, investing in securities, leasing or similar financial activity, but which is not a bank.",
+      "see": [
+        "ACT-RBI",
+        "MD-SBR"
+      ],
+      "aka": [
+        "non-banking financial company",
+        "non-banking financial companies"
+      ]
+    },
+    {
+      "term": "NBFI",
+      "full": "Non-Banking Financial Institution",
+      "def": "The wider term used in s.45-I of the RBI Act for a financial institution that is not a bank. An NBFC is an NBFI that is a company.",
+      "see": [
+        "ACT-RBI"
+      ],
+      "aka": [
+        "non-banking financial institution"
+      ]
+    },
+    {
+      "term": "SBR",
+      "full": "Scale Based Regulation",
+      "def": "RBI's framework that places NBFCs in layers (Base, Middle, Upper and Top) by size, activity and risk. The rules get stricter as you go up, and each layer also follows the rules of the layers below it.",
+      "see": [
+        "MD-SBR"
+      ],
+      "aka": [
+        "scale based regulation",
+        "scale-based regulation"
+      ]
+    },
+    {
+      "term": "BL",
+      "full": "Base Layer",
+      "def": "The lowest SBR layer: mainly non-deposit-taking NBFCs below ₹1,000 crore of assets, plus some types (such as P2P platforms, Account Aggregators and NOFHCs) that always stay here. Lightest regulation.",
+      "see": [
+        "MD-SBR"
+      ],
+      "aka": [
+        "base layer",
+        "NBFC-BL"
+      ]
+    },
+    {
+      "term": "ML",
+      "full": "Middle Layer",
+      "def": "The SBR layer for larger non-deposit-taking NBFCs (₹1,000 crore of assets or more) and for all deposit-taking NBFCs, HFCs, IFCs, IDF-NBFCs, CICs and SPDs that are not in the Upper Layer.",
+      "see": [
+        "MD-SBR"
+      ],
+      "aka": [
+        "middle layer",
+        "NBFC-ML"
+      ]
+    },
+    {
+      "term": "UL",
+      "full": "Upper Layer",
+      "def": "The SBR layer for the largest NBFCs: since 24-06-2026, those with assets of ₹1,00,000 crore or more, identified by RBI each year. They face bank-like rules such as Common Equity Tier 1 capital and a listing requirement.",
+      "see": [
+        "MD-SBR"
+      ],
+      "aka": [
+        "upper layer",
+        "NBFC-UL"
+      ]
+    },
+    {
+      "term": "TL",
+      "full": "Top Layer",
+      "def": "An SBR layer that is kept empty. RBI can move an Upper Layer NBFC into it if it sees a substantial increase in systemic risk.",
+      "see": [
+        "MD-SBR"
+      ],
+      "aka": [
+        "top layer"
+      ]
+    },
+    {
+      "term": "HFC",
+      "full": "Housing Finance Company",
+      "def": "An NBFC whose main business is financing housing. It is registered under s.29A of the NHB Act, regulated by RBI and inspected by NHB. HFCs sit in the Middle or Upper Layer.",
+      "see": [
+        "MD-HFC",
+        "ACT-NHB"
+      ],
+      "aka": [
+        "housing finance company",
+        "housing finance companies"
+      ]
+    },
+    {
+      "term": "NHB",
+      "full": "National Housing Bank",
+      "def": "The statutory body under the NHB Act, 1987 that supervises (inspects) HFCs and handles their complaints, while RBI makes the rules for them.",
+      "see": [
+        "ACT-NHB"
+      ],
+      "aka": [
+        "national housing bank"
+      ]
+    },
+    {
+      "term": "NBFC-D",
+      "full": "Deposit-taking NBFC",
+      "def": "An NBFC allowed by RBI to accept public deposits. It is always at least in the Middle Layer and must follow the Public Deposits Directions.",
+      "see": [
+        "MD-DEP"
+      ],
+      "aka": [
+        "deposit-taking NBFC"
+      ]
+    },
+    {
+      "term": "NBFC-ND",
+      "full": "Non-deposit-taking NBFC",
+      "def": "An NBFC that does not accept public deposits.",
+      "see": [
+        "MD-SBR"
+      ],
+      "aka": [
+        "non-deposit-taking NBFC"
+      ]
+    },
+    {
+      "term": "NBFC-ICC",
+      "full": "Investment and Credit Company",
+      "def": "The general NBFC category for companies that lend and/or invest. Most lending NBFCs are ICCs.",
+      "see": [
+        "MD-SBR"
+      ],
+      "aka": [
+        "investment and credit company",
+        "ICC"
+      ]
+    },
+    {
+      "term": "NBFC-MFI",
+      "full": "Microfinance Institution",
+      "def": "An NBFC that holds most of its assets as microfinance loans, i.e. collateral-free loans to low-income households.",
+      "see": [
+        "MD-CREDIT",
+        "MD-SBR"
+      ],
+      "aka": [
+        "microfinance institution",
+        "MFI"
+      ]
+    },
+    {
+      "term": "NBFC-IFC",
+      "full": "Infrastructure Finance Company",
+      "def": "An NBFC that deploys most of its assets in infrastructure loans.",
+      "see": [
+        "MD-SBR"
+      ],
+      "aka": [
+        "infrastructure finance company",
+        "IFC"
+      ]
+    },
+    {
+      "term": "IDF-NBFC",
+      "full": "Infrastructure Debt Fund NBFC",
+      "def": "An NBFC set up to refinance infrastructure projects, mainly through long-term debt.",
+      "see": [
+        "MD-SBR"
+      ],
+      "aka": [
+        "infrastructure debt fund",
+        "IDF"
+      ]
+    },
+    {
+      "term": "CIC",
+      "full": "Core Investment Company",
+      "def": "An NBFC whose business is holding investments in its group companies, not lending to outsiders. Excluded from many lending Directions.",
+      "see": [
+        "MD-SBR"
+      ],
+      "aka": [
+        "core investment company",
+        "core investment companies"
+      ]
+    },
+    {
+      "term": "MGC",
+      "full": "Mortgage Guarantee Company",
+      "def": "An NBFC whose main business is guaranteeing mortgage loans.",
+      "see": [
+        "MD-SBR"
+      ],
+      "aka": [
+        "mortgage guarantee company"
+      ]
+    },
+    {
+      "term": "NBFC-P2P",
+      "full": "Peer to Peer Lending Platform",
+      "def": "An NBFC that runs an online platform matching individual lenders and borrowers. It may not lend from its own balance sheet. Always in the Base Layer.",
+      "see": [
+        "MD-SBR"
+      ],
+      "aka": [
+        "P2P",
+        "peer to peer lending platform"
+      ]
+    },
+    {
+      "term": "NBFC-AA",
+      "full": "Account Aggregator",
+      "def": "An NBFC that moves a customer's financial data between institutions with the customer's consent. Always in the Base Layer.",
+      "see": [
+        "MD-SBR"
+      ],
+      "aka": [
+        "account aggregator",
+        "AA"
+      ]
+    },
+    {
+      "term": "NOFHC",
+      "full": "Non-Operative Financial Holding Company",
+      "def": "A holding company through which a promoter group holds a bank or other financial entities. Always in the Base Layer.",
+      "see": [
+        "MD-SBR"
+      ],
+      "aka": [
+        "non-operative financial holding company"
+      ]
+    },
+    {
+      "term": "SPD",
+      "full": "Standalone Primary Dealer",
+      "def": "An NBFC authorised by RBI to deal in government securities as a primary dealer.",
+      "see": [
+        "MD-SBR"
+      ],
+      "aka": [
+        "standalone primary dealer"
+      ]
+    },
+    {
+      "term": "CoR",
+      "full": "Certificate of Registration",
+      "def": "The registration RBI grants under s.45-IA of the RBI Act (or s.29A of the NHB Act for HFCs) that allows a company to carry on NBFC business. RBI can cancel it.",
+      "see": [
+        "ACT-RBI"
+      ],
+      "aka": [
+        "certificate of registration"
+      ]
+    },
+    {
+      "term": "NOF",
+      "full": "Net Owned Fund",
+      "def": "Broadly, paid-up capital and free reserves less losses, intangibles and certain investments in group companies. NBFCs must hold a minimum NOF to be registered.",
+      "see": [
+        "ACT-RBI",
+        "MD-SBR"
+      ],
+      "aka": [
+        "net owned fund",
+        "net owned funds"
+      ]
+    },
+    {
+      "term": "CRAR",
+      "full": "Capital to Risk-weighted Assets Ratio",
+      "def": "Capital as a percentage of risk-weighted assets; the main measure of whether an NBFC has enough capital for the risks it carries.",
+      "see": [
+        "MD-CAP"
+      ],
+      "aka": [
+        "capital adequacy",
+        "capital to risk-weighted assets ratio"
+      ]
+    },
+    {
+      "term": "NPA",
+      "full": "Non-Performing Asset",
+      "def": "A loan whose interest or principal is overdue beyond the set period (90 days for most NBFC loans). It must be classified and provided for under the prudential norms.",
+      "see": [
+        "MD-IRACP"
+      ],
+      "aka": [
+        "non-performing asset",
+        "non-performing assets",
+        "NPAs"
+      ]
+    },
+    {
+      "term": "IRACP",
+      "full": "Income Recognition, Asset Classification and Provisioning",
+      "def": "The prudential rules on when income may be booked, how loans are classified (standard, NPA and so on) and how much must be set aside as provisions.",
+      "see": [
+        "MD-IRACP"
+      ],
+      "aka": [
+        "income recognition",
+        "asset classification"
+      ]
+    },
+    {
+      "term": "SMA",
+      "full": "Special Mention Account",
+      "def": "An early-warning label for a loan that is overdue but not yet an NPA (SMA-0, SMA-1, SMA-2 by days overdue).",
+      "see": [
+        "MD-IRACP"
+      ],
+      "aka": [
+        "special mention account"
+      ]
+    },
+    {
+      "term": "ECL",
+      "full": "Expected Credit Loss",
+      "def": "A forward-looking way of providing for loan losses (as under Ind AS 109), based on the chance and size of future default.",
+      "see": [
+        "MD-IRACP"
+      ],
+      "aka": [
+        "expected credit loss"
+      ]
+    },
+    {
+      "term": "LTV",
+      "full": "Loan to Value ratio",
+      "def": "The loan amount as a percentage of the value of the security, e.g. the gold pledged. RBI caps it for some loans.",
+      "see": [
+        "MD-CREDIT"
+      ],
+      "aka": [
+        "loan to value",
+        "loan-to-value"
+      ]
+    },
+    {
+      "term": "KYC",
+      "full": "Know Your Customer",
+      "def": "The rules for identifying and verifying customers and monitoring their accounts to prevent money laundering and terrorist financing.",
+      "see": [
+        "MD-KYC"
+      ],
+      "aka": [
+        "know your customer"
+      ]
+    },
+    {
+      "term": "CKYCR",
+      "full": "Central KYC Records Registry",
+      "def": "The central database of customers' KYC records. Lenders upload KYC data to it and can fetch existing records when onboarding a customer.",
+      "see": [
+        "MD-KYC"
+      ],
+      "aka": [
+        "central KYC records registry",
+        "CKYC"
+      ]
+    },
+    {
+      "term": "PAN",
+      "full": "Permanent Account Number",
+      "def": "The income-tax identity number. Lenders must obtain the PAN, or Form 60 if the customer has none, when opening an account-based relationship.",
+      "see": [
+        "MD-KYC"
+      ],
+      "aka": [
+        "permanent account number"
+      ]
+    },
+    {
+      "term": "Form 60",
+      "full": "Form 60 (Income-tax Rules)",
+      "def": "A declaration given by a person who does not have a PAN, accepted in place of the PAN for KYC.",
+      "see": [
+        "MD-KYC"
+      ],
+      "aka": []
+    },
+    {
+      "term": "PMLA",
+      "full": "Prevention of Money-laundering Act, 2002",
+      "def": "The anti-money-laundering law. NBFCs are reporting entities under it and must report certain transactions to FIU-IND.",
+      "see": [
+        "ACT-PMLA"
+      ],
+      "aka": [
+        "prevention of money-laundering act",
+        "PML"
+      ]
+    },
+    {
+      "term": "FIU-IND",
+      "full": "Financial Intelligence Unit – India",
+      "def": "The government body that receives cash and suspicious transaction reports from reporting entities under the PMLA.",
+      "see": [
+        "ACT-PMLA"
+      ],
+      "aka": [
+        "financial intelligence unit"
+      ]
+    },
+    {
+      "term": "STR",
+      "full": "Suspicious Transaction Report",
+      "def": "A report to FIU-IND of a transaction that appears linked to money laundering or other crime.",
+      "see": [
+        "ACT-PMLA",
+        "MD-KYC"
+      ],
+      "aka": [
+        "suspicious transaction report"
+      ]
+    },
+    {
+      "term": "CTR",
+      "full": "Cash Transaction Report",
+      "def": "A report to FIU-IND of cash transactions above the set threshold.",
+      "see": [
+        "ACT-PMLA",
+        "MD-KYC"
+      ],
+      "aka": [
+        "cash transaction report"
+      ]
+    },
+    {
+      "term": "IO",
+      "full": "Internal Ombudsman",
+      "def": "A senior independent officer inside a covered NBFC who must review complaints that the NBFC has partly or wholly rejected before the customer is told the final answer. HFCs, CICs, NBFC-IFCs and IDF-NBFCs are outside the 2026 Directions.",
+      "see": [
+        "MD-IO"
+      ],
+      "aka": [
+        "internal ombudsman"
+      ]
+    },
+    {
+      "term": "RB-IOS",
+      "full": "Reserve Bank – Integrated Ombudsman Scheme",
+      "def": "RBI's free complaint scheme for customers of regulated entities, including covered NBFCs, when the entity has not resolved the complaint.",
+      "see": [
+        "SCH-RBIOS"
+      ],
+      "aka": [
+        "integrated ombudsman scheme",
+        "ombudsman scheme"
+      ]
+    },
+    {
+      "term": "KFS",
+      "full": "Key Fact Statement",
+      "def": "A short standard sheet given to a borrower before the loan, showing the annual percentage rate, all charges and the repayment schedule.",
+      "see": [
+        "MD-RBC",
+        "MD-CREDIT"
+      ],
+      "aka": [
+        "key fact statement",
+        "key facts statement"
+      ]
+    },
+    {
+      "term": "APR",
+      "full": "Annual Percentage Rate",
+      "def": "The all-in yearly cost of a loan, including interest and fees, shown in the Key Fact Statement.",
+      "see": [
+        "MD-CREDIT"
+      ],
+      "aka": [
+        "annual percentage rate"
+      ]
+    },
+    {
+      "term": "LSP",
+      "full": "Lending Service Provider",
+      "def": "An agent of a lender that carries out functions such as sourcing customers, underwriting support or recovery in digital lending.",
+      "see": [
+        "MD-CREDIT"
+      ],
+      "aka": [
+        "lending service provider"
+      ]
+    },
+    {
+      "term": "DLA",
+      "full": "Digital Lending App",
+      "def": "A mobile or web app, of the lender or its LSP, through which digital loans are offered.",
+      "see": [
+        "MD-CREDIT"
+      ],
+      "aka": [
+        "digital lending app",
+        "digital lending apps"
+      ]
+    },
+    {
+      "term": "DLG",
+      "full": "Default Loss Guarantee",
+      "def": "A promise by a third party (such as an LSP) to cover a lender's losses on a loan portfolio up to a limit. RBI caps it and sets conditions.",
+      "see": [
+        "MD-CREDIT"
+      ],
+      "aka": [
+        "default loss guarantee"
+      ]
+    },
+    {
+      "term": "Securitisation",
+      "full": "Securitisation",
+      "def": "Pooling loans and selling them to a special purpose entity, which pays for them by issuing notes (PTCs) to investors who are repaid from the loans' cash flows.",
+      "see": [
+        "MD-SEC"
+      ],
+      "aka": [
+        "securitisation",
+        "securitised",
+        "securitization"
+      ]
+    },
+    {
+      "term": "SPE",
+      "full": "Special Purpose Entity",
+      "def": "A separate trust or company set up only to buy a pool of loans in a securitisation and issue securitisation notes against it, so the assets are kept apart from the originator's own risks.",
+      "see": [
+        "MD-SEC"
+      ],
+      "aka": [
+        "special purpose entity",
+        "special purpose vehicle",
+        "SPV"
+      ]
+    },
+    {
+      "term": "PTC",
+      "full": "Pass-Through Certificate",
+      "def": "The usual form of securitisation note in India: investors receive the payments collected on the underlying loans, passed through by the SPE.",
+      "see": [
+        "MD-SEC"
+      ],
+      "aka": [
+        "pass-through certificate",
+        "pass through certificate",
+        "PTCs",
+        "securitisation notes",
+        "securitisation note"
+      ]
+    },
+    {
+      "term": "Originator",
+      "full": "Originator (securitisation)",
+      "def": "The lender that made the loans and transfers them to the SPE in a securitisation.",
+      "see": [
+        "MD-SEC"
+      ],
+      "aka": [
+        "originator",
+        "originators"
+      ]
+    },
+    {
+      "term": "MRR",
+      "full": "Minimum Retention Requirement",
+      "def": "The share of a securitised pool that the originator must keep, so it keeps 'skin in the game'.",
+      "see": [
+        "MD-SEC"
+      ],
+      "aka": [
+        "minimum retention requirement"
+      ]
+    },
+    {
+      "term": "MHP",
+      "full": "Minimum Holding Period",
+      "def": "The minimum time a lender must hold a loan before it can securitise or transfer it.",
+      "see": [
+        "MD-SEC",
+        "MD-TLE"
+      ],
+      "aka": [
+        "minimum holding period"
+      ]
+    },
+    {
+      "term": "Direct assignment",
+      "full": "Direct assignment (DA)",
+      "def": "Selling loans directly to another lender without an SPE or notes. It falls under the Transfer of Loan Exposures Directions, not the Securitisation Directions.",
+      "see": [
+        "MD-TLE"
+      ],
+      "aka": [
+        "direct assignment",
+        "DA",
+        "transfer of loan exposures"
+      ]
+    },
+    {
+      "term": "Dematerialised",
+      "full": "Dematerialised (demat) form",
+      "def": "Held electronically in a depository account (NSDL or CDSL) instead of as a paper certificate.",
+      "see": [
+        "MD-SEC"
+      ],
+      "aka": [
+        "dematerialised",
+        "demat",
+        "dematerialisation"
+      ]
+    },
+    {
+      "term": "Ticket size",
+      "full": "Ticket size (securitisation notes)",
+      "def": "The amount a single investor puts into securitisation notes. The minimum is ₹1 crore, and from 01-04-2027 it also applies at every transfer.",
+      "see": [
+        "MD-SEC"
+      ],
+      "aka": [
+        "ticket size",
+        "minimum ticket size"
+      ]
+    },
+    {
+      "term": "CERSAI",
+      "full": "Central Registry of Securitisation Asset Reconstruction and Security Interest of India",
+      "def": "The central registry where security interests must be registered. Under SARFAESI s.26D a lender cannot enforce without registration.",
+      "see": [
+        "ACT-SARFAESI"
+      ],
+      "aka": [
+        "central registry"
+      ]
+    },
+    {
+      "term": "SARFAESI",
+      "full": "Securitisation and Reconstruction of Financial Assets and Enforcement of Security Interest Act, 2002",
+      "def": "The law that lets notified secured lenders enforce security (e.g. take possession of the property) without going to court, above set loan sizes.",
+      "see": [
+        "ACT-SARFAESI"
+      ],
+      "aka": [
+        "SARFAESI Act"
+      ]
+    },
+    {
+      "term": "IBC",
+      "full": "Insolvency and Bankruptcy Code, 2016",
+      "def": "The insolvency law. CIRP under it is the process for resolving a company in default.",
+      "see": [
+        "ACT-IBC"
+      ],
+      "aka": [
+        "insolvency and bankruptcy code",
+        "CIRP"
+      ]
+    },
+    {
+      "term": "FEMA",
+      "full": "Foreign Exchange Management Act, 1999",
+      "def": "The foreign-exchange law. Foreign borrowing and lending by NBFCs is governed by regulations made under it.",
+      "see": [
+        "REG-FEMA-BL"
+      ],
+      "aka": [
+        "foreign exchange management act"
+      ]
+    },
+    {
+      "term": "ECB",
+      "full": "External Commercial Borrowing",
+      "def": "Borrowing in foreign currency or rupees from lenders outside India. Since 16-02-2026 governed by the FEMA (Borrowing and Lending) Regulations as amended.",
+      "see": [
+        "REG-FEMA-BL"
+      ],
+      "aka": [
+        "external commercial borrowing",
+        "external commercial borrowings",
+        "ECBs"
+      ]
+    },
+    {
+      "term": "SEBI",
+      "full": "Securities and Exchange Board of India",
+      "def": "The securities regulator. Listed NBFCs and public offers of securities (including securitisation notes) also follow SEBI rules.",
+      "see": [
+        "REG-SEBI-LODR",
+        "REG-SEBI-NCS"
+      ],
+      "aka": [
+        "securities and exchange board of india"
+      ]
+    },
+    {
+      "term": "CICRA",
+      "full": "Credit Information Companies (Regulation) Act, 2005",
+      "def": "The law under which lenders must report borrower data to credit bureaus (credit information companies).",
+      "see": [
+        "ACT-CICRA"
+      ],
+      "aka": [
+        "credit information companies",
+        "credit bureau"
+      ]
+    },
+    {
+      "term": "PSS",
+      "full": "Payment and Settlement Systems Act, 2007",
+      "def": "The law for payment systems such as prepaid instruments and payment aggregators.",
+      "see": [
+        "ACT-PSS"
+      ],
+      "aka": [
+        "payment and settlement systems"
+      ]
+    },
+    {
+      "term": "PPI",
+      "full": "Prepaid Payment Instrument",
+      "def": "A wallet or card loaded with money in advance, regulated under the PSS Act.",
+      "see": [
+        "ACT-PSS"
+      ],
+      "aka": [
+        "prepaid payment instrument",
+        "prepaid payment instruments"
+      ]
+    },
+    {
+      "term": "DPDP",
+      "full": "Digital Personal Data Protection Act, 2023",
+      "def": "The data-protection law that governs how lenders collect and use customers' personal data.",
+      "see": [
+        "ACT-DPDP"
+      ],
+      "aka": [
+        "digital personal data protection"
+      ]
+    },
+    {
+      "term": "CRE",
+      "full": "Commercial Real Estate",
+      "def": "Loans for office, retail, hotel and similar property whose repayment depends mainly on the property's income or sale.",
+      "see": [
+        "MD-CREDIT"
+      ],
+      "aka": [
+        "commercial real estate"
+      ]
+    },
+    {
+      "term": "ALM",
+      "full": "Asset Liability Management",
+      "def": "Managing the mismatch between when an NBFC's assets mature and when its liabilities fall due.",
+      "see": [
+        "MD-LRM"
+      ],
+      "aka": [
+        "asset liability management",
+        "asset-liability management"
+      ]
+    },
+    {
+      "term": "LCR",
+      "full": "Liquidity Coverage Ratio",
+      "def": "High-quality liquid assets held against expected net cash outflows over 30 days of stress. It applies to larger NBFCs.",
+      "see": [
+        "MD-LRM"
+      ],
+      "aka": [
+        "liquidity coverage ratio"
+      ]
+    },
+    {
+      "term": "HQLA",
+      "full": "High Quality Liquid Assets",
+      "def": "Assets such as government securities that can quickly be turned into cash, counted for the LCR.",
+      "see": [
+        "MD-LRM"
+      ],
+      "aka": [
+        "high quality liquid assets"
+      ]
+    },
+    {
+      "term": "ICAAP",
+      "full": "Internal Capital Adequacy Assessment Process",
+      "def": "A Board-approved internal assessment of how much capital the NBFC needs for all its risks. Required for Middle and Upper Layer NBFCs.",
+      "see": [
+        "MD-CAP"
+      ],
+      "aka": [
+        "internal capital adequacy assessment"
+      ]
+    },
+    {
+      "term": "PCA",
+      "full": "Prompt Corrective Action",
+      "def": "RBI's framework that restricts an NBFC's activities when capital, asset quality or other measures breach set thresholds.",
+      "see": [
+        "MD-PCA"
+      ],
+      "aka": [
+        "prompt corrective action"
+      ]
+    },
+    {
+      "term": "CCO",
+      "full": "Chief Compliance Officer",
+      "def": "The senior officer responsible for the NBFC's compliance function, required for Middle and Upper Layer NBFCs.",
+      "see": [
+        "MD-GOV"
+      ],
+      "aka": [
+        "chief compliance officer"
+      ]
+    },
+    {
+      "term": "RBIA",
+      "full": "Risk-Based Internal Audit",
+      "def": "An internal audit approach that focuses effort on the highest-risk areas, required for larger NBFCs.",
+      "see": [
+        "MD-IA"
+      ],
+      "aka": [
+        "risk-based internal audit",
+        "risk based internal audit"
+      ]
+    },
+    {
+      "term": "Co-lending",
+      "full": "Co-lending",
+      "def": "A bank and an NBFC jointly lending to a borrower under a prior agreement, sharing the loan in agreed proportions.",
+      "see": [
+        "MD-CREDIT"
+      ],
+      "aka": [
+        "co-lending",
+        "co lending"
+      ]
+    },
+    {
+      "term": "EBT",
+      "full": "Electronic Banking Transaction",
+      "def": "A payment made through digital banking channels such as internet or mobile banking, UPI or cards.",
+      "see": [],
+      "aka": [
+        "electronic banking transaction",
+        "electronic banking transactions",
+        "EBTs"
+      ]
+    },
+    {
+      "term": "D-SIB",
+      "full": "Domestic Systemically Important Bank",
+      "def": "A bank so large and connected that RBI applies extra capital requirements to it.",
+      "see": [],
+      "aka": [
+        "domestic systemically important bank"
+      ]
+    },
+    {
+      "term": "AIFI",
+      "full": "All India Financial Institution",
+      "def": "Development finance institutions such as NABARD, SIDBI, EXIM Bank and NHB, regulated by RBI under their own Directions.",
+      "see": [],
+      "aka": [
+        "all india financial institution",
+        "AIFIs"
+      ]
+    },
+    {
+      "term": "SFB",
+      "full": "Small Finance Bank",
+      "def": "A bank licensed to serve small borrowers and businesses, with its own RBI Directions.",
+      "see": [],
+      "aka": [
+        "small finance bank",
+        "SFBs"
+      ]
+    }
+  ]
+}

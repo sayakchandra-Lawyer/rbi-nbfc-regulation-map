@@ -1,0 +1,139 @@
+{
+  "meta": {
+    "as_of": "2026-11-25",
+    "window_from": "2026-11-18",
+    "window_to": "2026-11-25",
+    "entities": [
+      {
+        "key": "UL NBFC",
+        "name": "Upper Layer NBFCs",
+        "profile": "NBFCs with assets of ₹1,00,000 crore or more on the latest audited balance sheet, identified annually by RBI (SBR Directions para 24 as substituted on 24-06-2026). 17 were named for 2026-27 (as reported), including Government NBFC-IFCs, a CIC and two HFCs, so this group overlaps with HFCs. The Top Layer is empty, so the Upper Layer is the top tier in practice. Requirements build up across layers: an Upper Layer NBFC also follows Base and Middle Layer rules unless an Upper Layer rule displaces them."
+      },
+      {
+        "key": "HFC",
+        "name": "Housing Finance Companies",
+        "profile": "Hold a Certificate of Registration under s.29A of the NHB Act, are regulated by RBI (Housing Finance Companies Directions 2025) and inspected by NHB. Middle or Upper Layer, never the Base Layer; some HFCs are in the Upper Layer."
+      }
+    ]
+  },
+  "updates": [
+    {
+      "id": "U-2026-11-23-SEC",
+      "date": "2026-11-23",
+      "kind": "Amendment Directions",
+      "title": "Reserve Bank of India (Non-Banking Financial Companies – Securitisation Transactions) Amendment Directions, 2026",
+      "ref": "RBI/2026-27/306; DOR.STR.REC.258/21-04-177/2026-27",
+      "url": "https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=13755&Mode=0",
+      "effective": "2027-04-01",
+      "instrument": "MD-SEC",
+      "applies": "NBFCs covered by para 3 of the NBFC Securitisation Transactions Directions 2025: NBFC-D, NBFC-ICC, NBFC-Factor, NBFC-MFI, NBFC-IFC, IDF-NBFC and HFCs (para 3(vii)), all layers. Outside para 3: CICs, MGCs, NBFC-P2P, NBFC-AA, NOFHCs, SPDs and Type I NBFCs, so an Upper Layer CIC is not covered as originator. Direct assignments of loans fall under the separate Transfer of Loan Exposures Directions and are not affected. The same changes were made on the same day for commercial banks, SFBs and AIFIs (RBI/2026-27/304, 305, 307).",
+      "changes": [
+        "para 26 (substituted): the issuance, holding and subsequent transfer of securitisation notes must be in dematerialised form only. The ₹1 crore minimum ticket size applies at issue and at every later transfer. The originator must ensure that its agreement with the SPE requires the SPE to put in place arrangements with entities such as the registrar, depository and stock exchange, \"as may be applicable\", to secure the minimum ticket size. Proviso: notes with amortisation structures may be traded at amortised value if the ticket size falls below ₹1 crore. Explanation: ticket size is the investment of a single investor.",
+        "para 27 (substituted): for an offer of securitisation notes to the public, Regulation 21 of the SEBI (Issue and Listing of Securitised Debt Instruments and Security Receipts) Regulations 2008 must be complied with. RBI's own earlier wording (listing \"recommended, though not mandatory\"; offers to fifty or more persons to be listed) is removed, so the SEBI Regulations now decide what is a public offer.",
+        "para 27A (new): transactions in notes issued before 01-04-2027 must also comply with paras 26 and 27. There is no grandfathering for older notes.",
+        "Effective 01-04-2027 (para 3). Press release 2026-2027/1550 says this finalises the draft of 27-07-2026 after comments."
+      ],
+      "impact": {
+        "UL NBFC": {
+          "level": "High for physical notes or sub-₹1 crore positions; low if already demat in ₹1 crore lots",
+          "text": "Covered if it is one of the para 3 types (most Upper Layer lenders are; a CIC is not). As originator, new notes must be demat and the SPE agreement must carry the ticket-size arrangements. Under para 27A, any transaction from 01-04-2027 in an older note must meet the demat and ₹1 crore rules. Older non-amortising positions below ₹1 crore therefore become hard to transfer. The text does not say clearly whether a physical note simply held to maturity must be dematerialised, because para 26 covers holding but para 27A speaks of transactions. Entities already issuing and holding demat notes in lots of ₹1 crore or more face little more than policy and document updates."
+        },
+        "HFC": {
+          "level": "High for physical notes or sub-₹1 crore positions; low if already demat in ₹1 crore lots",
+          "text": "Covered by name (para 3(vii)). The analysis is the same as for Upper Layer NBFCs. Home-loan pools are often sold through direct assignment, which this amendment does not touch. Only PTC (pass-through certificate) deals are affected."
+        }
+      },
+      "actions": [
+        "List outstanding securitisation notes where the entity is originator or investor, with their form (physical or demat) and ticket sizes.",
+        "Flag positions below ₹1 crore that are not amortising, because they may become non-transferable from 01-04-2027.",
+        "With trustees and SPEs, plan dematerialisation and the ticket-size arrangements. Check what the trust deeds allow and whose consent is needed to amend them.",
+        "Seek clarity, for example through an industry body, on whether physical notes held to maturity without any transaction must be dematerialised.",
+        "For any offer that may be a public offer, check it against SEBI Regulation 21. Update the securitisation policy and brief the Board or risk committee."
+      ]
+    },
+    {
+      "id": "U-2026-11-20-FUSION",
+      "date": "2026-11-20",
+      "kind": "Enforcement (press release)",
+      "title": "RBI imposes monetary penalty on Fusion Finance Limited",
+      "ref": "Press Release 2026-2027/1537 (order dated 17-11-2026)",
+      "url": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=64015",
+      "effective": "",
+      "instrument": "MD-KYC",
+      "applies": "Another lender (described as an NBFC in secondary sources). It is a routine enforcement order and creates no new rule.",
+      "changes": [
+        "Penalty of ₹7.50 lakh by order of 17-11-2026, under RBI Act s.58G(1)(b) read with s.58B(5)(aa), following a statutory inspection of the position as on 31-03-2026.",
+        "Findings: the company failed to obtain PAN (or its e-document) or Form 60 when establishing account-based relationships, and failed to escalate partly or wholly rejected complaints to the Internal Ombudsman within the prescribed time. RBI cites its KYC and Internal Ombudsman directions without paragraph numbers."
+      ],
+      "impact": {
+        "UL NBFC": {
+          "level": "Low (supervisory reminder)",
+          "text": "PAN or Form 60 capture applies to NBFCs with a customer interface under the KYC Directions. Internal Ombudsman escalation applies only to NBFCs covered by the Internal Ombudsman Directions 2026. These are deposit-takers with 10 or more branches and non-deposit-takers with assets of ₹5,000 crore or more and a public customer interface. HFCs, CICs, NBFC-IFCs and IDF-NBFCs are excluded, so several Upper Layer NBFCs fall outside this point."
+        },
+        "HFC": {
+          "level": "Low (supervisory reminder)",
+          "text": "PAN or Form 60 capture applies. HFCs are excluded from the NBFC Internal Ombudsman Directions 2026, so the escalation finding does not apply as such. The same discipline is worth checking against an HFC's own grievance-redressal rules."
+        }
+      },
+      "actions": [
+        "Customer-facing entities: sample-test new account openings for PAN or Form 60.",
+        "NBFCs covered by the Internal Ombudsman Directions only: check that every partly or wholly rejected complaint reached the Internal Ombudsman in time, with an audit trail."
+      ]
+    },
+    {
+      "id": "U-2026-11-23-GOV",
+      "date": "2026-11-23",
+      "kind": "Meeting (press release)",
+      "title": "Governor meets MDs and CEOs of select NBFCs, HFCs and industry bodies",
+      "ref": "Press Release 2026-2027/1554",
+      "url": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=64032",
+      "effective": "",
+      "instrument": "",
+      "applies": "Select NBFCs (including Government NBFCs), HFCs and MFIs. Sa-Dhan, MFIN and FIDC took part, and the NHB MD & CEO attended. No new directions were issued.",
+      "changes": [
+        "The Governor stressed responsible and sustainable credit growth, fair recovery practices, use of CKYCR for onboarding, and a comprehensive, risk-based approach to cyber and IT risk."
+      ],
+      "impact": {
+        "UL NBFC": {
+          "level": "Low (no new rule)",
+          "text": "Shows where supervision will look next: recovery conduct, CKYCR use at onboarding, and cyber/IT risk. The release does not name the entities that attended."
+        },
+        "HFC": {
+          "level": "Low (no new rule)",
+          "text": "Same supervisory themes; NHB's presence suggests they will carry into HFC supervision."
+        }
+      },
+      "actions": [
+        "Check CKYCR upload and download practice at onboarding, and recovery-agent conduct controls."
+      ]
+    },
+    {
+      "id": "U-2026-11-23-EBT",
+      "date": "2026-11-23",
+      "kind": "Draft Amendment Directions (for comment)",
+      "title": "Draft Amendment Directions on 'Preventive Safeguards for Electronic Banking Transactions (EBTs)'",
+      "ref": "Press Release 2026-2027/1548",
+      "url": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=64026",
+      "effective": "",
+      "instrument": "",
+      "applies": "Seven drafts amending the Responsible Business Conduct Directions for commercial banks, SFBs, payments banks, LABs, RRBs, UCBs and RCBs. No NBFC or HFC draft. Comments due by 14-12-2026.",
+      "changes": [
+        "Seven draft amendments to the banks' Responsible Business Conduct Directions. Per the press release, they aim to give customers greater control over how and how far their digital payment channels can be used, and to widen the definition of \"negligence by a bank\" in the 24-06-2026 customer-liability amendment.",
+        "The press release does not describe the detailed proposals; they are in the seven draft PDFs, which were not read here."
+      ],
+      "impact": {
+        "UL NBFC": {
+          "level": "None directly",
+          "text": "Not addressed to NBFCs. Once the drafts are read, check whether new customer controls on bank channels could affect EMI collection mandates, disbursements or co-lending flows run through partner banks. RBI often extends such safeguards to NBFCs later."
+        },
+        "HFC": {
+          "level": "None directly",
+          "text": "Not addressed to HFCs. Same indirect point as for Upper Layer NBFCs."
+        }
+      },
+      "actions": [
+        "Read the draft PDFs and, if loan-collection or co-lending flows would be hit, comment through an industry body by 14-12-2026."
+      ]
+    }
+  ]
+}
